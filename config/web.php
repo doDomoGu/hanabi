@@ -28,6 +28,12 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            //'enableStrictParsing' => true,
+            'showScriptName' => false,
+            //'rules' => $urlRules,
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
