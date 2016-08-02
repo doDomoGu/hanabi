@@ -37,6 +37,8 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
+
+
             [['username', 'password', 'nickname'], 'required'],
             [[ 'status', 'gender'], 'integer'],
             ['username','unique','on'=>'create', 'targetClass' => 'app\models\User', 'message' => '此用户名已经被使用。'],
@@ -48,12 +50,4 @@ class RegisterForm extends Model
         ];
     }
 
-    public function register()
-    {
-        if ($this->validate()) {
-            var_dump($this->attributes);
-            exit;
-        }
-        return false;
-    }
 }

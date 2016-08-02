@@ -6,5 +6,9 @@
         <img src="/images/p1.jpg" />
     </div>
 
-
+    <div>
+        <a href="/room">
+            进入房间列表
+        </a>
+    </div>
 </div>
