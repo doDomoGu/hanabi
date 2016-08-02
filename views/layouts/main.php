@@ -39,18 +39,21 @@ AppAsset::register($this);
             ['label' => '首页', 'url' => ['/site/index']],
             ['label' => '游戏规则', 'url' => ['/site/rule']],
             /*['label' => 'Contact', 'url' => ['/site/contact']],*/
-            Yii::$app->user->isGuest ? (
+            (Yii::$app->user->isGuest ? (
                 ['label' => '登录', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
                 . Html::submitButton(
-                    '登出(' . Yii::$app->user->identity->username . ')',
+                    '登出 (' . $this->context->user->nickname . ')',
                     ['class' => 'btn btn-link']
                 )
                 . Html::endForm()
                 . '</li>'
-            )
+            )),
+            Yii::$app->user->isGuest ? (
+            ['label' => '注册', 'url' => ['/site/register']]
+            ):''
         ],
     ]);
     NavBar::end();

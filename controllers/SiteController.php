@@ -2,14 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\RegisterForm;
 
-class SiteController extends Controller
+class SiteController extends BaseController
 {
     /**
      * @inheritdoc
@@ -19,8 +19,13 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['logout','register'],
                 'rules' => [
+                    [
+                        'actions' => ['register'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                     [
                         'actions' => ['logout'],
                         'allow' => true,
@@ -63,6 +68,11 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+
+    public function actionRule()
+    {
+        return $this->render('rule');
+    }
     /**
      * Login action.
      *
@@ -82,7 +92,31 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    public function actionRegister()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
 
+        $model = new RegisterForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $user = new User();
+            $user->attributes = $model->attributes;
+            $user->password = md5($user->password);
+            $user->status = 1;
+            $user->reg_time = date('Y-m-d H:i:s');
+            if($user->save()){
+                return $this->redirect('/site/login');
+            }else{
+                return $this->redirect('/site/register');
+            }
+        }/*else{
+            var_dump($model->errors);exit;
+        }*/
+        return $this->render('register', [
+            'model' => $model,
+        ]);
+    }
     /**
      * Logout action.
      *

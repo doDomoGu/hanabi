@@ -1,7 +1,4 @@
 <?php
-
-$params = require(__DIR__ . '/params.php');
-
 $config = [
     'id' => 'hanabi',
     'language' => 'zh-CN',
@@ -16,7 +13,7 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\UserIdentity',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -44,7 +41,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
+        'db' => $db ,
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
