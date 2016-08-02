@@ -19,13 +19,13 @@ class SiteController extends BaseController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout','register'],
+                'only' => ['logout'/*,'register'*/],
                 'rules' => [
-                    [
+                    /*[
                         'actions' => ['register'],
                         'allow' => true,
-                        'roles' => ['@'],
-                    ],
+                        'roles' => ['?'],
+                    ],*/
                     [
                         'actions' => ['logout'],
                         'allow' => true,
@@ -58,11 +58,7 @@ class SiteController extends BaseController
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
+
     public function actionIndex()
     {
         return $this->render('index');
@@ -71,13 +67,10 @@ class SiteController extends BaseController
 
     public function actionRule()
     {
+        $this->view->title = '游戏规则';
         return $this->render('rule');
     }
-    /**
-     * Login action.
-     *
-     * @return string
-     */
+
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -127,33 +120,5 @@ class SiteController extends BaseController
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }
