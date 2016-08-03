@@ -27,8 +27,7 @@ class RoomController extends BaseController
             $room->status = 1;
             $room->create_time = date('Y-m-d H:i:s');
             if($room->save()){
-                echo 111;exit;
-                return $this->redirect('/room');
+                return $this->redirect('/game/'.$room->id);
             }else{
                 return $this->redirect('/room');
             }

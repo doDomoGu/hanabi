@@ -43,4 +43,12 @@ PRIMARY KEY (`id`)
 
     /*ALTER TABLE `user` ADD `password_true` VARCHAR(255) DEFAULT NULL AFTER `password`;*/
 
+
+    public function getPlayer1(){
+        return $this->hasOne('app\models\User', array('id' => 'player_1'));
+    }
+
+    public function getPlayer2(){
+        return $this->hasOne('app\models\User', array('id' => 'player_2'));
+    }
 }

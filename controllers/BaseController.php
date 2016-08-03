@@ -5,6 +5,7 @@ use app\components\PermissionFunc;
 use app\models\MessageUser;
 use app\models\Position;
 use app\models\PositionDirPermission;
+use app\models\Room;
 use app\models\User;
 use Yii;
 use yii\web\Controller;
@@ -13,6 +14,7 @@ class BaseController extends Controller
 {
     public $user;
     public $isInRoom;
+    public $roomId;
 //    public $navbarView = 'navbar2';
     //public $message = [];
     //public $messageNum = 0;
@@ -30,7 +32,7 @@ class BaseController extends Controller
 
 
 
-
+        $this->isInRoom = $this->checkIsInRoom();
 
 
 //        $this->getMessageInfo();
@@ -55,7 +57,7 @@ class BaseController extends Controller
     //检测用户状态
     public function checkStatus(){
         if(!Yii::$app->user->isGuest){
-            $this->user = User::find()->where(['id'=>yii::$app->user->id])->one();
+            $this->user = User::find()->where(['id'=>Yii::$app->user->id])->one();
             if(!$this->user->status==1){
                 Yii::$app->user->logout();
                 return $this->goHome();
@@ -66,7 +68,14 @@ class BaseController extends Controller
 
     //检测是否登陆
     public function checkIsInRoom(){
-        $roomExist = Room
+        $uid = Yii::$app->user->id;
+        $roomExist = Room::find()->where("(player_1 = $uid or player_2 = $uid) and status in (1,2)")->one();
+        if($roomExist){
+            $this->roomId = $roomExist->id;
+            return true;
+        }else{
+            return false;
+        }
     }
 
 

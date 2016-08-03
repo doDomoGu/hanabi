@@ -36,7 +36,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => '首页', 'url' => ['/site/index']],
+            ['label' => '首页', 'url' => ['/']],
             ['label' => '游戏规则', 'url' => ['/site/rule']],
             /*['label' => 'Contact', 'url' => ['/site/contact']],*/
             (Yii::$app->user->isGuest ? (

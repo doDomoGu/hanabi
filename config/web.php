@@ -30,7 +30,7 @@ $config = [
             'enablePrettyUrl' => true,
             //'enableStrictParsing' => true,
             'showScriptName' => false,
-            //'rules' => $urlRules,
+            'rules' => $urlRules,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
