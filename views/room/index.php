@@ -1,7 +1,6 @@
-
 <h2>房间列表</h2>
 <?php if(!empty($list)):?>
-<table class="table table-bordered t">
+<table class="table table-bordered">
     <thead>
         <tr>
             <td>ID</td>

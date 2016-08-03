@@ -12,6 +12,7 @@ use yii\web\Controller;
 class BaseController extends Controller
 {
     public $user;
+    public $isInRoom;
 //    public $navbarView = 'navbar2';
     //public $message = [];
     //public $messageNum = 0;
@@ -23,18 +24,14 @@ class BaseController extends Controller
 
         //$this->titleSuffix = '_'.yii::$app->id;
 
-        if(!Yii::$app->user->isGuest){
-            $this->user = User::find()->where(['id'=>yii::$app->user->id])->one();
-            if(!$this->user->status==1){
-                Yii::$app->user->logout();
-                return $this->goHome();
-            }
-        }
-
-
         if(!$this->checkLogin()){
             return false;
         }
+
+
+
+
+
 
 //        $this->getMessageInfo();
 
@@ -43,6 +40,7 @@ class BaseController extends Controller
 
     //检测是否登陆
     public function checkLogin(){
+        $this->checkStatus();
         //除“首页”和“登陆页面”以外的页面，需要进行登陆判断
         if(!in_array($this->route,array('site/index','site/login','site/rule','site/register','site/captcha'))){
             if(Yii::$app->user->isGuest){
@@ -54,6 +52,22 @@ class BaseController extends Controller
         return true;
     }
 
+    //检测用户状态
+    public function checkStatus(){
+        if(!Yii::$app->user->isGuest){
+            $this->user = User::find()->where(['id'=>yii::$app->user->id])->one();
+            if(!$this->user->status==1){
+                Yii::$app->user->logout();
+                return $this->goHome();
+            }
+        }
+        return true;
+    }
+
+    //检测是否登陆
+    public function checkIsInRoom(){
+        $roomExist = Room
+    }
 
 
 
