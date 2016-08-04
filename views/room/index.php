@@ -12,6 +12,7 @@
             <td>房间标题</td>
             <td>房间人数</td>
             <td>状态</td>
+            <td>操作</td>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +26,15 @@
                     <?=$l->player_2>0?2:1?>
                 </td>
                 <td><?=$l->status?></td>
+                <td>
+                    <?php if($l->status==1):?>
+                        <?php if($l->player_2==0):?>
+                        <a class="btn btn-warning <?=$this->context->isInRoom?'disabled':''?>" href="/room/enter?id=<?=$l->id?>" > 进入 >> </a>
+                        <?php else:?>
+                            房间已满
+                        <?php endif;?>
+                    <?php endif;?>
+                </td>
             </tr>
             <?php endforeach;?>
 

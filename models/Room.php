@@ -6,7 +6,9 @@ class Room extends \yii\db\ActiveRecord
 {
     const STATUS_DELETED = 0;
     const STATUS_PREPARING = 1;
-    const STATUS_PLAYING = 3;
+    const STATUS_PLAYING = 2;
+
+    public static $status_normal = [self::STATUS_PREPARING,self::STATUS_PLAYING];
 
     public function attributeLabels(){
         return [

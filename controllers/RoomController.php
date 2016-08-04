@@ -17,6 +17,7 @@ class RoomController extends BaseController
         return $this->render('index',$params);
     }
 
+    //创建房间
     public function actionCreate(){
         $model = new RoomForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -37,6 +38,44 @@ class RoomController extends BaseController
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    //进入房间
+    public function actionEnter(){
+        $id = Yii::$app->request->get('id',false);
+        $room = Room::find()->where(['id'=>$id])->one();
+        if($room->status==1 && $room->player_2==0){
+            $room->player_2 = $this->user->id;
+            $room->save();
+            return $this->redirect('/game/'.$room->id);
+        }else{
+            echo 'enter room fail';
+            exit;
+        }
+    }
+
+    //退出房间
+    public function actionExit(){
+        $uid = $this->user->id;
+        $room = Room::find()->where("(player_1 = $uid or player_2 = $uid) and status in (1,2)")->one();
+        if($room){
+            if($room->player_1==$uid){
+                if($room->player_2==0){
+                    $room->status=0;
+                }else{
+                    $room->player_1 = $room->player_2;
+                    $room->player_2 = 0;
+                }
+                $room->save();
+            }else{
+                $room->player_2 = 0;
+                $room->save();
+            }
+            return $this->redirect('/room');
+        }else{
+            echo 'exit room fail';
+            exit;
+        }
     }
 
 }
