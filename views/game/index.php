@@ -3,25 +3,35 @@
     app\assets\AppAsset::addJsFile($this,'js/main/game/index.js');
 ?>
 
-<div id="game-head">
+<div id="game_head">
     <h2>房间号：<?=$room->id?></h2>
     <h2>房间标题：<?=$room->title?></h2>
 </div>
-<div id="game-player">
-    <h3 class="player1 <?=$room->player_1==$this->context->user->id?'you':''?>">
-        玩家1（房主）：
-        <span class="name_txt">
-            <?=isset($room->player1)?$room->player1->nickname:'N/A'?>
-        </span>
-    </h3>
-    <h3 class="player2 <?=$room->player_2==$this->context->user->id?'you':''?>">
-        玩家2：
-        <span class="name_txt">
-            <?=isset($room->player2)?$room->player2->nickname:'N/A'?>
-        </span>
-    </h3>
+<div id="game_player">
+    <ul>
+        <li class="player1 text-center <?=$room->player_1==$this->context->user->id?'you':''?>">
+            <div class="head_img">
+                <img src="/images/head_img_default.png" />
+            </div>
+            <div class="name_txt">
+                <?=isset($room->player1)?$room->player1->nickname:'N/A'?></div>
+            <div class="player_status">
+                房主
+            </div>
+        </li>
+        <li class="player2 text-center <?=$room->player_2==$this->context->user->id?'you':''?>">
+            <div class="head_img">
+                <img src="/images/head_img_default.png" />
+            </div>
+            <div class="name_txt">
+                <?=isset($room->player2)?$room->player2->nickname:'N/A'?></div>
+            <div class="player_status">
+                准备
+            </div>
+        </li>
+    </ul>
 </div>
 
-<a id="exit-btn" class="btn btn-warning" hre22f="/room/exit?id<?=$room->id?>">退出房间</a>
+<a id="exit_btn" class="btn btn-warning">退出房间</a>
 
-<input type="hidden" id="room-id" value="<?=$room->id?>" />
+<input type="hidden" id="room_id" value="<?=$room->id?>" />

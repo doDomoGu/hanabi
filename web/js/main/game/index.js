@@ -6,7 +6,7 @@ $(function(){
            async : false,
            dataType:'json',
            data: {
-               id:$('#room-id').val()
+               id:$('#room_id').val()
            },
            success: function (data) {
                if(data.result==true){
@@ -25,8 +25,8 @@ $(function(){
        });
    },1000);
 
-   $('#exit-btn').click(function(){
+   $('#exit_btn').click(function(){
        clearInterval(getPlayerInterval);
-       window.location = '/room/exit?id='+$('#room-id').val();
+       window.location = '/room/exit?id='+$('#room_id').val();
    })
 });

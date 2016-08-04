@@ -1,3 +1,27 @@
-#game-player .you {
-    border:1px solid #23527c;
+#game_player ul li {
+    width:300px;
+    height:300px;
+    display: block;
+    overflow: hidden;
+    margin-top:10px;
+    margin-right:10px;
+    float:left;
+}
+
+#game_player ul li .head_img {
+    border-radius: 4px;
+    width:100%;
+}
+
+#game_player ul li .name_txt {
+
+}
+
+#game_player ul li .player_status {
+
+}
+
+
+#game_player ul li.you .name_txt {
+    color:#FF0000;
 }
