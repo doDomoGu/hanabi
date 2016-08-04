@@ -12,9 +12,9 @@ use yii\web\Controller;
 
 class BaseController extends Controller
 {
-    public $user;
-    public $isInRoom;
-    public $roomId;
+    public $user = false;
+    public $isInRoom = false;
+    public $roomId = false;
 //    public $navbarView = 'navbar2';
     //public $message = [];
     //public $messageNum = 0;
@@ -68,13 +68,15 @@ class BaseController extends Controller
 
     //检测是否登陆
     public function checkIsInRoom(){
-        $uid = Yii::$app->user->id;
-        $roomExist = Room::find()->where("(player_1 = $uid or player_2 = $uid) and status in (1,2)")->one();
-        if($roomExist){
-            $this->roomId = $roomExist->id;
-            return true;
-        }else{
-            return false;
+        if(!Yii::$app->user->isGuest) {
+            $uid = Yii::$app->user->id;
+            $roomExist = Room::find()->where("(player_1 = $uid or player_2 = $uid) and status in (1,2)")->one();
+            if ($roomExist) {
+                $this->roomId = $roomExist->id;
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

@@ -4,6 +4,10 @@ namespace app\models;
 
 class Room extends \yii\db\ActiveRecord
 {
+    const STATUS_DELETED = 0;
+    const STATUS_PREPARING = 1;
+    const STATUS_PLAYING = 3;
+
     public function attributeLabels(){
         return [
             'title' => '房间名',
