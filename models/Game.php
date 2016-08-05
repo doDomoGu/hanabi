@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class Room extends \yii\db\ActiveRecord
+class Game extends \yii\db\ActiveRecord
 {
     const STATUS_DELETED = 0;
     const STATUS_PREPARING = 1;
@@ -32,7 +32,7 @@ class Room extends \yii\db\ActiveRecord
         ];
     }
 
-/*CREATE TABLE `room` (
+/*CREATE TABLE `game` (
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 `title` varchar(100) NOT NULL,
 `password` varchar(100) NOT NULL,

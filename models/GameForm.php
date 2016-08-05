@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 
-class RoomForm extends Model
+class GameForm extends Model
 {
     public $title;
     public $password;

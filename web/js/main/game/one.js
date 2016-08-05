@@ -6,7 +6,7 @@ $(function(){
            async : false,
            dataType:'json',
            data: {
-               id:$('#room_id').val()
+               id:$('#game_id').val()
            },
            success: function (data) {
                if(data.result==true){
@@ -43,7 +43,7 @@ $(function(){
                    }
 
                }else{
-                   location.href = '/room';
+                   location.href = '/game';
                }
            }
        });
@@ -51,7 +51,7 @@ $(function(){
 
    $('#exit_btn').click(function(){
        clearInterval(getPlayerInterval);
-       window.location = '/room/exit?id='+$('#room_id').val();
+       window.location = '/game/exit?id='+$('#game_id').val();
    });
 
    $('#ready_btn').click(function(){
@@ -61,7 +61,7 @@ $(function(){
            async : false,
            dataType:'json',
            data: {
-               id:$('#room_id').val(),
+               id:$('#game_id').val(),
                act:$('#ready_act').val()
            },
            success: function (data) {
@@ -76,7 +76,7 @@ $(function(){
                        $('#ready_btn').html('取消准备');
                    }
                }else{
-                   location.href = '/room';
+                   location.href = '/game';
                }
            }
        });

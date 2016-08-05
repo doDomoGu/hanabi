@@ -7,7 +7,7 @@
     </div>
 
     <div>
-        <a href="/room">
+        <a href="/game">
             进入房间列表
         </a>
     </div>
