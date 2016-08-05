@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Card;
 use app\models\Room;
 use Yii;
 
@@ -77,4 +78,10 @@ class GameController extends BaseController
         Yii::$app->end();
     }
 
+
+    public function actionTest(){
+        $card = new Card();
+        $f = $card->face;
+        var_dump($f);
+    }
 }
