@@ -26,7 +26,7 @@ class Room extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['player_1', 'player_2','status'], 'integer'],
+            [['player_1', 'player_2','status','player_2_ready'], 'integer'],
             [[ 'password','create_time'], 'safe']
 
         ];
@@ -42,12 +42,8 @@ class Room extends \yii\db\ActiveRecord
 `status` tinyint(1) NOT NULL DEFAULT '0',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
-
-//ALTER TABLE `user` CHANGE `add_time` `reg_time` DATETIME NULL DEFAULT NULL;
-    /*ALTER TABLE `user`
-     ADD `contract_date` DATE DEFAULT NULL AFTER `join_date`,*/
-
-    /*ALTER TABLE `user` ADD `password_true` VARCHAR(255) DEFAULT NULL AFTER `password`;*/
+    /*ALTER TABLE `room`
+         ADD `player_2_ready` tinyint(1) DEFAULT '0' AFTER `player_2`*/
 
 
     public function getPlayer1(){
