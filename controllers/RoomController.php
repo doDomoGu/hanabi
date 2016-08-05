@@ -61,16 +61,21 @@ class RoomController extends BaseController
         if($room){
             if($room->player_1==$uid){
                 if($room->player_2==0){
+                    $room->player_1 = 0;
                     $room->status=0;
                 }else{
                     $room->player_1 = $room->player_2;
-                    $room->player_2 = 0;
+                    /*$room->player_2 = 0;
+                    $room->player_2_ready = 0;*/
                 }
-                $room->save();
             }else{
-                $room->player_2 = 0;
-                $room->save();
+                /*$room->player_2 = 0;
+                $room->player_2_ready = 0;*/
             }
+
+            $room->player_2 = 0;
+            $room->player_2_ready = 0;
+            $room->save();
             return $this->redirect('/room');
         }else{
             echo 'exit room fail';
