@@ -5,17 +5,17 @@ namespace app\models;
 class Card extends \yii\db\ActiveRecord
 {
 
-    public $colors = ['白','蓝','黄','红','绿'];
+    public static $colors = ['白','蓝','黄','红','绿'];
 
-    public $nums = [1,1,1,2,2,3,3,4,4,5];
+    public static $numbers = [1,1,1,2,2,3,3,4,4,5];
 
-    public $face = [];
+    /*public $face = [];
 
     public function __construct(){
         foreach($this->colors as $k=>$v){
-            $this->face[$k] = $this->nums;
+            $this->face[$k] = $this->numbers;
         }
-    }
+    }*/
 
 
     /*const STATUS_DELETED = 0;

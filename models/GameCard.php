@@ -2,22 +2,24 @@
 
 namespace app\models;
 
-class Room extends \yii\db\ActiveRecord
+use Yii;
+class GameCard extends \yii\db\ActiveRecord
 {
-    const STATUS_DELETED = 0;
+    /*const STATUS_DELETED = 0;
     const STATUS_PREPARING = 1;
     const STATUS_PLAYING = 2;
 
-    public static $status_normal = [self::STATUS_PREPARING,self::STATUS_PLAYING];
+    public static $status_normal = [self::STATUS_PREPARING,self::STATUS_PLAYING];*/
 
     public function attributeLabels(){
         return [
-            'title' => '房间名',
-            'password' => '密码',
-            'player_1' => '玩家1',
-            'player_2' => '玩家2',
-            'create_time' => '创建时间',
-            'status' => '状态'
+            'game_id' => '游戏ID',
+            'type' => '类型',   //1.牌在玩家手上,2.牌在牌库,3.牌在桌面(燃放成功),4.牌在弃牌堆
+            'player' => '玩家序号', //只有type=1的时候用到，表示player_1或player_2手上
+            'ord' => '牌的顺序',  //根据type值不同含义不同,1.从左至右的顺序，2.从上至下，表示数值越小越在排序上面，被先摸到，3.无,4.从下至上，表示数值越小是越早弃掉的牌
+            'color' => '牌的颜色', //根据card模型中colors
+            'num' => '牌的数字', //根据card模型中numbers
+            'status'=> '状态'  //0：失效(开始新的一局，设置失效),1:有效
         ];
     }
 
@@ -25,32 +27,52 @@ class Room extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['player_1', 'player_2','status','player_2_ready'], 'integer'],
-            [[ 'password','create_time'], 'safe']
+            [['game_id','type','color','num'], 'required'],
+            [['game_id','type', 'player','ord','status','color','num'], 'integer'],
 
         ];
     }
 
-/*CREATE TABLE `room` (
+/*CREATE TABLE `game_card` (
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`title` varchar(100) NOT NULL,
-`password` varchar(100) NOT NULL,
-`player_1` int(11) unsigned DEFAULT '0',
-`player_2` int(11) unsigned DEFAULT '0',
-`create_time` datetime DEFAULT NULL,
+`game_id` int(11) unsigned NOT NULL,
+`type` tinyint(1) NOT NULL DEFAULT '0',
+`player` tinyint(1) NOT NULL DEFAULT '0',
+`color` tinyint(1) NOT NULL DEFAULT '0',
+`num` tinyint(1) NOT NULL DEFAULT '0',
+`ord` tinyint(4) NOT NULL DEFAULT '0',
 `status` tinyint(1) NOT NULL DEFAULT '0',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
-    /*ALTER TABLE `room`
-         ADD `player_2_ready` tinyint(1) DEFAULT '0' AFTER `player_2`*/
 
 
-    public function getPlayer1(){
-        return $this->hasOne('app\models\User', array('id' => 'player_1'));
-    }
 
-    public function getPlayer2(){
-        return $this->hasOne('app\models\User', array('id' => 'player_2'));
+    //初始化牌库
+    public static function initLibrary($game_id){
+        $exit = self::find()->where(['game_id'=>$game_id,'status'=>1])->one();
+        if(!$exit){
+            $cardArr = [];
+            foreach(Card::$colors as $k=>$v){
+                foreach(Card::$numbers as $k2=>$v2){
+                    $cardArr[] = [$k,$k2];
+                }
+            }
+            shuffle($cardArr);
+
+            $insertArr = [];
+            $ord = 0;
+            foreach($cardArr as $c){
+                $insertArr[] = [$game_id,2,0,$c[0],$c[1],$ord,1];
+                $ord++;
+            }
+
+            Yii::$app->db->createCommand()->batchInsert(
+                self::tableName(),
+                ['game_id','type','player','color','num','ord','status'],
+                $insertArr
+            )->execute();
+        }else{
+            echo 'game card exist';exit;
+        }
     }
 }

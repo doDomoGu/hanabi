@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Card;
 use app\models\Game;
+use app\models\GameCard;
 use Yii;
 
 
@@ -155,8 +156,24 @@ class GameController extends BaseController
 
 
     public function actionTest(){
-        $card = new Card();
-        $f = $card->face;
-        var_dump($f);
+        //游戏开始  创建牌库
+        $game_id = 1;
+        GameCard::initLibrary($game_id);
+echo 'success';exit;
+
+    }
+
+    public function actionTest2(){
+        $game_id = 1;
+        $gameCard = GameCard::find()->where(['game_id'=>$game_id,'status'=>1])->orderBy('ord asc')->all();
+        $colors = Card::$colors;
+        $numbers = Card::$numbers;
+        header("Content-Type: text/html; charset=UTF-8");
+        echo '<ul>';
+        
+        foreach($gameCard as $gc){
+            echo '<li style="display: block;float:left;width:100px;height:100px;border:1px solid #333;margin:10px 10px 0 0 ;">'.$colors[$gc['color']].'-'.$numbers[$gc['num']].'</li>';
+        }
+        echo '<ul>';
     }
 }
