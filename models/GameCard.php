@@ -5,11 +5,10 @@ namespace app\models;
 use Yii;
 class GameCard extends \yii\db\ActiveRecord
 {
-    /*const STATUS_DELETED = 0;
-    const STATUS_PREPARING = 1;
-    const STATUS_PLAYING = 2;
-
-    public static $status_normal = [self::STATUS_PREPARING,self::STATUS_PLAYING];*/
+    const TYPE_IN_PLAYER = 1;
+    const TYPE_IN_LIBRARY = 2;
+    const TYPE_ON_TABLE = 3;
+    const TYPE_IN_DISCARD = 4;
 
     public function attributeLabels(){
         return [
@@ -62,7 +61,7 @@ PRIMARY KEY (`id`)
             $insertArr = [];
             $ord = 0;
             foreach($cardArr as $c){
-                $insertArr[] = [$game_id,2,0,$c[0],$c[1],$ord,1];
+                $insertArr[] = [$game_id,self::TYPE_IN_LIBRARY,0,$c[0],$c[1],$ord,1];
                 $ord++;
             }
 
@@ -74,5 +73,32 @@ PRIMARY KEY (`id`)
         }else{
             echo 'game card exist';exit;
         }
+    }
+
+    //摸一张牌
+    public static function takeCard($game_id,$player){
+        //统计牌的总数 应该为50张
+        $count = self::find()->where(['game_id'=>$game_id,'status'=>1])->count();
+        if($count==50){
+            $card = self::find()->where(['game_id'=>$game_id,'type'=>self::TYPE_IN_LIBRARY,'status'=>1])->orderBy('ord asc')->one();
+            if($card){
+                //查找玩家手上排序最大的牌，确定新模的牌的序号 ord
+                $playerCard = self::find()->where(['game_id'=>$game_id,'type'=>self::TYPE_IN_PLAYER,'status'=>1])->orderBy('ord desc')->one();
+                if($playerCard){
+                    $ord = $playerCard->ord+1;
+                }else{
+                    $ord = 0;
+                }
+                $card->type = self::TYPE_IN_PLAYER;
+                $card->player = $player;
+                $card->ord = $ord;
+                $card->save();
+            }else{
+                echo 'no card to take';
+            }
+        }else{
+            echo 'game card num wrong';exit;
+        }
+
     }
 }

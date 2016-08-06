@@ -81,4 +81,26 @@ $(function(){
            }
        });
    });
+
+    $('#start_btn').click(function(){
+        $.ajax({
+            url: '/game/ajax-start',
+            type: 'post',
+            async : false,
+            dataType:'json',
+            data: {
+                id:$('#game_id').val()
+            },
+            success: function (data) {
+                if(data.result==true){
+              console.log(data.gc1);
+              console.log(data.gc2);
+                    console.log('=========')
+                }else{
+                    console.log(data);
+                    //location.href = '/game';
+                }
+            }
+        });
+    })
 });

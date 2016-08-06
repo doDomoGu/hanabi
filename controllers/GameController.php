@@ -154,23 +154,60 @@ class GameController extends BaseController
         Yii::$app->end();
     }
 
+    public function actionAjaxStart(){
+        $game_id = Yii::$app->request->post('id',false);
+        $game = Game::find()->where(['id'=>$game_id,'status'=>Game::STATUS_PREPARING])
+            ->andWhere('player_1 > 0 and player_2 > 0 and player_2_ready = 1')
+            ->one();
+        $return = [];
+        $result = false;
+        if($game){
+            $game->status = Game::STATUS_PLAYING;
+            $game->save();
+            GameCard::initLibrary($game_id);
+            for($i=0;$i<5;$i++){ //玩家 1 2 各模五张牌
+                GameCard::takeCard($game_id,1);
+                GameCard::takeCard($game_id,2);
+            }
+            $gameCard1 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>1,'status'=>1])->orderBy('ord asc')->all();
+            $gameCard2 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>2,'status'=>1])->orderBy('ord asc')->all();
+            $gameCard1Arr = [];
+            foreach($gameCard1 as $gc1){
+                $gameCard1Arr[] = ['gcid'=>$gc1->id,'color'=>$gc1->color,'num'=>$gc1->num];
+            }
+            $gameCard2Arr = [];
+            foreach($gameCard2 as $gc2){
+                $gameCard2Arr[] = ['gcid'=>$gc2->id,'color'=>$gc2->color,'num'=>$gc2->num];
+            }
+            $return['gc1'] = $gameCard1Arr;
+            $return['gc2'] = $gameCard2Arr;
+            $result = true;
 
+        }
+        $return['result'] = $result;
+        return json_encode($return);
+
+
+
+    }
     public function actionTest(){
         //游戏开始  创建牌库
         $game_id = 1;
-        GameCard::initLibrary($game_id);
+        GameCard::takeCard($game_id,2);
+
+        //GameCard::initLibrary($game_id);
 echo 'success';exit;
 
     }
 
     public function actionTest2(){
         $game_id = 1;
-        $gameCard = GameCard::find()->where(['game_id'=>$game_id,'status'=>1])->orderBy('ord asc')->all();
+        $gameCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_LIBRARY,'status'=>1])->orderBy('ord asc')->all();
         $colors = Card::$colors;
         $numbers = Card::$numbers;
         header("Content-Type: text/html; charset=UTF-8");
         echo '<ul>';
-        
+
         foreach($gameCard as $gc){
             echo '<li style="display: block;float:left;width:100px;height:100px;border:1px solid #333;margin:10px 10px 0 0 ;">'.$colors[$gc['color']].'-'.$numbers[$gc['num']].'</li>';
         }
