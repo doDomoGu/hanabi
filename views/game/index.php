@@ -1,3 +1,6 @@
+<?php
+    use app\models\Game;
+?>
 <h2>房间列表</h2>
 <div>
     <a class="btn btn-primary <?=$this->context->isInGame?'disabled':''?>" href="/game/create" > 创建房间 >> </a>
@@ -23,9 +26,9 @@
                 <td><?=$l->id?></td>
                 <td><?=$l->title?></td>
                 <td>
-                    <?=$l->player_2>0?2:1?>
+                    <?=$l->player_2>0?2:1?> / 2
                 </td>
-                <td><?=$l->status?></td>
+                <td><?=Game::getStatusCn($l->status)?></td>
                 <td>
                     <?php if($l->status==1):?>
                         <?php if($l->player_2==0):?>
@@ -33,6 +36,8 @@
                         <?php else:?>
                             房间已满
                         <?php endif;?>
+                    <?php else:?>
+                        --
                     <?php endif;?>
                 </td>
             </tr>

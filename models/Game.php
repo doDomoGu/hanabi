@@ -8,6 +8,10 @@ class Game extends \yii\db\ActiveRecord
     const STATUS_PREPARING = 1;
     const STATUS_PLAYING = 2;
 
+    const STATUS_DELETED_CN = '已删除';
+    const STATUS_PREPARING_CN = '准备中';
+    const STATUS_PLAYING_CN = '游戏中';
+
     public static $status_normal = [self::STATUS_PREPARING,self::STATUS_PLAYING];
 
     public function attributeLabels(){
@@ -52,5 +56,23 @@ PRIMARY KEY (`id`)
 
     public function getPlayer2(){
         return $this->hasOne('app\models\User', array('id' => 'player_2'));
+    }
+
+    public static function getStatusCn($status){
+        switch($status){
+            case 0:
+                $status_cn = self::STATUS_DELETED_CN;
+                break;
+            case 1:
+                $status_cn = self::STATUS_PREPARING_CN;
+                break;
+            case 2:
+                $status_cn = self::STATUS_PLAYING_CN;
+                break;
+            default:
+                $status_cn = 'N/A';
+        }
+
+        return $status_cn;
     }
 }
