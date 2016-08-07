@@ -1,5 +1,47 @@
-#game_player {
+#main {
     width:800px;
+    float:left;
+    overflow: hidden;
+    /*background: #00c4f7;*/
+    background: #dfeff7;
+    padding:20px 10px;
+    border-radius: 4px;
+}
+
+#sidebar {
+    width:340px;
+    float:left;
+    overflow: hidden;
+    background: #306c91;
+    padding:10px;
+}
+
+#game_head {
+    background: #0193d7;
+    padding:8px 4px;
+    border-radius: 4px;
+}
+
+#game_head .game_id_txt {
+    border:2px solid #FBFA03;
+    color:#FBFA03;
+    border-radius: 4px;
+    letter-spacing: 2px;
+    padding:2px 4px;
+}
+#game_head .game_title_txt {
+    color: #fefefe;
+    font-size:16px;
+    font-weight: bold;
+}
+#game_player {
+    /*width:800px;*/
+    overflow: hidden;
+}
+
+#game_player ul {
+    padding:0;
+    margin: 0;
 }
 
 #game_player ul li {
@@ -7,8 +49,7 @@
     height:300px;
     display: block;
     overflow: hidden;
-    margin-top:10px;
-    margin-right:10px;
+    margin:20px 45px;
     float:left;
 }
 
@@ -29,3 +70,4 @@
 #game_player ul li.you .name_txt {
     color:#FF0000;
 }
+
