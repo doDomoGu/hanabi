@@ -69,7 +69,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container text-center">
-        <p class="">&copy; Xinmeng Web <?= date('Y') ?></p>
+        <p class=""><a href="http://xinmengweb.com" target="_blank">&copy; Xinmeng Web</a> <?= date('Y') ?></p>
 
         <!--<p class="pull-right"><?/*= Yii::powered() */?></p>-->
     </div>

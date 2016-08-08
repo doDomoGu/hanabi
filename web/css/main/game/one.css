@@ -5,15 +5,16 @@
     /*background: #00c4f7;*/
     background: #dfeff7;
     padding:20px 10px;
-    border-radius: 4px;
+    height:500px;
 }
 
 #sidebar {
     width:340px;
     float:left;
     overflow: hidden;
-    background: #306c91;
+    background: #a7caee;
     padding:10px;
+    height:500px;
 }
 
 #game_head {

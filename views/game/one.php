@@ -40,7 +40,7 @@
 
         <a id="start_btn" class="btn btn-primary <?=$isMaster?'':'hidden'?> <?=$game->player_2_ready==1?'':'disabled'?>">开始</a>
 
-        <a id="exit_btn" class="btn btn-warning">退出房间</a>
+        <a id="exit_btn" class="btn btn-warning pull-right">退出房间</a>
     </div>
 </div>
 <input type="hidden" id="game_id" value="<?=$game->id?>" />
