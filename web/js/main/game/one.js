@@ -1,4 +1,6 @@
 $(function(){
+
+
    var getPlayerInterval = setInterval(function(){
        $.ajax({
            url: '/game/ajax-get-player',
