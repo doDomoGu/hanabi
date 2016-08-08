@@ -93,12 +93,20 @@ class GameController extends BaseController
         if($game){
             if(in_array($game->status,Game::$status_normal)){
                 if($game->player_1==$this->user->id||$game->player_2==$this->user->id){
-                    $params['game'] = $game;
+                    $isMaster = false; //是否为房主
                     if($game->player_1==$this->user->id){
-                        $params['isMaster'] = true;
-                    }else{
-                        $params['isMaster'] = false;
+                         $isMaster = true;
                     }
+
+                    //如果游戏为游戏中状态，获取游戏牌
+                    if($game->status == Game::STATUS_PLAYING){
+                        $cardInPlayer1 = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>1,'status'=>1])->all();
+                        $cardInPlayer2 = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>2,'status'=>1])->all();
+                        $cardInLibrary = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_LIBRARY,'status'=>1])->all();
+                    }
+
+                    $params['game'] = $game;
+                    $params['isMaster'] = $isMaster;
                     return $this->render('one',$params);
                 }
             }
