@@ -3,7 +3,14 @@
     use app\models\Game;
 
     app\assets\AppAsset::addCssFile($this,'css/main/game/one.css');
-    app\assets\AppAsset::addJsFile($this,'js/main/game/one.js');
+
+    if($game->status==Game::STATUS_PREPARING){
+        app\assets\AppAsset::addCssFile($this,'css/main/game/_one_preparing.css');
+        app\assets\AppAsset::addJsFile($this,'js/main/game/_one_preparing.js');
+    }elseif($game->status==Game::STATUS_PLAYING){
+        app\assets\AppAsset::addCssFile($this,'css/main/game/_one_playing.css');
+        //app\assets\AppAsset::addJsFile($this,'js/main/game/_one_playing.js');
+    }
 ?>
 <div id="main">
     <div id="game_head">
