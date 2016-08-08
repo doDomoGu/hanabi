@@ -1,6 +1,4 @@
 $(function(){
-
-
    var getPlayerInterval = setInterval(function(){
        $.ajax({
            url: '/game/ajax-get-player',
@@ -95,12 +93,11 @@ $(function(){
             },
             success: function (data) {
                 if(data.result==true){
-              console.log(data.gc1);
-              console.log(data.gc2);
-                    console.log('=========')
+                    //游戏开始成功 刷新页面
+                    location.href=location.href;
                 }else{
-                    console.log(data);
-                    //location.href = '/game';
+                    //console.log(data);
+                    location.href = '/game';
                 }
             }
         });
