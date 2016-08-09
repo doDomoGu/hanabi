@@ -1,14 +1,30 @@
-#game_area .top_area {
-    height:120px;
+#game_area .top_area,#game_area .bottom_area {
+    height:110px;
     background: #31708f;
+    padding-left:10px;
 }
 
-#game_area .middle_area {
-    height:210px;
-    background: #356635;
+#game_area .top_area ul.hand_card li,#game_area .bottom_area ul.hand_card li {
+    display: block;
+    float:left;
+    width:60px;
+    height:80px;
+    border:1px solid #333;
+    margin-right:10px;
+    background: #fee;
+    padding:4px;
 }
 
 #game_area .bottom_area {
-    height:120px;
     background: #985f0d;
 }
+
+#game_area .bottom_area ul.hand_card li {
+    background: #ccc;
+}
+
+#game_area .middle_area {
+    height:220px;
+    background: #356635;
+}
+

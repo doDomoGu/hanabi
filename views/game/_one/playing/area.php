@@ -17,9 +17,9 @@
 <div class="top_area <?=$opposite?>_card clearfix">
     对方 （<?=$oppositePlayer->nickname?>） 手牌
     <div>
-        <ul>
+        <ul class="hand_card">
             <?php foreach($cardInfo[$opposite] as $card):?>
-                <li style="display: block;float:left;width:60px;height:80px;border:1px solid #333;margin:10px 10px 0 0 ;">
+                <li>
                     <?=$colors[$card['color']]?> - <?=$numbers[$card['num']]?>
                 </li>
             <?php endforeach;?>
@@ -33,10 +33,11 @@
 <div class="bottom_area">
     你的手牌
     <div>
-        <ul>
+        <ul class="hand_card">
             <?php foreach($cardInfo[$self] as $card):?>
-                <li style="display: block;float:left;width:60px;height:80px;border:1px solid #333;margin:10px 10px 0 0 ;">
-                    <?=$colors[$card['color']]?> - <?=$numbers[$card['num']]?>
+                <li>
+                    <?/*=$colors[$card['color']]*/?><!-- - --><?/*=$numbers[$card['num']]*/?>
+
                 </li>
             <?php endforeach;?>
         </ul>
