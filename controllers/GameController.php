@@ -100,13 +100,12 @@ class GameController extends BaseController
 
                     //如果游戏为游戏中状态，获取游戏牌
                     if($game->status == Game::STATUS_PLAYING){
-                        $cardInPlayer1 = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>1,'status'=>1])->all();
-                        $cardInPlayer2 = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>2,'status'=>1])->all();
-                        $cardInLibrary = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_LIBRARY,'status'=>1])->all();
+                        $params['cardInfo'] = GameCard::getCardInfo($game->id);
                     }
 
                     $params['game'] = $game;
                     $params['isMaster'] = $isMaster;
+
                     return $this->render('one',$params);
                 }
             }
@@ -174,8 +173,8 @@ class GameController extends BaseController
             $game->save();
             GameCard::initLibrary($game_id);
             for($i=0;$i<5;$i++){ //玩家 1 2 各模五张牌
-                GameCard::takeCard($game_id,1);
-                GameCard::takeCard($game_id,2);
+                GameCard::drawCard($game_id,1);
+                GameCard::drawCard($game_id,2);
             }
             $gameCard1 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>1,'status'=>1])->orderBy('ord asc')->all();
             $gameCard2 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>2,'status'=>1])->orderBy('ord asc')->all();
@@ -201,7 +200,7 @@ class GameController extends BaseController
     public function actionTest(){
         //游戏开始  创建牌库
         $game_id = 1;
-        GameCard::takeCard($game_id,2);
+        GameCard::drawCard($game_id,2);
 
         //GameCard::initLibrary($game_id);
 echo 'success';exit;

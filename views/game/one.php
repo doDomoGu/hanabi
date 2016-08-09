@@ -21,7 +21,7 @@
         <?php if($game->status==Game::STATUS_PREPARING):?>
             <?=$this->render('_one/preparing/area',['game'=>$game])?>
         <?php elseif($game->status==Game::STATUS_PLAYING):?>
-            <?=$this->render('_one/playing/area',['game'=>$game])?>
+            <?=$this->render('_one/playing/area',['game'=>$game,'cardInfo'=>$cardInfo,'isMaster'=>$isMaster])?>
         <?php endif;?>
     </div>
 </div>

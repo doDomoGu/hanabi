@@ -76,7 +76,7 @@ PRIMARY KEY (`id`)
     }
 
     //摸一张牌
-    public static function takeCard($game_id,$player){
+    public static function drawCard($game_id,$player){
         //统计牌的总数 应该为50张
         $count = self::find()->where(['game_id'=>$game_id,'status'=>1])->count();
         if($count==50){
@@ -100,5 +100,37 @@ PRIMARY KEY (`id`)
             echo 'game card num wrong';exit;
         }
 
+    }
+
+
+    //获取牌库/手牌 等信息
+    public static function getCardInfo($game_id){
+        $cardInfo = [
+            'player_1'=>[],
+            'player_2'=>[],
+            'library'=>[],
+            'table'=>[],
+            'discard'=>[],
+        ];
+        $gameCard = self::find()->where(['game_id'=>$game_id,'status'=>1])->orderBy('ord asc')->all();
+        if(count($gameCard)==50){
+            foreach($gameCard as $gc){
+                $temp = ['id'=>$gc->id,'color'=>$gc->color,'num'=>$gc->num];
+                if($gc->type==self::TYPE_IN_PLAYER){
+                    if($gc->player==1){
+                        $cardInfo['player_1'][]=$temp;
+                    }elseif($gc->player==2){
+                        $cardInfo['player_2'][]=$temp;
+                    }
+                }elseif($gc->type==self::TYPE_IN_LIBRARY){
+                    $cardInfo['library'][]=$temp;
+                }elseif($gc->type==self::TYPE_ON_TABLE){
+                    $cardInfo['table'][]=$temp;
+                }elseif($gc->type==self::TYPE_IN_DISCARD){
+                    $cardInfo['discard'][]=$temp;
+                }
+            }
+        }
+        return $cardInfo;
     }
 }

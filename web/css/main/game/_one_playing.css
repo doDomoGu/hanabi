@@ -1,1 +1,14 @@
-#game_area
+#game_area .top_area {
+    height:120px;
+    background: #31708f;
+}
+
+#game_area .middle_area {
+    height:210px;
+    background: #356635;
+}
+
+#game_area .bottom_area {
+    height:120px;
+    background: #985f0d;
+}
