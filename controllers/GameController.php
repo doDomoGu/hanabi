@@ -113,9 +113,18 @@ class GameController extends BaseController
         return $this->goHome();
 
     }
-    //获取游戏房间内玩家信息
-    public function actionAjaxGetPlayer(){
-        $arr = [];
+    //游戏房间内 游戏准备中状态下 的数据通信
+    public function actionAjaxGamePreparingSocket(){
+        $arr = [
+            'id1'=>0,
+            'name1'=>'N/A',
+            'head1'=>'/images/head_img_default.png',
+            'id2'=>0,
+            'name2'=>'N/A',
+            'head2'=>'/images/head_img_default.png',
+            'ord'=>0,
+            'ready'=>0,
+        ];
         $result = false;
         $id = Yii::$app->request->post('id',false);
         $uid = $this->user->id;
@@ -123,12 +132,20 @@ class GameController extends BaseController
         if($game){
             if(in_array($game->status,Game::$status_normal)){
                 $result = true;
-                $arr['id1'] = $game->player_1;
-                $arr['name1'] = isset($game->player1)?$game->player1->nickname:'N/A';
-                $arr['id2'] = $game->player_2;
-                $arr['name2'] = isset($game->player2)?$game->player2->nickname:'N/A';
+                if(isset($game->player1)){
+                    $arr['id1'] = $game->player_1;
+                    $arr['name1'] = $game->player1->nickname;
+                    if($game->player1->head_img!='')
+                        $arr['head1'] = $game->player1->head_img;
+                }
+                if(isset($game->player2)){
+                    $arr['id2'] = $game->player_2;
+                    $arr['name2'] = $game->player2->nickname;
+                    if($game->player2->head_img!='')
+                        $arr['head2'] = $game->player2->head_img;
+                }
                 $arr['ord'] = $game->player_1==$uid?1:($game->player_2==$uid?2:0);
-                $arr['player_ready'] = $game->player_2_ready;
+                $arr['ready'] = $game->player_2_ready;
             }
         }
         $arr['result'] = $result;
@@ -137,7 +154,7 @@ class GameController extends BaseController
     }
 
     //玩家2进行准备操作
-    public function actionAjaxGetPlayerReady(){
+    public function actionAjaxDoPlayerReady(){
         $arr = [];
         $result = false;
         $uid = $this->user->id;

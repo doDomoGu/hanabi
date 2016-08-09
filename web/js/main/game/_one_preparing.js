@@ -1,7 +1,7 @@
 $(function(){
-   var getPlayerInterval = setInterval(function(){
+   var socketInterval = setInterval(function(){
        $.ajax({
-           url: '/game/ajax-get-player',
+           url: '/game/ajax-game-preparing-socket',
            type: 'post',
            async : false,
            dataType:'json',
@@ -11,7 +11,9 @@ $(function(){
            success: function (data) {
                if(data.result==true){
                    $('.player1 .name_txt').html(data.name1);
+                   $('.player1 .head_img img').attr('src',data.head1);
                    $('.player2 .name_txt').html(data.name2);
+                   $('.player2 .head_img img').attr('src',data.head2);
                    $('.player1,.player2').removeClass('you');
                    if(data.ord==1){
                        $('#start_btn').removeClass('hidden');
@@ -35,7 +37,7 @@ $(function(){
                    if(data.id2==0){
                        $('.player2 .player_status').html('');
                    }else{
-                       if(data.player_ready==1){
+                       if(data.ready==1){
                            $('.player2 .player_status').html('准备完成');
                        }else{
                            $('.player2 .player_status').html('准备中');
@@ -56,7 +58,7 @@ $(function(){
 
    $('#ready_btn').click(function(){
        $.ajax({
-           url: '/game/ajax-get-player-ready',
+           url: '/game/ajax-do-player-ready',
            type: 'post',
            async : false,
            dataType:'json',
