@@ -26,10 +26,38 @@
         </ul>
     </div>
 </div>
-<div class="middle_area">
 
+<div class="middle_area">
+    <div class="middle_left">
+        <div class="chess_box">
+            游戏盒:
+            <div class="clue_num">线索 <span>8</span></div>
+            <div class="chance_num">机会 <span>3</span></div>
+        </div>
+        <div class="card_library">
+            牌库:
+            <span><?=count($cardInfo['library'])?></span>
+        </div>
+        <div class="card_discard">
+            弃牌堆:
+            <span><?=count($cardInfo['discard'])?></span>
+        </div>
+    </div>
+    <div class="middle_right">
+        <!--<div>
+            <?/*=count($cardInfo['table'])*/?>
+        </div>-->
+        <ul>
+            <li><?=Card::$colors[0]?></li>
+            <li><?=Card::$colors[1]?></li>
+            <li><?=Card::$colors[2]?></li>
+            <li><?=Card::$colors[3]?></li>
+            <li><?=Card::$colors[4]?></li>
+        </ul>
+    </div>
 
 </div>
+
 <div class="bottom_area">
     你的手牌
     <div>

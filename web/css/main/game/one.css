@@ -24,7 +24,7 @@ ul,li {
 #game_head {
     background: #0193d7;
     padding:8px 4px;
-    border-radius: 4px;
+    border-radius: 4px 4px 0 0;
 }
 
 #game_head .game_id_txt {
