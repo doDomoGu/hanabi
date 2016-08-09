@@ -1,4 +1,26 @@
 $(function(){
+    var socketInterval = setInterval(function(){
+        $.ajax({
+            url: '/game/ajax-game-playing-socket',
+            type: 'post',
+            async : false,
+            dataType:'json',
+            data: {
+                id:$('#game_id').val()
+            },
+            success: function (data) {
+                if(data.result==true){
+                    if(data.end==true){ //游戏结束
+                        location.href = location.href;
+                    }
+                }
+            }
+        })
+    },1000);
+
+
+
+
    $('#end_btn').click(function(){
        $.ajax({
            url: '/game/ajax-end',

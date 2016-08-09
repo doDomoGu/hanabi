@@ -113,6 +113,8 @@ class GameController extends BaseController
         return $this->goHome();
 
     }
+
+
     //游戏房间内 游戏准备中状态下 的数据通信
     public function actionAjaxGamePreparingSocket(){
         $arr = [
@@ -124,6 +126,7 @@ class GameController extends BaseController
             'head2'=>'/images/head_img_default.png',
             'ord'=>0,
             'ready'=>0,
+            'start'=>false,
         ];
         $result = false;
         $id = Yii::$app->request->post('id',false);
@@ -132,6 +135,10 @@ class GameController extends BaseController
         if($game){
             if(in_array($game->status,Game::$status_normal)){
                 $result = true;
+                if($game->status==Game::STATUS_PLAYING){
+                    $arr['start'] = true;
+                }
+
                 if(isset($game->player1)){
                     $arr['id1'] = $game->player_1;
                     $arr['name1'] = $game->player1->nickname;
@@ -210,6 +217,51 @@ class GameController extends BaseController
         }
         $return['result'] = $result;
         return json_encode($return);
+    }
+
+    //游戏房间内 游戏准备中状态下 的数据通信
+    public function actionAjaxGamePlayingSocket(){
+        $arr = [
+            /*'id1'=>0,
+            'name1'=>'N/A',
+            'head1'=>'/images/head_img_default.png',
+            'id2'=>0,
+            'name2'=>'N/A',
+            'head2'=>'/images/head_img_default.png',
+            'ord'=>0,
+            'ready'=>0,*/
+            'end'=>false,
+        ];
+        $result = false;
+        $id = Yii::$app->request->post('id',false);
+        $uid = $this->user->id;
+        $game = Game::find()->where(['id'=>$id])->one();
+        if($game){
+            if(in_array($game->status,Game::$status_normal)){
+                $result = true;
+                if($game->status==Game::STATUS_PREPARING){
+                    $arr['end'] = true;
+                }
+
+//                if(isset($game->player1)){
+//                    $arr['id1'] = $game->player_1;
+//                    $arr['name1'] = $game->player1->nickname;
+//                    if($game->player1->head_img!='')
+//                        $arr['head1'] = $game->player1->head_img;
+//                }
+//                if(isset($game->player2)){
+//                    $arr['id2'] = $game->player_2;
+//                    $arr['name2'] = $game->player2->nickname;
+//                    if($game->player2->head_img!='')
+//                        $arr['head2'] = $game->player2->head_img;
+//                }
+//                $arr['ord'] = $game->player_1==$uid?1:($game->player_2==$uid?2:0);
+//                $arr['ready'] = $game->player_2_ready;
+            }
+        }
+        $arr['result'] = $result;
+        echo  json_encode($arr);
+        Yii::$app->end();
     }
 
     public function actionAjaxEnd(){

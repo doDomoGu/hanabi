@@ -10,6 +10,10 @@ $(function(){
            },
            success: function (data) {
                if(data.result==true){
+                   if(data.start==true){ //游戏开始
+                       location.href = location.href;
+                   }
+
                    $('.player1 .name_txt').html(data.name1);
                    $('.player1 .head_img img').attr('src',data.head1);
                    $('.player2 .name_txt').html(data.name2);
@@ -22,7 +26,7 @@ $(function(){
                        if(data.id2==0){
                            $('#start_btn').addClass('disabled');
                        }else{
-                           if(data.player_ready==1){
+                           if(data.ready==1){
                                $('#start_btn').removeClass('disabled');
                            }else{
                                $('#start_btn').addClass('disabled');
@@ -52,7 +56,7 @@ $(function(){
    },1000);
 
    $('#exit_btn').click(function(){
-       clearInterval(getPlayerInterval);
+       clearInterval(socketInterval);
        window.location = '/game/exit?id='+$('#game_id').val();
    });
 
