@@ -4,11 +4,11 @@
     padding-left:10px;
 }
 
-#game_area .top_area ul.hand_card,#game_area .bottom_area ul.hand_card {
+#game_area .top_area .hand_card,#game_area .bottom_area .hand_card {
     overflow: hidden;
 }
 
-#game_area .top_area ul.hand_card li,#game_area .bottom_area ul.hand_card li {
+#game_area .top_area .hand_card ul li,#game_area .bottom_area .hand_card ul li {
     display: block;
     float:left;
     width:60px;
@@ -23,8 +23,22 @@
     background: #985f0d;
 }
 
-#game_area .bottom_area ul.hand_card li {
+#game_area .bottom_area .hand_card  {
+    width:350px;
+    float:left;
+}
+#game_area .bottom_area .hand_card ul li {
     background: #ccc;
+}
+
+#game_area .bottom_area .btns {
+    float:left;
+}
+
+#game_area .bottom_area .btns .btn {
+    display: block;
+    padding:2px 4px;
+    margin-top:4px;
 }
 
 #game_area .middle_area {
@@ -56,6 +70,12 @@
     height:100px;
     border:1px solid #333;
     background: #fee;
+    float:left;
+}
+#game_area .middle_area .middle_left .chess_box_out {
+    width:100px;
+    height:100px;
+    float:left;
 }
 
 #game_area .middle_area .middle_left .card_library {
