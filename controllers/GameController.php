@@ -200,18 +200,6 @@ class GameController extends BaseController
                 GameCard::drawCard($game_id,1);
                 GameCard::drawCard($game_id,2);
             }
-            /*$gameCard1 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>1,'status'=>1])->orderBy('ord asc')->all();
-            $gameCard2 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>2,'status'=>1])->orderBy('ord asc')->all();
-            $gameCard1Arr = [];
-            foreach($gameCard1 as $gc1){
-                $gameCard1Arr[] = ['gcid'=>$gc1->id,'color'=>$gc1->color,'num'=>$gc1->num];
-            }
-            $gameCard2Arr = [];
-            foreach($gameCard2 as $gc2){
-                $gameCard2Arr[] = ['gcid'=>$gc2->id,'color'=>$gc2->color,'num'=>$gc2->num];
-            }
-            $return['gc1'] = $gameCard1Arr;
-            $return['gc2'] = $gameCard2Arr;*/
             $result = true;
 
         }
@@ -242,26 +230,27 @@ class GameController extends BaseController
                 if($game->status==Game::STATUS_PREPARING){
                     $arr['end'] = true;
                 }
-
-//                if(isset($game->player1)){
-//                    $arr['id1'] = $game->player_1;
-//                    $arr['name1'] = $game->player1->nickname;
-//                    if($game->player1->head_img!='')
-//                        $arr['head1'] = $game->player1->head_img;
-//                }
-//                if(isset($game->player2)){
-//                    $arr['id2'] = $game->player_2;
-//                    $arr['name2'] = $game->player2->nickname;
-//                    if($game->player2->head_img!='')
-//                        $arr['head2'] = $game->player2->head_img;
-//                }
-//                $arr['ord'] = $game->player_1==$uid?1:($game->player_2==$uid?2:0);
-//                $arr['ready'] = $game->player_2_ready;
             }
         }
         $arr['result'] = $result;
         echo  json_encode($arr);
         Yii::$app->end();
+    }
+
+    public function actionAjaxDoChangePlayerCardOrd(){
+        $game_id = Yii::$app->request->post('id',false);
+        $game = Game::find()->where(['id'=>$game_id,'status'=>Game::STATUS_PLAYING])->one();
+        $return = [];
+        $result = false;
+        if($game){
+            $game->status = Game::STATUS_PREPARING;
+            $game->player_2_ready = 0;
+            $game->save();
+            GameCard::deleteAll(['game_id'=>$game_id]);
+            $result = true;
+        }
+        $return['result'] = $result;
+        return json_encode($return);
     }
 
     public function actionAjaxEnd(){

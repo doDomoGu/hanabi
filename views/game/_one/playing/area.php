@@ -74,9 +74,16 @@
             <?php endforeach;?>
         </ul>
     </div>
-    <div class="btns">
-        <a id="cue_btn" class="btn btn-primary">提供线索</a>
-        <a id="play_btn" class="btn btn-primary">打出一张牌</a>
-        <a id="discard_btn" class="btn btn-primary">弃掉一张牌</a>
+    <div class="btn_area">
+        <div class="btns">
+            <a id="cue_btn" class="btn btn-primary">提供线索</a>
+            <a id="play_btn" class="btn btn-primary">打出一张牌</a>
+            <a id="discard_btn" class="btn btn-primary">弃掉一张牌</a>
+            <a id="change_ord_btn" class="btn btn-primary">交换手牌顺序</a>
+        </div>
+        <div class="other_btns">
+            <a id="ok_btn" class="btn btn-success disabled hidden">确认</a>
+            <a id="cancel_btn" class="btn btn-danger hidden">取消</a>
+        </div>
     </div>
 </div>

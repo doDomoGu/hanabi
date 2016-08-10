@@ -83,7 +83,7 @@ PRIMARY KEY (`id`)
             $card = self::find()->where(['game_id'=>$game_id,'type'=>self::TYPE_IN_LIBRARY,'status'=>1])->orderBy('ord asc')->one();
             if($card){
                 //查找玩家手上排序最大的牌，确定新模的牌的序号 ord
-                $playerCard = self::find()->where(['game_id'=>$game_id,'type'=>self::TYPE_IN_PLAYER,'status'=>1])->orderBy('ord desc')->one();
+                $playerCard = self::find()->where(['game_id'=>$game_id,'type'=>self::TYPE_IN_PLAYER,'player'=>$player,'status'=>1])->orderBy('ord desc')->one();
                 if($playerCard){
                     $ord = $playerCard->ord+1;
                 }else{
@@ -94,12 +94,25 @@ PRIMARY KEY (`id`)
                 $card->ord = $ord;
                 $card->save();
             }else{
-                echo 'no card to take';
+                echo 'no card to draw';
             }
         }else{
-            echo 'game card num wrong';exit;
+            echo 'game card num wrong';
         }
+    }
 
+    //交换手牌顺序
+    public static function changePlayerCardOrd($game_id,$player,$cardId1,$cardId2){
+        $card1 = self::find()->where(['game_id'=>$game_id,'type'=>self::TYPE_IN_PLAYER,'player'=>$player,'id'=>$cardId1,'status'=>1])->one();
+        $card2 = self::find()->where(['game_id'=>$game_id,'type'=>self::TYPE_IN_PLAYER,'player'=>$player,'id'=>$cardId2,'status'=>1])->one();
+        if($card1 && $card2){
+            $card1->ord = $card2->ord;
+            $card2->ord = $card1->ord;
+            $card1->save();
+            $card2->save();
+        }else{
+            echo 'card info wrong';
+        }
     }
 
 

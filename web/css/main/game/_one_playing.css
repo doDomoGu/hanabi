@@ -31,14 +31,21 @@
     background: #ccc;
 }
 
-#game_area .bottom_area .btns {
+#game_area .bottom_area .btn_area {
     float:left;
+    padding-top:20px;
 }
 
-#game_area .bottom_area .btns .btn {
-    display: block;
+#game_area .bottom_area .btn_area .btns .btn,
+#game_area .bottom_area .btn_area .other_btns .btn {
+    /*display: block;*/
     padding:2px 4px;
-    margin-top:4px;
+    margin-left:4px;
+}
+
+#game_area .bottom_area .btn_area .other_btns {
+    margin-top:20px;
+    text-align: right;
 }
 
 #game_area .middle_area {
