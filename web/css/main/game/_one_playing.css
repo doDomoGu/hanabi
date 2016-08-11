@@ -19,6 +19,10 @@
     padding:4px;
 }
 
+#game_area .bottom_area .hand_card ul li.selected {
+    border:1px solid #f33;
+}
+
 #game_area .bottom_area {
     background: #985f0d;
 }

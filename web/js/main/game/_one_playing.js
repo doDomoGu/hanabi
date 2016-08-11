@@ -24,14 +24,29 @@ $(function(){
         $(this).attr('disabled',false);*/
         $('.btn_area .btns .btn').addClass('disabled');
         $(this).removeClass('disabled');
+        $(this).addClass('act_selected');
         $('#ok_btn').removeClass('hidden');
         $('#cancel_btn').removeClass('hidden');
     });
 
     $('#cancel_btn').click(function(){
-        $('.btn_area .btns .btn').removeClass('disabled');
+        $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
         $('#ok_btn').addClass('hidden');
         $('#cancel_btn').addClass('hidden');
+    });
+
+    $('.hand_card ul li').click(function(){
+        _act = $('.btns .btn.act_selected');
+        if(_act.length==1){
+            _act_id = _
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+            }else{
+                $(this).addClass('selected');
+            }
+        }
+
+
     });
     /*$('#cue_btn').click(function(){
         $.ajax({
