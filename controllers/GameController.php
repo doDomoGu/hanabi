@@ -239,15 +239,22 @@ class GameController extends BaseController
 
     public function actionAjaxDoChangePlayerCardOrd(){
         $game_id = Yii::$app->request->post('id',false);
+        $player = Yii::$app->request->post('player',1);
+        $ord1 = Yii::$app->request->post('ord1',false);
+        $ord2 = Yii::$app->request->post('ord2',false);
         $game = Game::find()->where(['id'=>$game_id,'status'=>Game::STATUS_PLAYING])->one();
         $return = [];
         $result = false;
         if($game){
-            $game->status = Game::STATUS_PREPARING;
-            $game->player_2_ready = 0;
-            $game->save();
-            GameCard::deleteAll(['game_id'=>$game_id]);
-            $result = true;
+            $gc1 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$player,'ord'=>$ord1,'status'=>1])->one();
+            $gc2 = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$player,'ord'=>$ord2,'status'=>1])->one();
+            if($gc1 && $gc2){
+                $gc1->ord = $ord2;
+                $gc1->save();
+                $gc2->ord = $ord1;
+                $gc2->save();
+                $result = true;
+            }
         }
         $return['result'] = $result;
         return json_encode($return);

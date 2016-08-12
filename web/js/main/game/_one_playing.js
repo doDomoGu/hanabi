@@ -29,25 +29,74 @@ $(function(){
         $('#cancel_btn').removeClass('hidden');
     });
 
+
+    $('.hand_card ul li').click(function(){
+        _act_btn = $('.btns .btn.act_selected');
+        if(_act_btn.length==1){
+            _act = _act_btn.attr('act');
+            _length = $('.hand_card ul li.selected').length;
+
+            if($(this).hasClass('selected')){
+                $(this).removeClass('selected');
+                if(_act=='change_ord'){
+                    if(_length==2){
+                        $('#ok_btn').addClass('disabled');
+                    }
+                }
+            }else{
+                if(_act=='change_ord'){
+                    if(_length<2){
+                        $(this).addClass('selected');
+                        if(_length==1){
+                            $('#ok_btn').removeClass('disabled');
+                        }
+                    }
+                }
+            }
+        }else{
+            alert('操作错误001');
+        }
+    });
+
+    $('#ok_btn').click(function(){
+        _act_btn = $('.btns .btn.act_selected');
+        if(_act_btn.length==1){
+            _act = _act_btn.attr('act');
+            _length = $('.hand_card ul li.selected').length;
+            if(_act=='change_ord' && _length==2){
+                _ord1 = $($('.hand_card ul li.selected')[0]).index();
+                _ord2 = $($('.hand_card ul li.selected')[1]).index();
+                $.ajax({
+                    url: '/game/ajax-do-change-player-card-ord',
+                    type: 'post',
+                    async : false,
+                    dataType:'json',
+                    data: {
+                        id:$('#game_id').val(),
+                        ord1:_ord1,
+                        ord2:_ord2
+                    },
+                    success: function (data) {
+                        if(data.result==true){
+                            alert('交换成功');
+                        }
+                    }
+                })
+            }else{
+                alert('操作错误0021');
+            }
+        }else{
+            alert('操作错误002')
+        }
+    });
+
     $('#cancel_btn').click(function(){
         $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
-        $('#ok_btn').addClass('hidden');
+        $('.hand_card ul li').removeClass('selected');
+        $('#ok_btn').addClass('hidden').addClass('disabled');
         $('#cancel_btn').addClass('hidden');
     });
 
-    $('.hand_card ul li').click(function(){
-        _act = $('.btns .btn.act_selected');
-        if(_act.length==1){
-            _act_id = _
-            if($(this).hasClass('selected')){
-                $(this).removeClass('selected');
-            }else{
-                $(this).addClass('selected');
-            }
-        }
-
-
-    });
     /*$('#cue_btn').click(function(){
         $.ajax({
             url: '/game/ajax-end',
