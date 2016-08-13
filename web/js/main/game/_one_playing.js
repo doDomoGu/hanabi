@@ -6,12 +6,19 @@ $(function(){
             async : false,
             dataType:'json',
             data: {
-                id:$('#game_id').val()
+                id:$('#game_id').val(),
+                record_offset:$('#sidebar .record_list ul li').length
             },
             success: function (data) {
                 if(data.result==true){
                     if(data.end==true){ //游戏结束
                         location.href = location.href;
+                    }else{
+                        if(data.record.length>0){
+                            for(var i in data.record){
+                                $('#sidebar .record_list ul').append('<li>'+data.record[i]+'</li>');
+                            }
+                        }
                     }
                 }
             }

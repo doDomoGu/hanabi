@@ -234,10 +234,12 @@ class GameController extends BaseController
             'head2'=>'/images/head_img_default.png',
             'ord'=>0,
             'ready'=>0,*/
+            'record'=>[],
             'end'=>false,
         ];
         $result = false;
         $id = Yii::$app->request->post('id',false);
+        $record_offset = Yii::$app->request->post('record_offset',false);
         $uid = $this->user->id;
         $game = Game::find()->where(['id'=>$id])->one();
         if($game){
@@ -246,6 +248,12 @@ class GameController extends BaseController
                 if($game->status==Game::STATUS_PREPARING){
                     $arr['end'] = true;
                 }
+                $record = [];
+                $record_list = Record::find()->where(['game_id'=>$game->id])->offset($record_offset)->orderBy('add_time asc')->all();
+                foreach($record_list as $l){
+                    $record[] = '第'.$l->round.'回合：'.$l->content.' ('.$l->add_time.')';
+                }
+                $arr['record'] = $record;
             }
         }
         $arr['result'] = $result;

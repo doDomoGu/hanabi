@@ -129,3 +129,11 @@
     padding:4px;
     float:left;
 }
+
+
+
+#sidebar .record_list {
+    background: #74d974;
+    height:300px;
+    overflow-y: scroll;
+}
