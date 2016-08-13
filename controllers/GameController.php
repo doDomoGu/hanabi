@@ -93,14 +93,23 @@ class GameController extends BaseController
         if($game){
             if(in_array($game->status,Game::$status_normal)){
                 if($game->player_1==$this->user->id||$game->player_2==$this->user->id){
-                    $isMaster = false; //是否为房主
+                    //是否为房主
                     if($game->player_1==$this->user->id){
                          $isMaster = true;
+                    }else{
+                        $isMaster = false;
                     }
 
                     //如果游戏为游戏中状态，获取游戏牌
                     if($game->status == Game::STATUS_PLAYING){
                         $params['cardInfo'] = GameCard::getCardInfo($game->id);
+                        //是否是你的回合
+                        if($game->round_player==$this->user->id){
+                            $isYourRound = true;
+                        }else{
+                            $isYourRound = false;
+                        }
+                        $params['isYourRound'] = $isYourRound;
                     }
 
                     $params['game'] = $game;
@@ -194,6 +203,9 @@ class GameController extends BaseController
         $result = false;
         if($game){
             $game->status = Game::STATUS_PLAYING;
+            //随机选择一个玩家开始游戏，即谁第一个回合开始游戏
+            $game->round = 1;
+            $game->round_player = rand(1,2);
             $game->save();
             GameCard::initLibrary($game_id);
             for($i=0;$i<5;$i++){ //玩家 1 2 各模五张牌
@@ -268,6 +280,8 @@ class GameController extends BaseController
         if($game){
             $game->status = Game::STATUS_PREPARING;
             $game->player_2_ready = 0;
+            $game->round = 0;
+            $game->round_player = 0;
             $game->save();
             GameCard::deleteAll(['game_id'=>$game_id]);
             $result = true;

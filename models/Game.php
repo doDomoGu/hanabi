@@ -46,8 +46,9 @@ class Game extends \yii\db\ActiveRecord
 `status` tinyint(1) NOT NULL DEFAULT '0',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
-    /*ALTER TABLE `room`
-         ADD `player_2_ready` tinyint(1) DEFAULT '0' AFTER `player_2`*/
+    /*ALTER TABLE `game` ADD `player_2_ready` tinyint(1) DEFAULT '0' AFTER `player_2`*/
+    /*ALTER TABLE `game` ADD `round` tinyint(4) DEFAULT '0' AFTER `player_2_ready`*/
+    /*ALTER TABLE `game` ADD `round_player` int(11) DEFAULT '0' AFTER `round`*/
 
 
     public function getPlayer1(){

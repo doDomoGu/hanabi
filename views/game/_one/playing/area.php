@@ -75,6 +75,7 @@
         </ul>
     </div>
     <div class="btn_area">
+        <?php if($isYourRound):?>
         <div class="btns">
             <a id="cue_btn" act="cue" class="btn btn-primary">提供线索</a>
             <a id="play_btn" act="play" class="btn btn-primary">打出一张牌</a>
@@ -85,5 +86,17 @@
             <a id="ok_btn" class="btn btn-success disabled hidden">确认</a>
             <a id="cancel_btn" class="btn btn-danger hidden">取消</a>
         </div>
+        <?php else:?>
+        <div class="btns">
+            <a id="cue_btn" act="cue" class="btn btn-primary disabled">提供线索</a>
+            <a id="play_btn" act="play" class="btn btn-primary disabled">打出一张牌</a>
+            <a id="discard_btn" act="discard" class="btn btn-primary disabled">弃掉一张牌</a>
+            <a id="change_ord_btn" act="change_ord" class="btn btn-primary disabled">交换手牌顺序</a>
+        </div>
+        <div class="other_btns">
+            <a id="ok_btn" class="btn btn-success disabled hidden">确认</a>
+            <a id="cancel_btn" class="btn btn-danger hidden">取消</a>
+        </div>
+        <?php endif;?>
     </div>
 </div>
