@@ -101,8 +101,9 @@ class GameController extends BaseController
                         $isMaster = false;
                     }
 
-                    //如果游戏为游戏中状态，获取游戏牌
+                    //如果游戏为游戏中状态
                     if($game->status == Game::STATUS_PLAYING){
+                        //获取卡牌信息 （牌库、手牌、弃牌、桌面牌等）
                         $params['cardInfo'] = GameCard::getCardInfo($game->id);
                         //是否是你的回合
                         if($game->round_player==$this->user->id){
@@ -111,6 +112,8 @@ class GameController extends BaseController
                             $isYourRound = false;
                         }
                         $params['isYourRound'] = $isYourRound;
+                        $record_list = Record::find()->where(['game_id'=>$game->id])->orderBy('add_time asc')->all();
+                        $params['record_list'] = $record_list;
                     }
 
                     $params['game'] = $game;
@@ -266,7 +269,7 @@ class GameController extends BaseController
                 $gc1->save();
                 $gc2->ord = $ord1;
                 $gc2->save();
-                Record::addWithChangePlayerCard($game);
+                Record::addWithChangePlayerCardOrd($game,$ord1,$ord2);
                 $result = true;
             }
         }

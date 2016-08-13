@@ -29,7 +29,7 @@
     <?php if($game->status==Game::STATUS_PREPARING):?>
         <?=$this->render('_one/preparing/sidebar',['game'=>$game,'isMaster'=>$isMaster])?>
     <?php elseif($game->status==Game::STATUS_PLAYING):?>
-        <?=$this->render('_one/playing/sidebar',['game'=>$game,'isMaster'=>$isMaster])?>
+        <?=$this->render('_one/playing/sidebar',['game'=>$game,'record_list'=>$record_list,'isMaster'=>$isMaster])?>
     <?php endif;?>
 </div>
 <input type="hidden" id="game_id" value="<?=$game->id?>" />
