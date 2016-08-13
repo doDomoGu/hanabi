@@ -73,6 +73,7 @@ $(function(){
                     dataType:'json',
                     data: {
                         id:$('#game_id').val(),
+                        player:$('#round_player').val(),
                         ord1:_ord1,
                         ord2:_ord2
                     },

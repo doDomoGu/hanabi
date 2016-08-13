@@ -24,19 +24,23 @@ class Record extends \yii\db\ActiveRecord
         ];
     }
 
-/*CREATE TABLE `game` (
+/*CREATE TABLE `record` (
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`title` varchar(100) NOT NULL,
-`password` varchar(100) NOT NULL,
-`player_1` int(11) unsigned DEFAULT '0',
-`player_2` int(11) unsigned DEFAULT '0',
-`create_time` datetime DEFAULT NULL,
-`status` tinyint(1) NOT NULL DEFAULT '0',
+`game_id` int(11) unsigned DEFAULT '0',
+`content` text DEFAULT NULL,
+`round` tinyint(4) unsigned DEFAULT '0',
+`add_time` datetime DEFAULT NULL,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
-    /*ALTER TABLE `room`
-         ADD `player_2_ready` tinyint(1) DEFAULT '0' AFTER `player_2`*/
 
+    public static function addWithChangePlayerCard(Game $game){
+        $record = new Record();
+        $record->game_id = $game->id;
+        $record->round = $game->round;
+        $record->content = '交换了手牌';
+        $record->add_time = date('Y-m-d H:i:s');
+        $record->save();
+    }
 
 
 }

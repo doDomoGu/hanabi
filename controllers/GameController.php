@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Card;
 use app\models\Game;
 use app\models\GameCard;
+use app\models\Record;
 use Yii;
 
 
@@ -251,10 +252,10 @@ class GameController extends BaseController
 
     public function actionAjaxDoChangePlayerCardOrd(){
         $game_id = Yii::$app->request->post('id',false);
-        $player = Yii::$app->request->post('player',1);
+        $player = Yii::$app->request->post('player',false);//当前回合的玩家 1或2
         $ord1 = Yii::$app->request->post('ord1',false);
         $ord2 = Yii::$app->request->post('ord2',false);
-        $game = Game::find()->where(['id'=>$game_id,'status'=>Game::STATUS_PLAYING])->one();
+        $game = Game::find()->where(['id'=>$game_id,'round_player'=>$player,'status'=>Game::STATUS_PLAYING])->one();
         $return = [];
         $result = false;
         if($game){
@@ -265,6 +266,7 @@ class GameController extends BaseController
                 $gc1->save();
                 $gc2->ord = $ord1;
                 $gc2->save();
+                Record::addWithChangePlayerCard($game);
                 $result = true;
             }
         }

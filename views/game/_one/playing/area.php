@@ -100,3 +100,4 @@
         <?php endif;?>
     </div>
 </div>
+<input type="hidden" id="round_player" value="<?=$game->round_player?>" />
