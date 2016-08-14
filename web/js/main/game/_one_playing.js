@@ -60,9 +60,9 @@ $(function(){
                     }
                 }
             }
-        }else{
+        }/*else{
             alert('操作错误001');
-        }
+        }*/
     });
 
     $('#ok_btn').click(function(){
@@ -87,6 +87,10 @@ $(function(){
                     success: function (data) {
                         if(data.result==true){
                             alert('交换成功');
+                            $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
+                            $('.hand_card ul li').removeClass('selected');
+                            $('#ok_btn').addClass('hidden').addClass('disabled');
+                            $('#cancel_btn').addClass('hidden');
                         }
                     }
                 })
