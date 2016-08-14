@@ -3,8 +3,8 @@
 ?>
 <h2>房间列表</h2>
 <div>
-    <a class="btn btn-primary <?=$this->context->isInGame?'disabled':''?>" href="/game/create" > 创建房间 >> </a>
-    <a class="btn btn-warning <?=$this->context->isInGame?'':'disabled'?>" href="/game/<?=$this->context->gameId?>" > 进入你的房间 >> </a>
+    <a class="btn btn-primary <?=$this->context->isInRoom?'disabled':''?>" href="/room/create" > 创建房间 >> </a>
+    <a class="btn btn-warning <?=$this->context->isInRoom?'':'disabled'?>" href="/game/<?=$this->context->roomId?>" > 进入你的房间 >> </a>
 </div>
 <p></p>
 <div id="game-list">
@@ -32,7 +32,7 @@
                 <td>
                     <?php if($l->status==1):?>
                         <?php if($l->player_2==0):?>
-                        <a class="btn btn-warning <?=$this->context->isInGame?'disabled':''?>" href="/game/enter?id=<?=$l->id?>" > 进入 >> </a>
+                        <a class="btn btn-warning <?=$this->context->isInRoom?'disabled':''?>" href="/room/enter?id=<?=$l->id?>" > 进入 >> </a>
                         <?php else:?>
                             房间已满
                         <?php endif;?>

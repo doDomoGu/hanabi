@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\Card;
-use app\models\Game;
+//use app\models\Game;
+use app\models\Room;
+use app\models\RoomForm;
 use app\models\GameCard;
 use app\models\Record;
 use Yii;
@@ -12,27 +14,29 @@ use Yii;
 class GameController extends BaseController
 {
     //游戏房间列表
-    public function actionIndex()
-    {
-        $list = Game::find()->where('player_1 > 0 and status in (1,2)')->all();
+    public function actionIndex(){
+        $list = Room::find()
+            ->where(['>','player_1', 0])
+            ->andWhere(['in','status', Room::$status_normal])
+            ->all();
         $params['list'] = $list;
         return $this->render('index',$params);
     }
 
     //创建游戏房间
     public function actionCreate(){
-        $model = new GameForm();
+        $model = new RoomForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $game = new Game();
-            $game->attributes = $model->attributes;
-            $game->password = $game->password!=''?md5($game->password):'';
-            $game->player_1 = $this->user->id;
-            $game->status = 1;
-            $game->create_time = date('Y-m-d H:i:s');
-            if($game->save()){
-                return $this->redirect('/game/'.$game->id);
+            $room = new Room();
+            $room->attributes = $model->attributes;
+            $room->password = $room->password!=''?md5($room->password):'';
+            $room->player_1 = $this->user->id;
+            $room->status = 1;
+            $room->create_time = date('Y-m-d H:i:s');
+            if($room->save()){
+                return $this->redirect('/game/'.$room->id);
             }else{
-                return $this->redirect('/game');
+                return $this->redirect('/room');
             }
         }/*else{
             var_dump($model->errors);exit;
