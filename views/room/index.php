@@ -1,5 +1,5 @@
 <?php
-    use app\models\Game;
+    use app\models\Room;
 ?>
 <h2>房间列表</h2>
 <div>
@@ -28,7 +28,7 @@
                 <td>
                     <?=$l->player_2>0?2:1?> / 2
                 </td>
-                <td><?=Game::getStatusCn($l->status)?></td>
+                <td><?=Room::getStatusCn($l->status)?></td>
                 <td>
                     <?php if($l->status==1):?>
                         <?php if($l->player_2==0):?>

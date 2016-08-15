@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\models\Card;
-//use app\models\Game;
+use app\models\Game;
 use app\models\Room;
 use app\models\RoomForm;
 use app\models\GameCard;
@@ -13,114 +13,41 @@ use Yii;
 
 class GameController extends BaseController
 {
-    //游戏房间列表
-    public function actionIndex(){
-        $list = Room::find()
-            ->where(['>','player_1', 0])
-            ->andWhere(['in','status', Room::$status_normal])
-            ->all();
-        $params['list'] = $list;
-        return $this->render('index',$params);
-    }
-
-    //创建游戏房间
-    public function actionCreate(){
-        $model = new RoomForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $room = new Room();
-            $room->attributes = $model->attributes;
-            $room->password = $room->password!=''?md5($room->password):'';
-            $room->player_1 = $this->user->id;
-            $room->status = 1;
-            $room->create_time = date('Y-m-d H:i:s');
-            if($room->save()){
-                return $this->redirect('/game/'.$room->id);
-            }else{
-                return $this->redirect('/room');
-            }
-        }/*else{
-            var_dump($model->errors);exit;
-        }*/
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    //进入游戏房间
-    public function actionEnter(){
-        $id = Yii::$app->request->get('id',false);
-        $game = Game::find()->where(['id'=>$id])->one();
-        if($game->status==1 && $game->player_2==0){
-            $game->player_2 = $this->user->id;
-            $game->save();
-            return $this->redirect('/game/'.$game->id);
-        }else{
-            echo 'enter game roo33m fail';
-            exit;
-        }
-    }
-
-    //退出游戏房间
-    public function actionExit(){
-        $uid = $this->user->id;
-        $game = Game::find()->where("(player_1 = $uid or player_2 = $uid) and status in (1,2)")->one();
-        if($game){
-            if($game->player_1==$uid){
-                if($game->player_2==0){
-                    $game->player_1 = 0;
-                    $game->status=0;
-                }else{
-                    $game->player_1 = $game->player_2;
-                    /*$game->player_2 = 0;
-                    $game->player_2_ready = 0;*/
-                }
-            }else{
-                /*$game->player_2 = 0;
-                $game->player_2_ready = 0;*/
-            }
-
-            $game->player_2 = 0;
-            $game->player_2_ready = 0;
-            $game->save();
-            return $this->redirect('/game');
-        }else{
-            echo 'exit game fail';
-            exit;
-        }
-    }
-
-
     //单个游戏房间
-    public function actionOne()
+    public function actionIndex()
     {
         $id = Yii::$app->request->get('id',false);
-        $game = Game::find()->where(['id'=>$id])->one();
-        if($game){
-            if(in_array($game->status,Game::$status_normal)){
-                if($game->player_1==$this->user->id||$game->player_2==$this->user->id){
+        $room = Room::find()->where(['id'=>$id])->one();
+        if($room){
+            if(in_array($room->status,Room::$status_normal)){
+                if($room->player_1==$this->user->id||$room->player_2==$this->user->id){
                     //是否为房主
-                    if($game->player_1==$this->user->id){
+                    if($room->player_1==$this->user->id){
                          $isMaster = true;
                     }else{
                         $isMaster = false;
                     }
 
                     //如果游戏为游戏中状态
-                    if($game->status == Game::STATUS_PLAYING){
+                    if($room->status == Room::STATUS_PLAYING){
+                        $game = Game::find()->where(['room_id'=>$room->id])->one();
                         //获取卡牌信息 （牌库、手牌、弃牌、桌面牌等）
-                        $params['cardInfo'] = GameCard::getCardInfo($game->id);
+                        $params['cardInfo'] = GameCard::getCardInfo($room->id);
                         //是否是你的回合
                         if($game->round_player==$this->user->id){
                             $isYourRound = true;
                         }else{
                             $isYourRound = false;
                         }
-                        $params['isYourRound'] = $isYourRound;
+                        //游戏记录
                         $record_list = Record::find()->where(['game_id'=>$game->id])->orderBy('add_time asc')->all();
+
+                        $params['game'] = $game;
+                        $params['isYourRound'] = $isYourRound;
                         $params['record_list'] = $record_list;
                     }
 
-                    $params['game'] = $game;
+                    $params['room'] = $room;
                     $params['isMaster'] = $isMaster;
 
                     return $this->render('one',$params);
@@ -203,15 +130,19 @@ class GameController extends BaseController
     }
 
     public function actionAjaxStart(){
-        $game_id = Yii::$app->request->post('id',false);
-        $game = Game::find()->where(['id'=>$game_id,'status'=>Game::STATUS_PREPARING])
-            ->andWhere('player_1 > 0 and player_2 > 0 and player_2_ready = 1')
+        $room_id = Yii::$app->request->post('id',false);
+        $room = Room::find()->where(['id'=>$room_id,'status'=>Room::STATUS_PREPARING])
+            ->andWhere(['>','player_1',0])
+            ->andWhere(['>','player_2',0])
+            ->andWhere(['player_2_ready'=>1])
             ->one();
         $return = [];
         $result = false;
-        if($game){
-            $game->status = Game::STATUS_PLAYING;
+        if($room){
+            $room->status = Room::STATUS_PLAYING;
+            $room->save();
             //随机选择一个玩家开始游戏，即谁第一个回合开始游戏
+            $game = new Game();
             $game->round = 1;
             $game->round_player = rand(1,2);
             $game->save();
