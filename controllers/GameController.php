@@ -34,7 +34,7 @@ class GameController extends BaseController
                         //获取卡牌信息 （牌库、手牌、弃牌、桌面牌等）
                         $params['cardInfo'] = GameCard::getCardInfo($room->id);
                         //是否是你的回合
-                        if($game->round_player==$this->user->id){
+                        if($room->round_player==$this->user->id){
                             $isYourRound = true;
                         }else{
                             $isYourRound = false;
@@ -76,27 +76,28 @@ class GameController extends BaseController
         $id = Yii::$app->request->post('id',false);
         $uid = $this->user->id;
         $game = Game::find()->where(['id'=>$id])->one();
-        if($game){
-            if(in_array($game->status,Game::$status_normal)){
+        if($game && isset($game->room)){
+            $room = $game->room;
+            if(in_array($room->status,Room::$status_normal)){
                 $result = true;
-                if($game->status==Game::STATUS_PLAYING){
+                if($room->status==Room::STATUS_PLAYING){
                     $arr['start'] = true;
                 }
 
-                if(isset($game->player1)){
-                    $arr['id1'] = $game->player_1;
-                    $arr['name1'] = $game->player1->nickname;
-                    if($game->player1->head_img!='')
-                        $arr['head1'] = $game->player1->head_img;
+                if(isset($room->player1)){
+                    $arr['id1'] = $room->player_1;
+                    $arr['name1'] = $room->player1->nickname;
+                    if($room->player1->head_img!='')
+                        $arr['head1'] = $room->player1->head_img;
                 }
-                if(isset($game->player2)){
-                    $arr['id2'] = $game->player_2;
-                    $arr['name2'] = $game->player2->nickname;
-                    if($game->player2->head_img!='')
-                        $arr['head2'] = $game->player2->head_img;
+                if(isset($room->player2)){
+                    $arr['id2'] = $room->player_2;
+                    $arr['name2'] = $room->player2->nickname;
+                    if($room->player2->head_img!='')
+                        $arr['head2'] = $room->player2->head_img;
                 }
-                $arr['ord'] = $game->player_1==$uid?1:($game->player_2==$uid?2:0);
-                $arr['ready'] = $game->player_2_ready;
+                $arr['ord'] = $room->player_1==$uid?1:($room->player_2==$uid?2:0);
+                $arr['ready'] = $room->player_2_ready;
             }
         }
         $arr['result'] = $result;

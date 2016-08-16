@@ -88,4 +88,50 @@ class RoomController extends BaseController
             exit;
         }
     }
+
+
+    //单个游戏房间
+    public function actionOne()
+    {
+        $id = Yii::$app->request->get('id',false);
+        $room = Room::find()->where(['id'=>$id])->one();
+        if($room){
+            if(in_array($room->status,Room::$status_normal)){
+                if($room->player_1==$this->user->id||$room->player_2==$this->user->id){
+                    //是否为房主
+                    if($room->player_1==$this->user->id){
+                        $isMaster = true;
+                    }else{
+                        $isMaster = false;
+                    }
+
+                    //如果游戏为游戏中状态
+                    if($room->status == Room::STATUS_PLAYING){
+                        $game = Game::find()->where(['room_id'=>$room->id])->one();
+                        //获取卡牌信息 （牌库、手牌、弃牌、桌面牌等）
+                        $params['cardInfo'] = GameCard::getCardInfo($room->id);
+                        //是否是你的回合
+                        if($room->round_player==$this->user->id){
+                            $isYourRound = true;
+                        }else{
+                            $isYourRound = false;
+                        }
+                        //游戏记录
+                        $record_list = Record::find()->where(['game_id'=>$game->id])->orderBy('add_time asc')->all();
+
+                        $params['game'] = $game;
+                        $params['isYourRound'] = $isYourRound;
+                        $params['record_list'] = $record_list;
+                    }
+
+                    $params['room'] = $room;
+                    $params['isMaster'] = $isMaster;
+
+                    return $this->render('one',$params);
+                }
+            }
+        }
+        return $this->goHome();
+
+    }
 }

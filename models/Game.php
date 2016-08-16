@@ -39,6 +39,8 @@ class Game extends \yii\db\ActiveRecord
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
-
+    public function getRoom(){
+        return $this->hasOne('app\models\Room', array('id' => 'room_id'));
+    }
 
 }

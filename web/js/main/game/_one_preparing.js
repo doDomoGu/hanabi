@@ -9,7 +9,9 @@ $(function(){
                id:$('#game_id').val()
            },
            success: function (data) {
+               console.log(data);return false;
                if(data.result==true){
+
                    if(data.start==true){ //游戏开始
                        location.href = location.href;
                    }
@@ -49,7 +51,7 @@ $(function(){
                    }
 
                }else{
-                   location.href = '/game';
+                   location.href = '/room';
                }
            }
        });
