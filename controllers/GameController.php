@@ -16,6 +16,7 @@ class GameController extends BaseController
     //单个游戏房间
     public function actionIndex()
     {
+        echo 222;exit;
         $id = Yii::$app->request->get('id',false);
         $room = Room::find()->where(['id'=>$id])->one();
         if($room){
@@ -59,51 +60,7 @@ class GameController extends BaseController
     }
 
 
-    //游戏房间内 游戏准备中状态下 的数据通信
-    public function actionAjaxGamePreparingSocket(){
-        $arr = [
-            'id1'=>0,
-            'name1'=>'N/A',
-            'head1'=>'/images/head_img_default.png',
-            'id2'=>0,
-            'name2'=>'N/A',
-            'head2'=>'/images/head_img_default.png',
-            'ord'=>0,
-            'ready'=>0,
-            'start'=>false,
-        ];
-        $result = false;
-        $id = Yii::$app->request->post('id',false);
-        $uid = $this->user->id;
-        $game = Game::find()->where(['id'=>$id])->one();
-        if($game && isset($game->room)){
-            $room = $game->room;
-            if(in_array($room->status,Room::$status_normal)){
-                $result = true;
-                if($room->status==Room::STATUS_PLAYING){
-                    $arr['start'] = true;
-                }
 
-                if(isset($room->player1)){
-                    $arr['id1'] = $room->player_1;
-                    $arr['name1'] = $room->player1->nickname;
-                    if($room->player1->head_img!='')
-                        $arr['head1'] = $room->player1->head_img;
-                }
-                if(isset($room->player2)){
-                    $arr['id2'] = $room->player_2;
-                    $arr['name2'] = $room->player2->nickname;
-                    if($room->player2->head_img!='')
-                        $arr['head2'] = $room->player2->head_img;
-                }
-                $arr['ord'] = $room->player_1==$uid?1:($room->player_2==$uid?2:0);
-                $arr['ready'] = $room->player_2_ready;
-            }
-        }
-        $arr['result'] = $result;
-        echo  json_encode($arr);
-        Yii::$app->end();
-    }
 
     //玩家2进行准备操作
     public function actionAjaxDoPlayerReady(){

@@ -56,8 +56,7 @@ class Card extends \yii\db\ActiveRecord
 `status` tinyint(1) NOT NULL DEFAULT '0',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
-    /*ALTER TABLE `room`
-         ADD `player_2_ready` tinyint(1) DEFAULT '0' AFTER `player_2`*/
+    /*ALTER TABLE `room` ADD `player_2_ready` tinyint(1) DEFAULT '0' AFTER `player_2`*/
 
 
     /*public function getPlayer1(){

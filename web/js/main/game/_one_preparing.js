@@ -1,15 +1,14 @@
 $(function(){
    var socketInterval = setInterval(function(){
        $.ajax({
-           url: '/game/ajax-game-preparing-socket',
+           url: '/room/ajax-game-preparing-socket',
            type: 'post',
            async : false,
            dataType:'json',
            data: {
-               id:$('#game_id').val()
+               id:$('#room_id').val()
            },
            success: function (data) {
-               console.log(data);return false;
                if(data.result==true){
 
                    if(data.start==true){ //游戏开始
@@ -59,12 +58,12 @@ $(function(){
 
    $('#exit_btn').click(function(){
        clearInterval(socketInterval);
-       window.location = '/game/exit?id='+$('#game_id').val();
+       window.location = '/room/exit?id='+$('#game_id').val();
    });
 
    $('#ready_btn').click(function(){
        $.ajax({
-           url: '/game/ajax-do-player-ready',
+           url: '/room/ajax-do-player-ready',
            type: 'post',
            async : false,
            dataType:'json',
