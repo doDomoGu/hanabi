@@ -62,30 +62,7 @@ class GameController extends BaseController
 
 
 
-    //玩家2进行准备操作
-    public function actionAjaxDoPlayerReady(){
-        $arr = [];
-        $result = false;
-        $uid = $this->user->id;
-        $id = Yii::$app->request->post('id',false);
-        $act = Yii::$app->request->post('act',false);
-        $game = Game::find()->where(['id'=>$id,'status'=>Game::STATUS_PREPARING])->one();
-        if($game && in_array($act,['do-ready','do-not-ready'])){
-            if($game->player_2 == $uid){
-                if($act=='do-ready'){
-                    $game->player_2_ready = 1;
-                }elseif($act=='do-not-ready'){
-                    $game->player_2_ready = 0;
-                }
-                if($game->save()){
-                    $result = true;
-                }
-            }
-        }
-        $arr['result'] = $result;
-        echo  json_encode($arr);
-        Yii::$app->end();
-    }
+
 
     public function actionAjaxStart(){
         $room_id = Yii::$app->request->post('id',false);

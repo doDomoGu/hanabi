@@ -5,8 +5,8 @@
 
     app\assets\AppAsset::addCssFile($this,'css/main/game/one.css');
 
-    app\assets\AppAsset::addCssFile($this,'css/main/game/_one_preparing.css');
-    app\assets\AppAsset::addJsFile($this,'js/main/game/_one_preparing.js');
+    app\assets\AppAsset::addCssFile($this,'css/main/room/one.css');
+    app\assets\AppAsset::addJsFile($this,'js/main/room/one.js');
 ?>
 <div id="main">
     <div id="game_head">

@@ -160,4 +160,29 @@ class RoomController extends BaseController
         echo  json_encode($arr);
         Yii::$app->end();
     }
+
+    //玩家2进行准备操作
+    public function actionAjaxDoPlayerReady(){
+        $arr = [];
+        $result = false;
+        $uid = $this->user->id;
+        $id = Yii::$app->request->post('id',false);
+        $act = Yii::$app->request->post('act',false);
+        $room = Room::find()->where(['id'=>$id,'status'=>Room::STATUS_PREPARING])->one();
+        if($room && in_array($act,['do-ready','do-not-ready'])){
+            if($room->player_2 == $uid){
+                if($act=='do-ready'){
+                    $room->player_2_ready = 1;
+                }elseif($act=='do-not-ready'){
+                    $room->player_2_ready = 0;
+                }
+                if($room->save()){
+                    $result = true;
+                }
+            }
+        }
+        $arr['result'] = $result;
+        echo  json_encode($arr);
+        Yii::$app->end();
+    }
 }

@@ -68,7 +68,7 @@ $(function(){
            async : false,
            dataType:'json',
            data: {
-               id:$('#game_id').val(),
+               id:$('#room_id').val(),
                act:$('#ready_act').val()
            },
            success: function (data) {
