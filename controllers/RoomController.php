@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Game;
+use app\models\GameCard;
 use app\models\Room;
 use app\models\RoomForm;
 //use app\models\Record;
@@ -184,5 +186,37 @@ class RoomController extends BaseController
         $arr['result'] = $result;
         echo  json_encode($arr);
         Yii::$app->end();
+    }
+
+    public function actionAjaxStart(){
+        $room_id = Yii::$app->request->post('id',false);
+        $room = Room::find()->where(['id'=>$room_id,'status'=>Room::STATUS_PREPARING])
+            ->andWhere(['>','player_1',0])
+            ->andWhere(['>','player_2',0])
+            ->andWhere(['player_2_ready'=>1])
+            ->one();
+        $return = [];
+        $result = false;
+        if($room){
+            //随机选择一个玩家开始游戏，即谁第一个回合开始游戏
+            $game = new Game();
+            $game->round = 1;
+            $game->round_player = rand(1,2);
+            $game->save();
+            //修改房间信息
+            $room->game_id = $game->id;
+            $room->status = Room::STATUS_PLAYING;
+            $room->save();
+            //初始化牌库
+            GameCard::initLibrary($game->id);
+            for($i=0;$i<5;$i++){ //玩家 1 2 各模五张牌
+                GameCard::drawCard($game->id,1);
+                GameCard::drawCard($game->id,2);
+            }
+            $result = true;
+            $return['game_id'] = $game->id;
+        }
+        $return['result'] = $result;
+        return json_encode($return);
     }
 }

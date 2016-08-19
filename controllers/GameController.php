@@ -64,34 +64,7 @@ class GameController extends BaseController
 
 
 
-    public function actionAjaxStart(){
-        $room_id = Yii::$app->request->post('id',false);
-        $room = Room::find()->where(['id'=>$room_id,'status'=>Room::STATUS_PREPARING])
-            ->andWhere(['>','player_1',0])
-            ->andWhere(['>','player_2',0])
-            ->andWhere(['player_2_ready'=>1])
-            ->one();
-        $return = [];
-        $result = false;
-        if($room){
-            $room->status = Room::STATUS_PLAYING;
-            $room->save();
-            //随机选择一个玩家开始游戏，即谁第一个回合开始游戏
-            $game = new Game();
-            $game->round = 1;
-            $game->round_player = rand(1,2);
-            $game->save();
-            GameCard::initLibrary($game_id);
-            for($i=0;$i<5;$i++){ //玩家 1 2 各模五张牌
-                GameCard::drawCard($game_id,1);
-                GameCard::drawCard($game_id,2);
-            }
-            $result = true;
 
-        }
-        $return['result'] = $result;
-        return json_encode($return);
-    }
 
     //游戏房间内 游戏准备中状态下 的数据通信
     public function actionAjaxGamePlayingSocket(){

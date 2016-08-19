@@ -91,17 +91,17 @@ $(function(){
 
     $('#start_btn').click(function(){
         $.ajax({
-            url: '/game/ajax-start',
+            url: '/room/ajax-start',
             type: 'post',
             async : false,
             dataType:'json',
             data: {
-                id:$('#game_id').val()
+                id:$('#room_id').val()
             },
             success: function (data) {
                 if(data.result==true){
                     //游戏开始成功 刷新页面
-                    location.href=location.href;
+                    location.href='/game/'+data.game_id;
                 }else{
                     //console.log(data);
                     location.href = '/game';
