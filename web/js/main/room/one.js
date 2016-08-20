@@ -12,7 +12,7 @@ $(function(){
                if(data.result==true){
 
                    if(data.start==true){ //游戏开始
-                       location.href = location.href;
+                       location.href = '/game/'+data.game_id;
                    }
 
                    $('.player1 .name_txt').html(data.name1);

@@ -130,6 +130,7 @@ class RoomController extends BaseController
             'ord'=>0,
             'ready'=>0,
             'start'=>false,
+            'game_id'=>0,
         ];
         $result = false;
         $id = Yii::$app->request->post('id',false);
@@ -140,6 +141,7 @@ class RoomController extends BaseController
                 $result = true;
                 if($room->status==Room::STATUS_PLAYING){
                     $arr['start'] = true;
+                    $arr['game_id'] = $room->game_id;
                 }
 
                 if(isset($room->player1)){
