@@ -3,11 +3,11 @@
     //判断对方和自己的 玩家序号
     if($isMaster){
         $opposite = 'player_2';
-        $oppositePlayer = $game->player2;
+        $oppositePlayer = $room->player2;
         $self = 'player_1';
     }else{
         $opposite = 'player_1';
-        $oppositePlayer = $game->player1;
+        $oppositePlayer = $room->player1;
         $self = 'player_2';
     }
 
