@@ -7,12 +7,13 @@ $(function(){
             dataType:'json',
             data: {
                 id:$('#game_id').val(),
+                room_id:$('#room_id').val(),
                 record_offset:$('#sidebar .record_list ul li').length
             },
             success: function (data) {
                 if(data.result==true){
                     if(data.end==true){ //游戏结束
-                        location.href = location.href;
+                        location.href = '/room/'+data.room_id;
                     }else{
                         if(data.record.length>0){
                             for(var i in data.record){
@@ -143,10 +144,10 @@ $(function(){
             success: function (data) {
                 if(data.result==true){
                     //游戏开始成功 刷新页面
-                    location.href=location.href;
+                    location.href='/room/'+data.room_id;
                 }else{
                     //console.log(data);
-                    location.href = '/game';
+                    location.href = '/room  ';
                 }
             }
         });

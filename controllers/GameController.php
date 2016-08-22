@@ -55,14 +55,9 @@ class GameController extends BaseController
     }
 
 
-
-
-
-
-
-
-    //游戏房间内 游戏准备中状态下 的数据通信
+    //游戏房间内 游戏中状态下 的数据通信
     public function actionAjaxGamePlayingSocket(){
+        $room_id = Yii::$app->request->post('room_id',false);
         $arr = [
             /*'id1'=>0,
             'name1'=>'N/A',
@@ -74,6 +69,7 @@ class GameController extends BaseController
             'ready'=>0,*/
             'record'=>[],
             'end'=>false,
+            'room_id'=>$room_id,
         ];
         $result = false;
         $id = Yii::$app->request->post('id',false);
@@ -81,17 +77,23 @@ class GameController extends BaseController
         $uid = $this->user->id;
         $game = Game::find()->where(['id'=>$id])->one();
         if($game){
-            if(in_array($game->status,Game::$status_normal)){
-                $result = true;
-                if($game->status==Game::STATUS_PREPARING){
-                    $arr['end'] = true;
+            $result = true;
+            if(isset($game->room)){
+                $room = $game->room;
+                if(in_array($room->status,Room::$status_normal)){
+                    if($room->status==Room::STATUS_PREPARING){
+                        $arr['end'] = true;
+                        $arr['room_id']=$room->id;
+                    }
+                    $record = [];
+                    $record_list = Record::find()->where(['game_id'=>$game->id])->offset($record_offset)->orderBy('add_time asc')->all();
+                    foreach($record_list as $l){
+                        $record[] = '第'.$l->round.'回合：'.$l->content.' ('.$l->add_time.')';
+                    }
+                    $arr['record'] = $record;
                 }
-                $record = [];
-                $record_list = Record::find()->where(['game_id'=>$game->id])->offset($record_offset)->orderBy('add_time asc')->all();
-                foreach($record_list as $l){
-                    $record[] = '第'.$l->round.'回合：'.$l->content.' ('.$l->add_time.')';
-                }
-                $arr['record'] = $record;
+            }else{
+                $arr['end'] = true;
             }
         }
         $arr['result'] = $result;
@@ -125,17 +127,18 @@ class GameController extends BaseController
 
     public function actionAjaxEnd(){
         $game_id = Yii::$app->request->post('id',false);
-        $game = Game::find()->where(['id'=>$game_id,'status'=>Game::STATUS_PLAYING])->one();
+        $game = Game::find()->where(['id'=>$game_id])->one();
         $return = [];
         $result = false;
-        if($game){
-            $game->status = Game::STATUS_PREPARING;
-            $game->player_2_ready = 0;
-            $game->round = 0;
-            $game->round_player = 0;
-            $game->save();
+        if($game && isset($game->room)){
+            $room = $game->room;
+            $room->game_id = 0;
+            $room->status = Room::STATUS_PREPARING;
+            $room->player_2_ready = 0;
+            $room->save();
             GameCard::deleteAll(['game_id'=>$game_id]);
             $result = true;
+            $return['room_id'] = $room->id;
         }
         $return['result'] = $result;
         return json_encode($return);

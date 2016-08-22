@@ -98,7 +98,7 @@ class RoomController extends BaseController
         $id = Yii::$app->request->get('id',false);
         $room = Room::find()->where(['id'=>$id])->one();
         if($room){
-            if(in_array($room->status,Room::$status_normal)){
+            if($room->status == Room::STATUS_PREPARING){
                 if($room->player_1==$this->user->id||$room->player_2==$this->user->id){
                     //是否为房主
                     if($room->player_1==$this->user->id){
@@ -112,6 +112,8 @@ class RoomController extends BaseController
 
                     return $this->render('one',$params);
                 }
+            }elseif($room->status == Room::STATUS_PLAYING){
+                return $this->redirect('/game/'.$room->game_id);
             }
         }
         return $this->goHome();
