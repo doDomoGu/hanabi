@@ -5,7 +5,7 @@ $(function(){
             type: 'post',
             async : false,
             dataType:'json',
-            data: {
+            data: { 
                 id:$('#game_id').val(),
                 room_id:$('#room_id').val(),
                 record_offset:$('#sidebar .record_list ul li').length

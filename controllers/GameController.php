@@ -106,7 +106,7 @@ class GameController extends BaseController
         $player = Yii::$app->request->post('player',false);//当前回合的玩家 1或2
         $ord1 = Yii::$app->request->post('ord1',false);
         $ord2 = Yii::$app->request->post('ord2',false);
-        $game = Game::find()->where(['id'=>$game_id,'round_player'=>$player,'status'=>Game::STATUS_PLAYING])->one();
+        $game = Game::find()->where(['id'=>$game_id,'round_player'=>$player])->one();
         $return = [];
         $result = false;
         if($game){

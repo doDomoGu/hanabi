@@ -38,9 +38,9 @@ PRIMARY KEY (`id`)
         $record->game_id = $game->id;
         $record->round = $game->round;
         if($game->round_player==1){
-            $player = $game->player1;
+            $player = $game->room->player1;
         }else{
-            $player = $game->player2;
+            $player = $game->room->player2;
         }
         $record->content = '【'.$player->nickname.'】交换了手牌顺序,第'.($ord1+1).'张和第'.($ord2+1).'张';
         $record->add_time = date('Y-m-d H:i:s');
