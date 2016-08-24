@@ -14,7 +14,7 @@
     $colors = Card::$colors;
     $numbers = Card::$numbers;
 ?>
-<div class="top_area <?=$opposite?>_card clearfix">
+<div class="top_area opposite_card <?=$opposite?>_card clearfix">
     <div class="hand_card">
         对方 （<?=$oppositePlayer->nickname?>） 手牌
         <ul>

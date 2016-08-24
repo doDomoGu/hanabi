@@ -5,7 +5,7 @@ $(function(){
             type: 'post',
             async : false,
             dataType:'json',
-            data: { 
+            data: {
                 id:$('#game_id').val(),
                 room_id:$('#room_id').val(),
                 record_offset:$('#sidebar .record_list ul li').length
@@ -20,6 +20,16 @@ $(function(){
                                 $('#sidebar .record_list ul').append('<li>'+data.record[i]+'</li>');
                             }
                         }
+
+                        if(data.opposite_card.length > 0){
+                            var oc_html;
+                            for(var i in data.opposite_card){
+                                oc_html += '<li>'+data.opposite_card[i].color+' - '+data.opposite_card[i].num+'</li>';
+                            }
+                            $('.opposite_card .hand_card ul').html(oc_html);
+                        }
+
+
                     }
                 }
             }

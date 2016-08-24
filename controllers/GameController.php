@@ -24,17 +24,25 @@ class GameController extends BaseController
                 if($room->player_1==$this->user->id||$room->player_2==$this->user->id){
                     //是否为房主
                     if($room->player_1==$this->user->id){
-                         $isMaster = true;
+                        $isMaster = true;
                     }else{
                         $isMaster = false;
                     }
                     //获取卡牌信息 （牌库、手牌、弃牌、桌面牌等）
                     $params['cardInfo'] = GameCard::getCardInfo($game->id);
                     //是否是你的回合
-                    if($game->round_player==$this->user->id){
-                        $isYourRound = true;
+                    if($isMaster){
+                        if($game->round_player==1){
+                            $isYourRound = true;
+                        }else{
+                            $isYourRound = false;
+                        }
                     }else{
-                        $isYourRound = false;
+                        if($game->round_player==2){
+                            $isYourRound = false;
+                        }else{
+                            $isYourRound = true;
+                        }
                     }
                     //游戏记录
                     $record_list = Record::find()->where(['game_id'=>$game->id])->orderBy('add_time asc')->all();
@@ -67,6 +75,7 @@ class GameController extends BaseController
             'head2'=>'/images/head_img_default.png',
             'ord'=>0,
             'ready'=>0,*/
+            'opposite_card'=>[],
             'record'=>[],
             'end'=>false,
             'room_id'=>$room_id,
@@ -91,6 +100,20 @@ class GameController extends BaseController
                         $record[] = '第'.$l->round.'回合：'.$l->content.' ('.$l->add_time.')';
                     }
                     $arr['record'] = $record;
+
+                    if($room->player_1==$this->user->id){
+                        $isMaster = true;
+                        $opposite_player = 2;
+                    }else{
+                        $isMaster = false;
+                        $opposite_player = 1;
+                    }
+                    $game_card = GameCard::find()->where(['type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite_player,'status'=>1])->orderBy('ord asc')->all();
+                    foreach($game_card as $gc){
+                        $opposite_card[$gc->ord] = ['color'=>$gc->color,'num'=>$gc->num];
+                    }
+                    $arr['opposite_card'] = $opposite_card;
+
                 }
             }else{
                 $arr['end'] = true;

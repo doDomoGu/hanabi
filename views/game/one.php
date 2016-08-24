@@ -22,3 +22,4 @@
 </div>
 <input type="hidden" id="room_id" value="<?=$room->id?>" />
 <input type="hidden" id="game_id" value="<?=$game->id?>" />
+<!--<input type="hidden" id="opposite_player" value="<?/*=$isMaster?2:1*/?>" />-->

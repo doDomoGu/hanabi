@@ -10,44 +10,45 @@ $(function(){
            },
            success: function (data) {
                if(data.result==true){
-
                    if(data.start==true){ //游戏开始
                        location.href = '/game/'+data.game_id;
-                   }
+                   }else{
+                       $('.player1 .name_txt').html(data.name1);
+                       $('.player1 .head_img img').attr('src',data.head1);
+                       $('.player2 .name_txt').html(data.name2);
+                       $('.player2 .head_img img').attr('src',data.head2);
+                       $('.player1,.player2').removeClass('you');
+                       if(data.ord==1){
+                           $('#start_btn').removeClass('hidden');
+                           $('#ready_btn').addClass('hidden');
+                           $('.player1').addClass('you');
+                           if(data.id2==0){
+                               $('#start_btn').addClass('disabled');
+                           }else{
+                               if(data.ready==1){
+                                   $('#start_btn').removeClass('disabled');
+                               }else{
+                                   $('#start_btn').addClass('disabled');
+                               }
+                           }
+                       }else if(data.ord==2){
+                           $('#start_btn').addClass('hidden');
+                           $('#ready_btn').removeClass('hidden');
+                           $('.player2').addClass('you');
+                       }
 
-                   $('.player1 .name_txt').html(data.name1);
-                   $('.player1 .head_img img').attr('src',data.head1);
-                   $('.player2 .name_txt').html(data.name2);
-                   $('.player2 .head_img img').attr('src',data.head2);
-                   $('.player1,.player2').removeClass('you');
-                   if(data.ord==1){
-                       $('#start_btn').removeClass('hidden');
-                       $('#ready_btn').addClass('hidden');
-                       $('.player1').addClass('you');
                        if(data.id2==0){
-                           $('#start_btn').addClass('disabled');
+                           $('.player2 .player_status').html('');
                        }else{
                            if(data.ready==1){
-                               $('#start_btn').removeClass('disabled');
+                               $('.player2 .player_status').html('准备完成');
                            }else{
-                               $('#start_btn').addClass('disabled');
+                               $('.player2 .player_status').html('准备中');
                            }
                        }
-                   }else if(data.ord==2){
-                       $('#start_btn').addClass('hidden');
-                       $('#ready_btn').removeClass('hidden');
-                       $('.player2').addClass('you');
                    }
 
-                   if(data.id2==0){
-                       $('.player2 .player_status').html('');
-                   }else{
-                       if(data.ready==1){
-                           $('.player2 .player_status').html('准备完成');
-                       }else{
-                           $('.player2 .player_status').html('准备中');
-                       }
-                   }
+
 
                }else{
                    location.href = '/room';
