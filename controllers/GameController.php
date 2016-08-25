@@ -39,9 +39,9 @@ class GameController extends BaseController
                         }
                     }else{
                         if($game->round_player==2){
-                            $isYourRound = false;
-                        }else{
                             $isYourRound = true;
+                        }else{
+                            $isYourRound = false;
                         }
                     }
                     //游戏记录
@@ -59,7 +59,6 @@ class GameController extends BaseController
             }
         }
         return $this->goHome();
-
     }
 
 
@@ -108,9 +107,12 @@ class GameController extends BaseController
                         $isMaster = false;
                         $opposite_player = 1;
                     }
+
+                    $colors = Card::$colors;
+                    $nums = Card::$numbers;
                     $game_card = GameCard::find()->where(['type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite_player,'status'=>1])->orderBy('ord asc')->all();
                     foreach($game_card as $gc){
-                        $opposite_card[$gc->ord] = ['color'=>$gc->color,'num'=>$gc->num];
+                        $opposite_card[$gc->ord] = ['color'=>$colors[$gc->color],'num'=>$nums[$gc->num]];
                     }
                     $arr['opposite_card'] = $opposite_card;
 

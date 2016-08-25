@@ -22,7 +22,8 @@ $(function(){
                         }
 
                         if(data.opposite_card.length > 0){
-                            var oc_html;
+
+                            var oc_html = '';
                             for(var i in data.opposite_card){
                                 oc_html += '<li>'+data.opposite_card[i].color+' - '+data.opposite_card[i].num+'</li>';
                             }
