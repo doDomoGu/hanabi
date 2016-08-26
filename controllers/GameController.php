@@ -54,7 +54,7 @@ class GameController extends BaseController
                     $params['room'] = $room;
                     $params['isMaster'] = $isMaster;
 
-                    return $this->render('one',$params);
+                    return $this->render('index',$params);
                 }
             }
         }
