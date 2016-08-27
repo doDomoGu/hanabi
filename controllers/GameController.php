@@ -150,6 +150,36 @@ class GameController extends BaseController
         return json_encode($return);
     }
 
+    public function actionAjaxDoDiscardPlayerCard(){
+        $game_id = Yii::$app->request->post('id',false);
+        $player = Yii::$app->request->post('player',false);//当前回合的玩家 1或2
+        $sel = Yii::$app->request->post('sel',false);
+        $game = Game::find()->where(['id'=>$game_id,'round_player'=>$player])->one();
+        $return = [];
+        $result = false;
+        if($game){
+            //弃牌
+            $discardCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$player,'ord'=>$sel,'status'=>1])->one();
+            $discardCard->type = GameCard::TYPE_IN_DISCARD;
+            $discardCard->player = 0;
+            $discardCard->ord = GameCard::getInsertDiscardOrd($game->id);
+            $discardCard->save();
+
+            //整理手牌排序
+            GameCard::sortCardOrdInPlayer($game_id,$player);
+
+            //摸一张牌
+            GameCard::drawCard($game->id,$player);
+
+            //添加游戏记录
+            Record::addWithDiscardPlayerCard($game,$discardCard);
+            $result = true;
+
+        }
+        $return['result'] = $result;
+        return json_encode($return);
+    }
+
     public function actionAjaxEnd(){
         $game_id = Yii::$app->request->post('id',false);
         $game = Game::find()->where(['id'=>$game_id])->one();

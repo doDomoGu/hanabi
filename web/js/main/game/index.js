@@ -1,4 +1,5 @@
 $(function(){
+    $('#sidebar .record_list').scrollTop($('#sidebar .record_list')[0].scrollHeight);
     var socketInterval = setInterval(function(){
         $.ajax({
             url: '/game/ajax-game-playing-socket',
@@ -19,10 +20,10 @@ $(function(){
                             for(var i in data.record){
                                 $('#sidebar .record_list ul').append('<li>'+data.record[i]+'</li>');
                             }
+                            $('#sidebar .record_list').scrollTop($('#sidebar .record_list')[0].scrollHeight);
                         }
 
                         if(data.opposite_card.length > 0){
-
                             var oc_html = '';
                             for(var i in data.opposite_card){
                                 oc_html += '<li>'+data.opposite_card[i].color+' - '+data.opposite_card[i].num+'</li>';
@@ -61,6 +62,10 @@ $(function(){
                     if(_length==2){
                         $('#ok_btn').addClass('disabled');
                     }
+                }else if(_act=='discard'){
+                    if(_length==1){
+                        $('#ok_btn').addClass('disabled');
+                    }
                 }
             }else{
                 if(_act=='change_ord'){
@@ -69,6 +74,11 @@ $(function(){
                         if(_length==1){
                             $('#ok_btn').removeClass('disabled');
                         }
+                    }
+                }else if(_act=='discard'){
+                    if(_length<1){
+                        $(this).addClass('selected');
+                        $('#ok_btn').removeClass('disabled');
                     }
                 }
             }
@@ -95,6 +105,28 @@ $(function(){
                         player:$('#round_player').val(),
                         ord1:_ord1,
                         ord2:_ord2
+                    },
+                    success: function (data) {
+                        if(data.result==true){
+                            alert('交换成功');
+                            $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
+                            $('.hand_card ul li').removeClass('selected');
+                            $('#ok_btn').addClass('hidden').addClass('disabled');
+                            $('#cancel_btn').addClass('hidden');
+                        }
+                    }
+                })
+            }else if(_act=='discard' && _length==1){
+                _sel = $($('.hand_card ul li.selected')[0]).index();
+                $.ajax({
+                    url: '/game/ajax-do-discard-player-card',
+                    type: 'post',
+                    async : false,
+                    dataType:'json',
+                    data: {
+                        id:$('#game_id').val(),
+                        player:$('#round_player').val(),
+                        sel:_sel
                     },
                     success: function (data) {
                         if(data.result==true){

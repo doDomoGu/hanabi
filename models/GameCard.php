@@ -146,4 +146,27 @@ PRIMARY KEY (`id`)
         }
         return $cardInfo;
     }
+
+    //获取当前应插入弃牌堆的ord数值，即当前弃牌堆最小排序的数值减1，没有则为49
+    public static function getInsertDiscardOrd($game_id){
+        $lastDiscardCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_DISCARD,'status'=>1])->orderBy('ord asc')->one();
+        if($lastDiscardCard){
+            $ord = $lastDiscardCard->ord - 1;
+        }else{
+            $ord = 49;
+        }
+        return $ord;
+    }
+
+    //整理手牌排序 （当弃牌或者打出手牌后，进行操作）
+    public static function sortCardOrdInPlayer($game_id,$player){
+        $cards = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$player,'status'=>1])->orderBy('ord asc')->all();
+        $i=0;
+        foreach($cards as $c){
+            $c->ord = $i;
+            $c->save();
+            $i++;
+        }
+
+    }
 }

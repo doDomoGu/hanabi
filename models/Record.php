@@ -47,5 +47,18 @@ PRIMARY KEY (`id`)
         $record->save();
     }
 
+    public static function addWithDiscardPlayerCard(Game $game,$discardCard){
+        $record = new Record();
+        $record->game_id = $game->id;
+        $record->round = $game->round;
+        if($game->round_player==1){
+            $player = $game->room->player1;
+        }else{
+            $player = $game->room->player2;
+        }
+        $record->content = '【'.$player->nickname.'】丢弃了手牌['.Card::$colors[$discardCard->color].'-'.Card::$numbers[$discardCard->num].']';
+        $record->add_time = date('Y-m-d H:i:s');
+        $record->save();
+    }
 
 }
