@@ -3,7 +3,7 @@
     use app\models\Game;
     use app\models\Room;
 
-    app\assets\AppAsset::addCssFile($this,'css/main/game/one.css');
+    app\assets\AppAsset::addCssFile($this,'css/main/layout.css');
 
     app\assets\AppAsset::addCssFile($this,'css/main/room/one.css');
     app\assets\AppAsset::addJsFile($this,'js/main/room/one.js');
