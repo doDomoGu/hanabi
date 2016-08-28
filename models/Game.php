@@ -51,4 +51,16 @@ PRIMARY KEY (`id`)
         }
     }
 
+    //恢复一个线索
+    public static function renewCue($game_id){
+        $game = Game::find()->where(['id'=>$game_id])->one();
+        if($game){
+            if($game->cue<8){
+                $game->cue = $game->cue + 1;
+                $game->save();
+            }
+        }
+    }
+
+
 }

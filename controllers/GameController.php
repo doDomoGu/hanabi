@@ -165,6 +165,9 @@ class GameController extends BaseController
             $discardCard->ord = GameCard::getInsertDiscardOrd($game->id);
             $discardCard->save();
 
+            //恢复一个线索
+            Game::renewCue($game_id);
+
             //整理手牌排序
             GameCard::sortCardOrdInPlayer($game_id,$player);
 

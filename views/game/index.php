@@ -48,12 +48,12 @@
             <div class="middle_left">
                 <div class="chess_box">
                     游戏盒:
-                    <div class="cue_num">线索 <span>8</span></div>
-                    <div class="chance_num">机会 <span>3</span></div>
+                    <div class="cue_num">线索 <span><?=$game->cue?></span></div>
+                    <div class="chance_num">机会 <span><?=$game->chance?></span></div>
                 </div>
                 <div class="chess_box_out">
-                    <div class="cue_num_out">线索 <span>0</span></div>
-                    <div class="chance_num_out">机会 <span>0</span></div>
+                    <div class="cue_num_out">线索 <span><?=Game::DEFAULT_CUE-$game->cue?></span></div>
+                    <div class="chance_num_out">机会 <span><?=Game::DEFAULT_CHANCE-$game->chance?></span></div>
                 </div>
                 <div class="card_library">
                     牌库:
