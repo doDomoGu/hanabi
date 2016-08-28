@@ -22,13 +22,11 @@ $(function(){
                             }
                             $('#sidebar .record_list').scrollTop($('#sidebar .record_list')[0].scrollHeight);
                         }
-
                         if(data.opposite_card.length > 0){
-                            var oc_html = '';
                             for(var i in data.opposite_card){
-                                oc_html += '<li>'+data.opposite_card[i].color+' - '+data.opposite_card[i].num+'</li>';
+                                $($('.top_area .hand_card ul li')[i]).html(data.opposite_card[i].color+' - '+data.opposite_card[i].num);
+
                             }
-                            $('.opposite_card .hand_card ul').html(oc_html);
                         }
 
 
@@ -45,16 +43,20 @@ $(function(){
         $('.btn_area .btns .btn').addClass('disabled');
         $(this).removeClass('disabled');
         $(this).addClass('act_selected');
+        if($(this).attr('act')=='cue'){
+            $('.top_area .hand_card').addClass('enable_sel');
+        }else{
+            $('.bottom_area .hand_card').addClass('enable_sel');
+        }
         $('#ok_btn').removeClass('hidden');
         $('#cancel_btn').removeClass('hidden');
     });
 
-
-    $('.hand_card ul li').click(function(){
+    $('#game_area').on('click','.hand_card.enable_sel ul li',function(){
         _act_btn = $('.btns .btn.act_selected');
         if(_act_btn.length==1){
             _act = _act_btn.attr('act');
-            _length = $('.hand_card ul li.selected').length;
+            _length = $('.hand_card.enable_sel ul li.selected').length;
 
             if($(this).hasClass('selected')){
                 $(this).removeClass('selected');
@@ -62,7 +64,7 @@ $(function(){
                     if(_length==2){
                         $('#ok_btn').addClass('disabled');
                     }
-                }else if(_act=='discard'){
+                }else if(_act=='discard' || _act=='cue'){
                     if(_length==1){
                         $('#ok_btn').addClass('disabled');
                     }
@@ -75,7 +77,7 @@ $(function(){
                             $('#ok_btn').removeClass('disabled');
                         }
                     }
-                }else if(_act=='discard'){
+                }else if(_act=='discard' || _act=='cue'){
                     if(_length<1){
                         $(this).addClass('selected');
                         $('#ok_btn').removeClass('disabled');
@@ -138,7 +140,29 @@ $(function(){
                         }
                     }
                 })
-            }else{
+            }/*else if(_act=='cue' && _length==1){
+                _sel = $($('.hand_card ul li.selected')[0]).index();
+                $.ajax({
+                    url: '/game/ajax-do-cue',
+                    type: 'post',
+                    async : false,
+                    dataType:'json',
+                    data: {
+                        id:$('#game_id').val(),
+                        player:$('#round_player').val(),
+                        sel:_sel
+                    },
+                    success: function (data) {
+                        if(data.result==true){
+                            alert('交换成功');
+                            $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
+                            $('.hand_card ul li').removeClass('selected');
+                            $('#ok_btn').addClass('hidden').addClass('disabled');
+                            $('#cancel_btn').addClass('hidden');
+                        }
+                    }
+                })
+            }*/else{
                 alert('操作错误0021');
             }
         }else{
@@ -149,6 +173,8 @@ $(function(){
     $('#cancel_btn').click(function(){
         $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
         $('.hand_card ul li').removeClass('selected');
+        $('.top_area .hand_card').removeClass('enable_sel');
+        $('.bottom_area .hand_card').removeClass('enable_sel');
         $('#ok_btn').addClass('hidden').addClass('disabled');
         $('#cancel_btn').addClass('hidden');
     });
