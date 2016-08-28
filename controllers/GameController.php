@@ -173,6 +173,10 @@ class GameController extends BaseController
 
             //添加游戏记录
             Record::addWithDiscardPlayerCard($game,$discardCard);
+
+            //交换游戏回合
+            Game::changeRound($game->id,$player);
+
             $result = true;
 
         }

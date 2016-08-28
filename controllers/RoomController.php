@@ -33,7 +33,7 @@ class RoomController extends BaseController
             $room->status = 1;
             $room->create_time = date('Y-m-d H:i:s');
             if($room->save()){
-                return $this->redirect('/game/'.$room->id);
+                return $this->redirect('/room/'.$room->id);
             }else{
                 return $this->redirect('/room');
             }
@@ -68,20 +68,20 @@ class RoomController extends BaseController
             ->one();
         if($room){
             if($room->player_1==$uid){
+                //你是房主
                 if($room->player_2==0){
+                    //没有其他玩家 status 置为0
                     $room->player_1 = 0;
-                    $room->status=0;
+                    $room->status = 0;
                 }else{
+                    //有其他玩家 将其设为房主
                     $room->player_1 = $room->player_2;
-                    /*$room->player_2 = 0;
-                    $room->player_2_ready = 0;*/
+                    $room->player_2 = 0;
                 }
             }else{
-                /*$room->player_2 = 0;
-                $room->player_2_ready = 0;*/
+                //不是房主
+                $room->player_2 = 0;
             }
-
-            $room->player_2 = 0;
             $room->player_2_ready = 0;
             $room->save();
             return $this->redirect('/room');
@@ -206,6 +206,8 @@ class RoomController extends BaseController
             $game = new Game();
             $game->round = 1;
             $game->round_player = rand(1,2);
+            $game->cue = Game::DEFAULT_CUE;
+            $game->chance = Game::DEFAULT_CHANCE;
             $game->save();
             //修改房间信息
             $room->game_id = $game->id;
