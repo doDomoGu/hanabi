@@ -29,6 +29,24 @@
     padding:4px;
 }
 
+#game_area .cue_area {
+    display: none;
+    margin-top:20px;
+}
+
+#game_area .cue_area .btn {
+    padding:2px 4px;
+    margin-left:4px;
+}
+
+#game_area .cue_area .btn.cue_sel {
+    background: #f0ad4e;
+}
+
+#game_area .cue_area .cue_txt {
+    color:#eee;
+}
+
 #game_area .hand_card ul li.selected {
     border:1px solid #f33;
 }

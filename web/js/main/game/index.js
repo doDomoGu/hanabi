@@ -64,9 +64,14 @@ $(function(){
                     if(_length==2){
                         $('#ok_btn').addClass('disabled');
                     }
-                }else if(_act=='discard' || _act=='cue'){
+                }else if(_act=='discard'){
                     if(_length==1){
                         $('#ok_btn').addClass('disabled');
+                    }
+                }else if(_act=='cue'){
+                    if(_length==1){
+                        $('#ok_btn').addClass('disabled');
+                        $('.cue_area').hide();
                     }
                 }
             }else{
@@ -77,16 +82,40 @@ $(function(){
                             $('#ok_btn').removeClass('disabled');
                         }
                     }
-                }else if(_act=='discard' || _act=='cue'){
+                }else if(_act=='discard'){
                     if(_length<1){
                         $(this).addClass('selected');
                         $('#ok_btn').removeClass('disabled');
+                    }
+                }else if(_act=='cue'){
+                    if(_length<1){
+                        $(this).addClass('selected');
+                        $('#ok_btn').removeClass('disabled');
+                        $('.cue_area').show();
                     }
                 }
             }
         }/*else{
             alert('操作错误001');
         }*/
+    });
+
+    $('#cue_color').click(function(){
+        if(!$(this).hasClass('cue_sel')){
+            $(this).addClass('cue_sel');
+            $('#cue_num').removeClass('cue_sel');
+            $('#cue_type').val('color');
+            $('.cue_area .cue_txt').html('提示所有相同颜色的牌');
+        }
+    });
+
+    $('#cue_num').click(function(){
+        if(!$(this).hasClass('cue_sel')){
+            $(this).addClass('cue_sel');
+            $('#cue_color').removeClass('cue_sel');
+            $('#cue_type').val('num');
+            $('.cue_area .cue_txt').html('提示所有相同数字的牌');
+        }
     });
 
     $('#ok_btn').click(function(){
@@ -175,6 +204,10 @@ $(function(){
         $('.hand_card ul li').removeClass('selected');
         $('.top_area .hand_card').removeClass('enable_sel');
         $('.bottom_area .hand_card').removeClass('enable_sel');
+        $('.cue_area .btn').removeClass("cue_sel");
+        $('#cue_type').val('');
+        $('.cue_area .cue_txt').html('');
+        $('.cue_area').hide();
         $('#ok_btn').addClass('hidden').addClass('disabled');
         $('#cancel_btn').addClass('hidden');
     });

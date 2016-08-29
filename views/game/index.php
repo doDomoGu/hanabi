@@ -36,11 +36,18 @@
                 对方 （<?=$oppositePlayer->nickname?>） 手牌
                 <ul>
                     <?php foreach($cardInfo[$opposite] as $card):?>
-                        <li>
+                        <li attr_color="<?=$card['color']?>" attr_num="<?=$numbers[$card['num']]?>">
                             <?=$colors[$card['color']]?> - <?=$numbers[$card['num']]?>
                         </li>
                     <?php endforeach;?>
                 </ul>
+            </div>
+            <div class="cue_area">
+                <a id="cue_color" class="btn btn-default">提示颜色</a>
+                <a id="cue_num" class="btn btn-default">提示数字</a>
+                <br/>
+                <input type="hidden" id="cue_type" name="cue_type" value="" />
+                <span class="cue_txt"></span>
             </div>
         </div>
 
