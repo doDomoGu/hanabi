@@ -7,6 +7,8 @@ class Game extends \yii\db\ActiveRecord
     const DEFAULT_CUE = 8;
     const DEFAULT_CHANCE = 3;
 
+    public static $cue_types = ['color','num'];
+
     public function attributeLabels(){
         return [
             'round' => '回合数',
@@ -62,5 +64,17 @@ PRIMARY KEY (`id`)
         }
     }
 
+    //使用一个线索
+    public static function useCue($game_id){
+        $game = Game::find()->where(['id'=>$game_id])->one();
+        if($game){
+            if($game->cue>0){
+                $game->cue = $game->cue - 1;
+                $game->save();
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

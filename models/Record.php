@@ -61,4 +61,33 @@ PRIMARY KEY (`id`)
         $record->save();
     }
 
+    public static function addWithCue(Game $game,$cue_type,$selVal,$cueCardsOrd){
+        $record = new Record();
+        $record->game_id = $game->id;
+        $record->round = $game->round;
+        if($game->round_player==1){
+            $player = $game->room->player1;
+            $player2 = $game->room->player2;
+        }else{
+            $player = $game->room->player2;
+            $player2 = $game->room->player1;
+        }
+        $type = '';
+        $ordText = '';
+
+        if($cue_type=='color'){
+            $type = '颜色';
+        }elseif($cue_type=='num'){
+            $type = '数字';
+        }
+        if(!empty($cueCardsOrd)){
+            $ordText = implode($cueCardsOrd, ',');
+        }
+
+        $record->content = '【'.$player->nickname.'】提示【'.$player2->nickname.'】的手牌中，第'.$ordText.'张牌的'.$type.'是'.$selVal;
+
+        $record->add_time = date('Y-m-d H:i:s');
+        $record->save();
+    }
+
 }

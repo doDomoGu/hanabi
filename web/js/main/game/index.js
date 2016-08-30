@@ -169,8 +169,9 @@ $(function(){
                         }
                     }
                 })
-            }/*else if(_act=='cue' && _length==1){
+            }else if(_act=='cue' && _length==1){
                 _sel = $($('.hand_card ul li.selected')[0]).index();
+                _cue_type = $('#cue_type').val();
                 $.ajax({
                     url: '/game/ajax-do-cue',
                     type: 'post',
@@ -179,10 +180,12 @@ $(function(){
                     data: {
                         id:$('#game_id').val(),
                         player:$('#round_player').val(),
-                        sel:_sel
+                        sel:_sel,
+                        cue_type:_cue_type
                     },
                     success: function (data) {
                         if(data.result==true){
+                            console.log(data);return false;
                             alert('交换成功');
                             $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
                             $('.hand_card ul li').removeClass('selected');
@@ -191,7 +194,7 @@ $(function(){
                         }
                     }
                 })
-            }*/else{
+            }else{
                 alert('操作错误0021');
             }
         }else{

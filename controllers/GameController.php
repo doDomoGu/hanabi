@@ -150,6 +150,7 @@ class GameController extends BaseController
         return json_encode($return);
     }
 
+    //弃牌
     public function actionAjaxDoDiscardPlayerCard(){
         $game_id = Yii::$app->request->post('id',false);
         $player = Yii::$app->request->post('player',false);//当前回合的玩家 1或2
@@ -181,6 +182,65 @@ class GameController extends BaseController
             Game::changeRound($game->id,$player);
 
             $result = true;
+
+        }
+        $return['result'] = $result;
+        return json_encode($return);
+    }
+
+    //提供线索
+    public function actionAjaxDoCue(){
+        $game_id = Yii::$app->request->post('id',false);
+        $player = Yii::$app->request->post('player',false);//当前回合的玩家 1或2
+        $sel = Yii::$app->request->post('sel',false);
+        $cue_type = Yii::$app->request->post('cue_type',false);
+        $game = Game::find()->where(['id'=>$game_id,'round_player'=>$player])->one();
+        $return = [];
+        $result = false;
+        if($game && in_array($cue_type,Game::$cue_types)){
+            //提示线索
+            if($player==1){
+                $opposite=2;
+            }else{
+                $opposite=1;
+            }
+
+            $cards = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite,'status'=>1])->orderBy('ord asc')->all();
+
+            $selCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite,'ord'=>$sel,'status'=>1])->one();
+
+            if(!empty($cards) && $selCard){
+                $cueCardsOrd = [];
+                if($cue_type=='color'){
+                    $colors = Card::$colors;
+                    $selVal = $colors[$selCard->color];
+                    foreach($cards as $c){
+                        if($colors[$c->color] == $selVal){
+                            $cueCardsOrd[] = $c->ord+1;
+                        }
+                    }
+                }elseif($cue_type=='num'){
+                    $numbers = Card::$numbers;
+                    $selVal = $numbers[$selCard->num];
+                    foreach($cards as $c){
+                        if($numbers[$c->num] == $selVal){
+                            $cueCardsOrd[] = $c->ord+1;
+                        }
+                    }
+                }
+
+
+                //使用一个线索
+                $useCue = Game::useCue($game_id);
+
+                //添加游戏记录
+                Record::addWithCue($game,$cue_type,$selVal,$cueCardsOrd);
+
+                //交换游戏回合
+                Game::changeRound($game->id,$player);
+
+                $result = true;
+            }
 
         }
         $return['result'] = $result;
