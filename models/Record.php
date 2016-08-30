@@ -77,11 +77,12 @@ PRIMARY KEY (`id`)
 
         if($cue_type=='color'){
             $type = '颜色';
+            $selVal .='色';
         }elseif($cue_type=='num'){
             $type = '数字';
         }
         if(!empty($cueCardsOrd)){
-            $ordText = implode($cueCardsOrd, ',');
+            $ordText = implode($cueCardsOrd, ', ');
         }
 
         $record->content = '【'.$player->nickname.'】提示【'.$player2->nickname.'】的手牌中，第'.$ordText.'张牌的'.$type.'是'.$selVal;
