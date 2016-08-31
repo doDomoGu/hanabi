@@ -25,8 +25,10 @@ class GameController extends BaseController
                     //是否为房主
                     if($room->player_1==$this->user->id){
                         $isMaster = true;
+                        $playerNo = 1;
                     }else{
                         $isMaster = false;
+                        $playerNo = 2;
                     }
                     //获取卡牌信息 （牌库、手牌、弃牌、桌面牌等）
                     $params['cardInfo'] = GameCard::getCardInfo($game->id);
@@ -49,6 +51,7 @@ class GameController extends BaseController
 
                     $params['game'] = $game;
                     $params['isYourRound'] = $isYourRound;
+                    $params['playerNo'] = $playerNo;
                     $params['record_list'] = $record_list;
 
                     $params['room'] = $room;
@@ -76,6 +79,7 @@ class GameController extends BaseController
             'ready'=>0,*/
             'opposite_card'=>[],
             'record'=>[],
+            'is_your_round'=>false,
             'end'=>false,
             'room_id'=>$room_id,
         ];
@@ -103,13 +107,20 @@ class GameController extends BaseController
                     if($room->player_1==$this->user->id){
                         $isMaster = true;
                         $opposite_player = 2;
+                        if($game->round_player==1){
+                            $arr['is_your_round'] = true;
+                        }
                     }else{
                         $isMaster = false;
                         $opposite_player = 1;
+                        if($game->round_player==2){
+                            $arr['is_your_round'] = true;
+                        }
                     }
 
                     $colors = Card::$colors;
                     $nums = Card::$numbers;
+
                     $game_card = GameCard::find()->where(['type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite_player,'status'=>1])->orderBy('ord asc')->all();
                     foreach($game_card as $gc){
                         $opposite_card[$gc->ord] = ['color'=>$colors[$gc->color],'num'=>$nums[$gc->num]];
@@ -198,50 +209,52 @@ class GameController extends BaseController
         $return = [];
         $result = false;
         if($game && in_array($cue_type,Game::$cue_types)){
-            //提示线索
-            if($player==1){
-                $opposite=2;
-            }else{
-                $opposite=1;
-            }
-
-            $cards = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite,'status'=>1])->orderBy('ord asc')->all();
-
-            $selCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite,'ord'=>$sel,'status'=>1])->one();
-
-            if(!empty($cards) && $selCard){
-                $cueCardsOrd = [];
-                if($cue_type=='color'){
-                    $colors = Card::$colors;
-                    $selVal = $colors[$selCard->color];
-                    foreach($cards as $c){
-                        if($colors[$c->color] == $selVal){
-                            $cueCardsOrd[] = $c->ord+1;
-                        }
-                    }
-                }elseif($cue_type=='num'){
-                    $numbers = Card::$numbers;
-                    $selVal = $numbers[$selCard->num];
-                    foreach($cards as $c){
-                        if($numbers[$c->num] == $selVal){
-                            $cueCardsOrd[] = $c->ord+1;
-                        }
-                    }
+            //使用一个线索
+            $useCue = Game::useCue($game_id);
+            if($useCue){
+                //提示线索
+                if($player==1){
+                    $opposite=2;
+                }else{
+                    $opposite=1;
                 }
 
+                $cards = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite,'status'=>1])->orderBy('ord asc')->all();
 
-                //使用一个线索
-                $useCue = Game::useCue($game_id);
+                $selCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite,'ord'=>$sel,'status'=>1])->one();
 
-                //添加游戏记录
-                Record::addWithCue($game,$cue_type,$selVal,$cueCardsOrd);
+                if(!empty($cards) && $selCard){
+                    $cueCardsOrd = [];
+                    if($cue_type=='color'){
+                        $colors = Card::$colors;
+                        $selVal = $colors[$selCard->color];
+                        foreach($cards as $c){
+                            if($colors[$c->color] == $selVal){
+                                $cueCardsOrd[] = $c->ord+1;
+                            }
+                        }
+                    }elseif($cue_type=='num'){
+                        $numbers = Card::$numbers;
+                        $selVal = $numbers[$selCard->num];
+                        foreach($cards as $c){
+                            if($numbers[$c->num] == $selVal){
+                                $cueCardsOrd[] = $c->ord+1;
+                            }
+                        }
+                    }
 
-                //交换游戏回合
-                Game::changeRound($game->id,$player);
 
-                $result = true;
+
+
+                    //添加游戏记录
+                    Record::addWithCue($game,$cue_type,$selVal,$cueCardsOrd);
+
+                    //交换游戏回合
+                    Game::changeRound($game->id,$player);
+
+                    $result = true;
+                }
             }
-
         }
         $return['result'] = $result;
         return json_encode($return);

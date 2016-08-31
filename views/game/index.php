@@ -42,9 +42,9 @@
                     <?php endforeach;?>
                 </ul>
             </div>
-            <div class="cue_area">
-                <a id="cue_color" class="btn btn-default">提示颜色</a>
-                <a id="cue_num" class="btn btn-default">提示数字</a>
+            <div class="cue_area hidden">
+                <a id="cue_type_color" class="btn btn-default">提示颜色</a>
+                <a id="cue_type_num" class="btn btn-default">提示数字</a>
                 <br/>
                 <input type="hidden" id="cue_type" name="cue_type" value="" />
                 <span class="cue_txt"></span>
@@ -55,8 +55,9 @@
             <div class="middle_left">
                 <div class="chess_box">
                     游戏盒:
-                    <div class="cue_num">线索 <span><?=$game->cue?></span></div>
-                    <div class="chance_num">机会 <span><?=$game->chance?></span></div>
+                    <div class="cue_num_div">线索 <span class="cue_num_txt"><?=$game->cue?></span></div>
+                    <div class="chance_num_div">机会 <span class="chance_num_txt"><?=$game->chance?></span></div>
+
                 </div>
                 <div class="chess_box_out">
                     <div class="cue_num_out">线索 <span><?=Game::DEFAULT_CUE-$game->cue?></span></div>
@@ -99,9 +100,9 @@
                 </ul>
             </div>
             <div class="btn_area">
-                <?php if($isYourRound):?>
+                <?php /*if($isYourRound):*/?><!--
                     <div class="btns">
-                        <a id="cue_btn" act="cue" class="btn btn-primary">提供线索</a>
+                        <a id="cue_btn" act="cue" class="btn btn-primary <?/*=$game->cue==0?'disabled':''*/?>">提供线索</a>
                         <a id="play_btn" act="play" class="btn btn-primary">打出一张牌</a>
                         <a id="discard_btn" act="discard" class="btn btn-primary">弃掉一张牌</a>
                         <a id="change_ord_btn" act="change_ord" class="btn btn-primary">交换手牌顺序</a>
@@ -110,7 +111,7 @@
                         <a id="ok_btn" class="btn btn-success disabled hidden">确认</a>
                         <a id="cancel_btn" class="btn btn-danger hidden">取消</a>
                     </div>
-                <?php else:?>
+                --><?php /*else:*/?>
                     <div class="btns">
                         <a id="cue_btn" act="cue" class="btn btn-primary disabled">提供线索</a>
                         <a id="play_btn" act="play" class="btn btn-primary disabled">打出一张牌</a>
@@ -121,10 +122,9 @@
                         <a id="ok_btn" class="btn btn-success disabled hidden">确认</a>
                         <a id="cancel_btn" class="btn btn-danger hidden">取消</a>
                     </div>
-                <?php endif;?>
+                <?php /*endif;*/?>
             </div>
         </div>
-        <input type="hidden" id="round_player" value="<?=$game->round_player?>" />
     </div>
 </div>
 <div id="sidebar">
@@ -144,4 +144,9 @@
 </div>
 <input type="hidden" id="room_id" value="<?=$room->id?>" />
 <input type="hidden" id="game_id" value="<?=$game->id?>" />
-<!--<input type="hidden" id="opposite_player" value="<?/*=$isMaster?2:1*/?>" />-->
+<input type="hidden" id="cue_num" value="<?=$game->cue?>" />
+<input type="hidden" id="chance_num" value="<?=$game->chance?>" />
+<input type="hidden" id="ssss" />
+<input type="hidden" id="ssss2" />
+<input type="hidden" id="round_player" value="<?=$game->round_player?>" />
+<input type="hidden" id="player_no" value="<?=$playerNo?>" />

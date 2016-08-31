@@ -1,5 +1,7 @@
 $(function(){
+    //游戏记录区域，滚动到底部
     $('#sidebar .record_list').scrollTop($('#sidebar .record_list')[0].scrollHeight);
+
     var socketInterval = setInterval(function(){
         $.ajax({
             url: '/game/ajax-game-playing-socket',
@@ -16,6 +18,16 @@ $(function(){
                     if(data.end==true){ //游戏结束
                         location.href = '/room/'+data.room_id;
                     }else{
+                        if(data.is_your_round){
+                            if($('#round_player').val()!=$('#player_no').val()){
+                                
+                                changeRound();
+                            }
+                        }else{
+                            if($('#round_player').val()==$('#player_no').val()){
+                                changeRound();
+                            }
+                        }
                         if(data.record.length>0){
                             for(var i in data.record){
                                 $('#sidebar .record_list ul').append('<li>'+data.record[i]+'</li>');
@@ -36,13 +48,60 @@ $(function(){
         })
     },1000);
 
+    var recoverBtnStatus = function(){
+        //恢复按钮初始状态
+        $('.btn_area .btns .btn')
+            .removeClass('disabled')
+            .addClass('disabled')
+            .removeClass('act_selected');
+        $('#ok_btn')
+            .removeClass('hidden')
+            .addClass('hidden')
+            .addClass('disabled');
+        $('#cancel_btn')
+            .removeClass('hidden')
+            .addClass('hidden');
+
+        //清空手牌选择
+        $('.hand_card ul li').removeClass('selected');
+        $('.top_area .hand_card').removeClass('enable_sel');
+        $('.bottom_area .hand_card').removeClass('enable_sel');
+
+        //清空线索提示相关
+        $('.cue_area .btn').removeClass("cue_sel");
+        $('#cue_type').val('');
+        $('.cue_area .cue_txt').html('');
+        $('.cue_area').removeClass('hidden').addClass('hidden');
+
+        //根据是否是你的游戏回合，显示不同的按钮状态
+        if($('#round_player').val()==$('#player_no').val()){
+            $('.btn_area .btns .btn')
+                .removeClass('disabled')
+                .removeClass('act_selected');
+            if(parseInt($('#cue_num').val())==0){
+                $('#cue_btn').addClass('disabled');
+            }
+        }
+    };
+
+    var changeRound = function(){
+        if($('#round_player').val()==1){
+            $('#round_player').val(2);
+        }else{
+            $('#round_player').val(1);
+        }
+        recoverBtnStatus();
+    };
+
+    recoverBtnStatus();
+
+
 
     $('.btn_area .btns .btn').click(function (){
-        /*$('.btn_area .btns .btn').attr('disabled',true);
-        $(this).attr('disabled',false);*/
         $('.btn_area .btns .btn').addClass('disabled');
         $(this).removeClass('disabled');
         $(this).addClass('act_selected');
+        //点击线索按钮时，高亮对方手牌，否则高亮自己的手牌
         if($(this).attr('act')=='cue'){
             $('.top_area .hand_card').addClass('enable_sel');
         }else{
@@ -100,19 +159,19 @@ $(function(){
         }*/
     });
 
-    $('#cue_color').click(function(){
+    $('#cue_type_color').click(function(){
         if(!$(this).hasClass('cue_sel')){
             $(this).addClass('cue_sel');
-            $('#cue_num').removeClass('cue_sel');
+            $('#cue_type_num').removeClass('cue_sel');
             $('#cue_type').val('color');
             $('.cue_area .cue_txt').html('提示所有相同颜色的牌');
         }
     });
 
-    $('#cue_num').click(function(){
+    $('#cue_type_num').click(function(){
         if(!$(this).hasClass('cue_sel')){
             $(this).addClass('cue_sel');
-            $('#cue_color').removeClass('cue_sel');
+            $('#cue_type_color').removeClass('cue_sel');
             $('#cue_type').val('num');
             $('.cue_area .cue_txt').html('提示所有相同数字的牌');
         }
@@ -140,10 +199,7 @@ $(function(){
                     success: function (data) {
                         if(data.result==true){
                             alert('交换成功');
-                            $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
-                            $('.hand_card ul li').removeClass('selected');
-                            $('#ok_btn').addClass('hidden').addClass('disabled');
-                            $('#cancel_btn').addClass('hidden');
+                            recoverBtnStatus();
                         }
                     }
                 })
@@ -161,11 +217,8 @@ $(function(){
                     },
                     success: function (data) {
                         if(data.result==true){
-                            alert('交换成功');
-                            $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
-                            $('.hand_card ul li').removeClass('selected');
-                            $('#ok_btn').addClass('hidden').addClass('disabled');
-                            $('#cancel_btn').addClass('hidden');
+                            alert('弃牌成功');
+                            changeRound();
                         }
                     }
                 })
@@ -185,7 +238,6 @@ $(function(){
                     },
                     success: function (data) {
                         if(data.result==true){
-                            console.log(data);return false;
                             alert('交换成功');
                             $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
                             $('.hand_card ul li').removeClass('selected');
@@ -203,7 +255,10 @@ $(function(){
     });
 
     $('#cancel_btn').click(function(){
-        $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
+        /*$('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
+        if(parseInt($('#cue_num').val())==0){
+            $('#cue_btn').addClass('disabled');
+        }
         $('.hand_card ul li').removeClass('selected');
         $('.top_area .hand_card').removeClass('enable_sel');
         $('.bottom_area .hand_card').removeClass('enable_sel');
@@ -212,7 +267,8 @@ $(function(){
         $('.cue_area .cue_txt').html('');
         $('.cue_area').hide();
         $('#ok_btn').addClass('hidden').addClass('disabled');
-        $('#cancel_btn').addClass('hidden');
+        $('#cancel_btn').addClass('hidden');*/
+        recoverBtnStatus();
     });
 
     /*$('#cue_btn').click(function(){
