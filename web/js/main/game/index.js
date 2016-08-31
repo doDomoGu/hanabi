@@ -144,6 +144,10 @@ $(function(){
                         $('#ok_btn').addClass('disabled');
                         $('.cue_area').hide();
                     }
+                }else if(_act=='play'){
+                    if(_length==1){
+                        $('#ok_btn').addClass('disabled');
+                    }
                 }
             }else{
                 if(_act=='change_ord'){
@@ -163,6 +167,11 @@ $(function(){
                         $(this).addClass('selected');
                         $('#ok_btn').removeClass('disabled');
                         $('.cue_area').removeClass('hidden');
+                    }
+                }else if(_act=='play'){
+                    if(_length<1){
+                        $(this).addClass('selected');
+                        $('#ok_btn').removeClass('disabled');
                     }
                 }
             }
