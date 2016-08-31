@@ -18,9 +18,9 @@ $(function(){
                     if(data.end==true){ //游戏结束
                         location.href = '/room/'+data.room_id;
                     }else{
+                        //判断是否要交换游戏回合
                         if(data.is_your_round){
                             if($('#round_player').val()!=$('#player_no').val()){
-                                
                                 changeRound();
                             }
                         }else{
@@ -28,12 +28,16 @@ $(function(){
                                 changeRound();
                             }
                         }
+
+                        //游戏记录
                         if(data.record.length>0){
                             for(var i in data.record){
                                 $('#sidebar .record_list ul').append('<li>'+data.record[i]+'</li>');
                             }
                             $('#sidebar .record_list').scrollTop($('#sidebar .record_list')[0].scrollHeight);
                         }
+
+                        //对方手牌信息
                         if(data.opposite_card.length > 0){
                             for(var i in data.opposite_card){
                                 $($('.top_area .hand_card ul li')[i]).html(data.opposite_card[i].color+' - '+data.opposite_card[i].num);
@@ -41,7 +45,15 @@ $(function(){
                             }
                         }
 
-
+                        //数字更新
+                        $('#cue_num').val(data.cue_num);
+                        $('#chance_num').val(data.chance_num);
+                        $('.cue_num_txt').html(data.cue_num);
+                        $('.chance_num_txt').html(data.chance_num);
+                        $('.cue_num_out_txt').html(data.cue_num_2);
+                        $('.chance_num_out_txt').html(data.chance_num_2);
+                        $('.card_num_in_library_txt').html(data.card_num_in_library);
+                        $('.card_num_in_discard_txt').html(data.card_num_in_discard);
                     }
                 }
             }
@@ -150,7 +162,7 @@ $(function(){
                     if(_length<1){
                         $(this).addClass('selected');
                         $('#ok_btn').removeClass('disabled');
-                        $('.cue_area').show();
+                        $('.cue_area').removeClass('hidden');
                     }
                 }
             }
@@ -238,11 +250,8 @@ $(function(){
                     },
                     success: function (data) {
                         if(data.result==true){
-                            alert('交换成功');
-                            $('.btn_area .btns .btn').removeClass('disabled').removeClass('act_selected');
-                            $('.hand_card ul li').removeClass('selected');
-                            $('#ok_btn').addClass('hidden').addClass('disabled');
-                            $('#cancel_btn').addClass('hidden');
+                            alert('提示线索成功');
+                            changeRound();
                         }
                     }
                 })
@@ -270,28 +279,6 @@ $(function(){
         $('#cancel_btn').addClass('hidden');*/
         recoverBtnStatus();
     });
-
-    /*$('#cue_btn').click(function(){
-        $.ajax({
-            url: '/game/ajax-end',
-            type: 'post',
-            async : false,
-            dataType:'json',
-            data: {
-                id:$('#game_id').val()
-            },
-            success: function (data) {
-                if(data.result==true){
-                    //游戏开始成功 刷新页面
-                    location.href=location.href;
-                }else{
-                    //console.log(data);
-                    location.href = '/game';
-                }
-            }
-        });
-    })*/
-
 
     $('#end_btn').click(function(){
         $.ajax({

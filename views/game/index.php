@@ -60,16 +60,16 @@
 
                 </div>
                 <div class="chess_box_out">
-                    <div class="cue_num_out">线索 <span><?=Game::DEFAULT_CUE-$game->cue?></span></div>
-                    <div class="chance_num_out">机会 <span><?=Game::DEFAULT_CHANCE-$game->chance?></span></div>
+                    <div class="cue_num_out">线索 <span class="cue_num_out_txt"><?=Game::DEFAULT_CUE-$game->cue?></span></div>
+                    <div class="chance_num_out">机会 <span class="chance_num_out_txt"><?=Game::DEFAULT_CHANCE-$game->chance?></span></div>
                 </div>
                 <div class="card_library">
                     牌库:
-                    <span><?=count($cardInfo['library'])?></span>
+                    <span class="card_num_in_library_txt"><?=count($cardInfo['library'])?></span>
                 </div>
                 <div class="card_discard">
                     弃牌堆:
-                    <span><?=count($cardInfo['discard'])?></span>
+                    <span class="card_num_in_discard_txt"><?=count($cardInfo['discard'])?></span>
                 </div>
             </div>
             <div class="middle_right">

@@ -80,6 +80,12 @@ class GameController extends BaseController
             'opposite_card'=>[],
             'record'=>[],
             'is_your_round'=>false,
+            'cue_num'=>8,
+            'cue_num_2'=>0,
+            'chance_num'=>3,
+            'chance_num_2'=>0,
+            'card_num_in_library'=>40,
+            'card_num_in_discard'=>0,
             'end'=>false,
             'room_id'=>$room_id,
         ];
@@ -103,6 +109,13 @@ class GameController extends BaseController
                         $record[] = '第'.$l->round.'回合：'.$l->content.' ('.$l->add_time.')';
                     }
                     $arr['record'] = $record;
+
+                    $arr['cue_num'] = $game->cue;
+                    $arr['cue_num_2'] = Game::DEFAULT_CUE - $game->cue;
+                    $arr['chance_num'] = $game->chance;
+                    $arr['chance_num_2'] = Game::DEFAULT_CHANCE - $game->chance;
+                    $arr['card_num_in_library'] = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_LIBRARY,'status'=>1])->count();
+                    $arr['card_num_in_discard'] = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_DISCARD,'status'=>1])->count();
 
                     if($room->player_1==$this->user->id){
                         $isMaster = true;
