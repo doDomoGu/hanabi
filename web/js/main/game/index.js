@@ -264,6 +264,27 @@ $(function(){
                         }
                     }
                 })
+            }else if(_act=='play' && _length==1){
+                _sel = $($('.hand_card ul li.selected')[0]).index();
+                //_cue_type = $('#cue_type').val();
+                $.ajax({
+                    url: '/game/ajax-do-play',
+                    type: 'post',
+                    async : false,
+                    dataType:'json',
+                    data: {
+                        id:$('#game_id').val(),
+                        player:$('#round_player').val(),
+                        sel:_sel
+                    },
+                    success: function (data) {
+                        if(data.result==true){
+                            console.log(data);return false;
+                            alert('提示线索成功');
+                            changeRound();
+                        }
+                    }
+                })
             }else{
                 alert('操作错误0021');
             }

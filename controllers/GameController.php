@@ -273,6 +273,34 @@ class GameController extends BaseController
         return json_encode($return);
     }
 
+    //打出一张牌
+    public function actionAjaxDoPlay(){
+        $game_id = Yii::$app->request->post('id',false);
+        $player = Yii::$app->request->post('player',false);//当前回合的玩家 1或2
+        $sel = Yii::$app->request->post('sel',false);
+        $game = Game::find()->where(['id'=>$game_id,'round_player'=>$player])->one();
+        $return = [];
+        $result = false;
+        if($game){
+            //获取打出的牌
+            $playCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$player,'ord'=>$sel,'status'=>1])->one();
+            if($playCard){
+
+
+
+                //添加游戏记录
+                Record::addWithCue($game,$cue_type,$selVal,$cueCardsOrd);
+
+                //交换游戏回合
+                Game::changeRound($game->id,$player);
+
+                $result = true;
+            }
+        }
+        $return['result'] = $result;
+        return json_encode($return);
+    }
+
     public function actionAjaxEnd(){
         $game_id = Yii::$app->request->post('id',false);
         $game = Game::find()->where(['id'=>$game_id])->one();
