@@ -77,11 +77,23 @@
             <?/*=count($cardInfo['table'])*/?>
         </div>-->
                 <ul>
-                    <li><?=Card::$colors[0]?></li>
-                    <li><?=Card::$colors[1]?></li>
-                    <li><?=Card::$colors[2]?></li>
-                    <li><?=Card::$colors[3]?></li>
-                    <li><?=Card::$colors[4]?></li>
+                    <li>
+                        <?=Card::$colors[0]?>
+                        <?=$cardsTopOnTable[0]?>
+                    </li>
+                    <li>
+                        <?=Card::$colors[1]?>
+                        <?=$cardsTopOnTable[1]?>
+                    </li><li>
+                        <?=Card::$colors[2]?>
+                        <?=$cardsTopOnTable[2]?>
+                    </li><li>
+                        <?=Card::$colors[3]?>
+                        <?=$cardsTopOnTable[3]?>
+                    </li><li>
+                        <?=Card::$colors[4]?>
+                        <?=$cardsTopOnTable[4]?>
+                    </li>
                 </ul>
             </div>
 

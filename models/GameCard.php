@@ -167,6 +167,48 @@ PRIMARY KEY (`id`)
             $c->save();
             $i++;
         }
+    }
+
+    //获取桌面上成功燃放的烟花 卡牌
+    public static function getCardsTopOnTable($game_id){
+        $cardsOnTable = [
+            [0,0,0,0,0],
+            [0,0,0,0,0],
+            [0,0,0,0,0],
+            [0,0,0,0,0],
+            [0,0,0,0,0]
+        ];
+        $cards = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_ON_TABLE,'status'=>1])->all();
+
+        foreach($cards as $c){
+            $k1=$c->color;
+            $k2=Card::$numbers[$c->num] - 1;
+            $cardsOnTable[$k1][$k2] = 1;
+        }
+
+        $verify = true;//验证卡牌 ，按数字顺序
+        $cardsTop = [0,0,0,0,0]; //每种颜色的最大数值
+        foreach($cardsOnTable as $k1 => $row){
+            $count = 0;
+            $top = 0;
+            foreach($row as $k2=>$r){
+                if($r==1){
+                    $count++;
+                    $top = $k2+1;
+                }
+            }
+            if($count==$top){
+                $cardsTop[$k1] = $top;
+            }else{
+                $verify=false;
+            }
+        }
+
+        if($verify){
+            return $cardsTop;
+        }else{
+            return false;
+        }
 
     }
 }

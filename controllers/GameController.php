@@ -32,6 +32,8 @@ class GameController extends BaseController
                     }
                     //获取卡牌信息 （牌库、手牌、弃牌、桌面牌等）
                     $params['cardInfo'] = GameCard::getCardInfo($game->id);
+                    $params['cardsTopOnTable'] = GameCard::getCardsTopOnTable($game->id);
+
                     //是否是你的回合
                     if($isMaster){
                         if($game->round_player==1){
