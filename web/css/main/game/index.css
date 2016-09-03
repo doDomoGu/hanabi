@@ -155,6 +155,59 @@
     background: #fee;
     padding:4px;
     float:left;
+    position:relative;
+}
+
+#game_area .middle_area .middle_right ul li.table_li_0,
+#game_area .middle_area .middle_right ul li.table_li_0 span {
+    background: #fee;
+}
+
+#game_area .middle_area .middle_right ul li.table_li_1,
+#game_area .middle_area .middle_right ul li.table_li_1 span {
+    background: #005cd7;
+}
+
+#game_area .middle_area .middle_right ul li.table_li_2,
+#game_area .middle_area .middle_right ul li.table_li_2 span {
+    background: #faff18;
+}
+
+#game_area .middle_area .middle_right ul li.table_li_3,
+#game_area .middle_area .middle_right ul li.table_li_3 span {
+    background: #d43f3a;
+}
+
+#game_area .middle_area .middle_right ul li.table_li_4,
+#game_area .middle_area .middle_right ul li.table_li_4 span {
+    background: #1dce3e;
+}
+
+#game_area .middle_area .middle_right ul li span{
+    position:absolute;
+    top:-1px;
+    display: block;
+    width:60px;
+    height:80px;
+    border:1px solid #333;
+    left:-1px;
+    padding:4px;
+}
+
+#game_area .middle_area .middle_right ul li span.table_span_2 {
+    top:24px;
+}
+
+#game_area .middle_area .middle_right ul li span.table_span_3 {
+    top:48px;
+}
+
+#game_area .middle_area .middle_right ul li span.table_span_4 {
+    top:72px;
+}
+
+#game_area .middle_area .middle_right ul li span.table_span_5 {
+    top:96px;
 }
 
 

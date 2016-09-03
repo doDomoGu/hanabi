@@ -72,28 +72,17 @@
                     <span class="card_num_in_discard_txt"><?=count($cardInfo['discard'])?></span>
                 </div>
             </div>
-            <div class="middle_right">
-                <!--<div>
-            <?/*=count($cardInfo['table'])*/?>
-        </div>-->
+            <div class="middle_right cards_on_table">
                 <ul>
-                    <li>
-                        <?=Card::$colors[0]?>
-                        <?=$cardsTopOnTable[0]?>
+                    <?php for($i=0;$i<5;$i++):?>
+                    <li class="table_li_<?=$i?>">
+                        <?/*=Card::$colors[$i]*/?>
+                        空
+                        <?php for($j=1;$j<=$cardsTopOnTable[$i];$j++):?>
+                        <span class="table_span_<?=$j?>"><?=$j?></span>
+                        <?php endfor;?>
                     </li>
-                    <li>
-                        <?=Card::$colors[1]?>
-                        <?=$cardsTopOnTable[1]?>
-                    </li><li>
-                        <?=Card::$colors[2]?>
-                        <?=$cardsTopOnTable[2]?>
-                    </li><li>
-                        <?=Card::$colors[3]?>
-                        <?=$cardsTopOnTable[3]?>
-                    </li><li>
-                        <?=Card::$colors[4]?>
-                        <?=$cardsTopOnTable[4]?>
-                    </li>
+                    <?php endfor;?>
                 </ul>
             </div>
 
