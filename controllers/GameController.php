@@ -286,8 +286,28 @@ class GameController extends BaseController
         if($game){
             //获取打出的牌
             $playCard = GameCard::find()->where(['game_id'=>$game_id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$player,'ord'=>$sel,'status'=>1])->one();
-            if($playCard){
 
+            if($playCard){
+                $cardsTopOnTable = GameCard::getCardsTopOnTable($game_id);
+
+                if($cardsTopOnTable[$playCard->color] + 1 == Card::$numbers[$playCard->num]){
+                    //打出(燃放)成功
+                }else{
+                    //打出(燃放)失败
+                    //1.卡牌进入弃牌堆
+                    $playCard->type = GameCard::TYPE_IN_DISCARD;
+                    $playCard->ord = GameCard::getInsertDiscardOrd();
+                    $playCard->player = 0;
+                    $playCard->save();
+
+                    //2.机会失去一次
+                    
+
+                    //如果失去全部机会游戏结束
+
+
+                    //3.摸一张牌
+                }
 
 
                 //添加游戏记录
