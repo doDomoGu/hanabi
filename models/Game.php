@@ -77,4 +77,16 @@ PRIMARY KEY (`id`)
         return false;
     }
 
+    //失去一次机会
+    public static function loseChance($game_id){
+        $game = Game::find()->where(['id'=>$game_id])->one();
+        if($game){
+            if($game->chance>0){
+                $game->chance = $game->chance - 1;
+                $game->save();
+                return true;
+            }
+        }
+        return false;
+    }
 }

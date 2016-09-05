@@ -279,9 +279,16 @@ $(function(){
                     },
                     success: function (data) {
                         if(data.result==true){
-                            console.log(data);return false;
-                            alert('提示线索成功');
-                            changeRound();
+                            if(data.game_end==true){
+                                alert('fffff');
+                            }else{
+                                if(data.success==true){
+                                    alert('燃放烟花成功！');
+                                }else{
+                                    alert('燃放烟花失败！');
+                                }
+                                changeRound();
+                            }
                         }
                     }
                 })

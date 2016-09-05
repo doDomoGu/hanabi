@@ -292,29 +292,47 @@ class GameController extends BaseController
 
                 if($cardsTopOnTable[$playCard->color] + 1 == Card::$numbers[$playCard->num]){
                     //打出(燃放)成功
+                    $return['success'] = true;
+
+
+
+                    //交换游戏回合
+                    Game::changeRound($game->id,$player);
                 }else{
                     //打出(燃放)失败
+                    $return['success'] = false;
                     //1.卡牌进入弃牌堆
                     $playCard->type = GameCard::TYPE_IN_DISCARD;
-                    $playCard->ord = GameCard::getInsertDiscardOrd();
+                    $playCard->ord = GameCard::getInsertDiscardOrd($game_id);
                     $playCard->player = 0;
                     $playCard->save();
+                    //整理手牌排序
+                    GameCard::sortCardOrdInPlayer($game_id,$player);
 
                     //2.机会失去一次
-                    
+                    Game::loseChance($game_id);
+
+                    //添加游戏记录
+                    Record::addWithLoseChance($game,$playCard);
 
                     //如果失去全部机会游戏结束
+                    $game = Game::find()->where(['id'=>$game_id])->one();
+                    if($game->chance==0){
+                        //添加游戏记录， 游戏结束：因为燃放失败次数达到3次
+                        Record::addWithGameEnd($game);
 
-
-                    //3.摸一张牌
+                        $game->room->status = Room::STATUS_PREPARING;
+                        $game->room->game_id = 0;
+                        $game->room->player_2_ready = 0;
+                        $game->room->save();
+                        $return['game_end'] = true;
+                    }else{
+                        //3.摸一张牌
+                        GameCard::drawCard($game_id,$player);
+                        //交换游戏回合
+                        Game::changeRound($game->id,$player);
+                    }
                 }
-
-
-                //添加游戏记录
-                Record::addWithCue($game,$cue_type,$selVal,$cueCardsOrd);
-
-                //交换游戏回合
-                Game::changeRound($game->id,$player);
 
                 $result = true;
             }
