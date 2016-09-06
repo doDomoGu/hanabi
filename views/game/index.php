@@ -77,10 +77,13 @@
                     <?php for($i=0;$i<5;$i++):?>
                     <li class="table_li_<?=$i?>">
                         <?/*=Card::$colors[$i]*/?>
-                        空
-                        <?php for($j=1;$j<=$cardsTopOnTable[$i];$j++):?>
-                        <span class="table_span_<?=$j?>"><?=$j?></span>
-                        <?php endfor;?>
+                        <?php if($cardsTopOnTable[$i]>0):?>
+                            <?php for($j=1;$j<=$cardsTopOnTable[$i];$j++):?>
+                                <span class="table_span_<?=$j?>"><?=$j?></span>
+                            <?php endfor;?>
+                        <?php else:?>
+                            空
+                        <?php endif;?>
                     </li>
                     <?php endfor;?>
                 </ul>
@@ -132,15 +135,15 @@
     游戏中
     <a id="end_btn" class="btn btn-primary <?=$isMaster?'':'hidden'?>">结束游戏</a>
     <div class="record_list">
-        <?php if(!empty($record_list)):?>
-            <ul>
+        <ul>
+            <?php if(!empty($record_list)):?>
                 <?php foreach($record_list as $l):?>
                     <li>
                         第<?=$l->round?>回合：<?=$l->content?> (<?=$l->add_time?>)
                     </li>
                 <?php endforeach?>
-            </ul>
-        <?php endif;?>
+            <?php endif;?>
+        </ul>
     </div>
 </div>
 <input type="hidden" id="room_id" value="<?=$room->id?>" />

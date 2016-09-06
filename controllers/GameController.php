@@ -71,14 +71,6 @@ class GameController extends BaseController
     public function actionAjaxGamePlayingSocket(){
         $room_id = Yii::$app->request->post('room_id',false);
         $arr = [
-            /*'id1'=>0,
-            'name1'=>'N/A',
-            'head1'=>'/images/head_img_default.png',
-            'id2'=>0,
-            'name2'=>'N/A',
-            'head2'=>'/images/head_img_default.png',
-            'ord'=>0,
-            'ready'=>0,*/
             'opposite_card'=>[],
             'record'=>[],
             'is_your_round'=>false,
@@ -88,6 +80,7 @@ class GameController extends BaseController
             'chance_num_2'=>0,
             'card_num_in_library'=>40,
             'card_num_in_discard'=>0,
+            'cards_top_on_table'=>[],
             'end'=>false,
             'room_id'=>$room_id,
         ];
@@ -101,17 +94,19 @@ class GameController extends BaseController
             if(isset($game->room)){
                 $room = $game->room;
                 if(in_array($room->status,Room::$status_normal)){
+                    //判断是否要结束游戏
                     if($room->status==Room::STATUS_PREPARING){
                         $arr['end'] = true;
                         $arr['room_id']=$room->id;
                     }
+                    //游戏记录
                     $record = [];
                     $record_list = Record::find()->where(['game_id'=>$game->id])->offset($record_offset)->orderBy('add_time asc')->all();
                     foreach($record_list as $l){
                         $record[] = '第'.$l->round.'回合：'.$l->content.' ('.$l->add_time.')';
                     }
                     $arr['record'] = $record;
-
+                    //各种数字
                     $arr['cue_num'] = $game->cue;
                     $arr['cue_num_2'] = Game::DEFAULT_CUE - $game->cue;
                     $arr['chance_num'] = $game->chance;
@@ -119,6 +114,7 @@ class GameController extends BaseController
                     $arr['card_num_in_library'] = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_LIBRARY,'status'=>1])->count();
                     $arr['card_num_in_discard'] = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_DISCARD,'status'=>1])->count();
 
+                    //根据当前是谁的回合，判断是否要交换回合
                     if($room->player_1==$this->user->id){
                         $isMaster = true;
                         $opposite_player = 2;
@@ -136,11 +132,15 @@ class GameController extends BaseController
                     $colors = Card::$colors;
                     $nums = Card::$numbers;
 
-                    $game_card = GameCard::find()->where(['type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite_player,'status'=>1])->orderBy('ord asc')->all();
+                    //对方手牌信息
+                    $game_card = GameCard::find()->where(['game_id'=>$game->id,'type'=>GameCard::TYPE_IN_PLAYER,'player'=>$opposite_player,'status'=>1])->orderBy('ord asc')->all();
                     foreach($game_card as $gc){
                         $opposite_card[$gc->ord] = ['color'=>$colors[$gc->color],'num'=>$nums[$gc->num]];
                     }
                     $arr['opposite_card'] = $opposite_card;
+
+                    //在桌面上的卡牌（成功燃放的烟花）信息
+                    $arr['cards_top_on_table'] = GameCard::getCardsTopOnTable($game->id);
 
                 }
             }else{
@@ -294,7 +294,18 @@ class GameController extends BaseController
                     //打出(燃放)成功
                     $return['success'] = true;
 
+                    //1.卡牌进入桌面牌库
+                    $playCard->type = GameCard::TYPE_ON_TABLE;
+                    $playCard->ord = 0;
+                    $playCard->player = 0;
+                    $playCard->save();
+                    //整理手牌排序
+                    GameCard::sortCardOrdInPlayer($game_id,$player);
+                    //2.摸一张牌
+                    GameCard::drawCard($game_id,$player);
 
+                    //添加游戏记录 （燃放成功）
+                    Record::addWithPlaySuccess($game,$playCard);
 
                     //交换游戏回合
                     Game::changeRound($game->id,$player);
@@ -312,7 +323,7 @@ class GameController extends BaseController
                     //2.机会失去一次
                     Game::loseChance($game_id);
 
-                    //添加游戏记录
+                    //添加游戏记录 (燃放失败，失去一次机会）
                     Record::addWithLoseChance($game,$playCard);
 
                     //如果失去全部机会游戏结束

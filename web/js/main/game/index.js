@@ -45,6 +45,22 @@ $(function(){
                             }
                         }
 
+                        //在桌面上的卡牌（成功燃放的烟花）信息
+                        if(data.cards_top_on_table.length > 0){
+                            for(var j in data.cards_top_on_table){
+                                _top_num = data.cards_top_on_table[j];
+                                if(_top_num > 0){
+                                    var _table_html = '';
+                                    for(var j2=1;j2<=_top_num;j2++){
+                                        _table_html += '<span class="table_span_'+j2+'" >'+j2+'</span>';
+                                    }
+                                    $('li.table_li_'+j).html(_table_html);
+                                }else{
+                                    $('li.table_li_'+j).html('空');
+                                }
+                            }
+                        }
+
                         //数字更新
                         $('#cue_num').val(data.cue_num);
                         $('#chance_num').val(data.chance_num);

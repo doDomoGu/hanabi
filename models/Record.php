@@ -113,4 +113,14 @@ PRIMARY KEY (`id`)
         self::addOne($game->id,$game->round,$content);
     }
 
+    public static function addWithPlaySuccess(Game $game,$playCard){
+        if($game->round_player==1){
+            $player = $game->room->player1;
+        }else{
+            $player = $game->room->player2;
+        }
+        $content = '【'.$player->nickname.'】打出了['.Card::$colors[$playCard->color].'-'.Card::$numbers[$playCard->num].'],成功地燃放了烟花';
+
+        self::addOne($game->id,$game->round,$content);
+    }
 }
