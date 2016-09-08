@@ -8,12 +8,12 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
 
-$this->title = '注册';
+$this->title = '注册游戏账号';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="panel panel-primary">
+    <div class="panel-heading">免费注册游戏账号</div>
+    <div class="panel-body">
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -45,6 +45,5 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <?php ActiveForm::end(); ?>
-
-
+    </div>
 </div>
