@@ -39,7 +39,7 @@ class LoginForm extends Model
         return [
             'username' => '用户名',
             'password' => '密码',
-            'rememberMe' => '记住我',
+            'rememberMe' => '下次自动登录',
         ];
     }
 

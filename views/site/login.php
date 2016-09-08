@@ -1,8 +1,5 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -10,13 +7,14 @@ use yii\bootstrap\ActiveForm;
 $this->title = '登录';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
+<div class="panel panel-primary">
+    <div class="panel-heading">登录游戏账号</div>
+    <div class="panel-body">
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         'options' => ['class' => 'form-horizontal'],
+        'enableClientValidation'=>false,
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
@@ -38,6 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
     <?php ActiveForm::end(); ?>
-
+    </div>
 
 </div>
