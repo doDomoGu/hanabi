@@ -14,7 +14,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title>Hanabi<?=$this->title!=''?' - '.Html::encode($this->title):'' ?></title>
+    <title>Hanabi 花火<?=$this->title!=''?' - '.Html::encode($this->title):'' ?></title>
     <?php $this->head() ?>
 </head>
 <body>
@@ -31,25 +31,7 @@ AppAsset::register($this);
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => '首页', 'url' => ['/']],
-            ['label' => '游戏规则', 'url' => ['/site/rule']],
-            (Yii::$app->user->isGuest ? (
-                ['label' => '登录', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    '登出 (' . $this->context->user->nickname . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
-            )),
-            Yii::$app->user->isGuest ? (
-            ['label' => '注册', 'url' => ['/site/register']]
-            ):''
-        ],
+        'items' =>$this->context->navItems,
     ]);
     NavBar::end();
     ?>

@@ -1,3 +1,35 @@
-.game-image img{
-    width:600px;
+.page-head {
+    overflow: hidden;
 }
+
+.page-head .head-left {
+    width:620px;
+    float:left;
+}
+
+.page-head .head-left h2 {
+    margin:0 0 50px 0;
+}
+
+.page-head .head-left .btn-area {
+    margin-top:10px;
+    line-height:30px;
+    height:30px;
+}
+
+.page-head .head-left .btn-area span{
+    font-size:26px;
+    vertical-align: text-bottom;
+}
+
+.page-head .head-left .btn-area a.btn {
+    vertical-align: text-bottom;
+    border-radius: 3px;
+    padding: 4px 10px;
+}
+
+.page-head .head-right {
+    width:480px;
+    float:right;
+}
+

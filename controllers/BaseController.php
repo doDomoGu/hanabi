@@ -4,6 +4,7 @@ namespace app\controllers;
 use app\models\Game;
 use app\models\Room;
 use app\models\User;
+use yii\bootstrap\Html;
 use Yii;
 use yii\web\Controller;
 
@@ -12,6 +13,7 @@ class BaseController extends Controller
     public $user = false;
     public $isInRoom = false;
     public $roomId = false;
+    public $navItems = [];
 //    public $navbarView = 'navbar2';
     //public $message = [];
     //public $messageNum = 0;
@@ -31,7 +33,7 @@ class BaseController extends Controller
 
         $this->isInRoom = $this->checkIsInRoom();
 
-
+        $this->setNavItems();
 //        $this->getMessageInfo();
 
         return true;
@@ -79,7 +81,24 @@ class BaseController extends Controller
         return false;
     }
 
-
+    public function setNavItems(){
+        $items[] = ['label' => '游戏规则', 'url' => ['/site/rule']];
+        if(Yii::$app->user->isGuest){
+            $items[] = ['label' => '登录', 'url' => ['/site/login']];
+            $items[] = ['label' => '注册', 'url' => ['/site/register']];
+        }else{
+            $items[] = ['label' => '房间列表', 'url'=> ['/room']];
+            $items[] = '<li>'
+                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
+                . Html::submitButton(
+                    '登出 (' . $this->user->nickname . ')',
+                    ['class' => 'btn btn-link']
+                )
+                . Html::endForm()
+                . '</li>';
+        }
+        $this->navItems = $items;
+    }
 
     //获取登录用户的消息通知提醒
     /*public function getMessageInfo(){
