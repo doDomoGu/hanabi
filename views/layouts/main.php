@@ -1,8 +1,4 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -38,7 +34,6 @@ AppAsset::register($this);
         'items' => [
             ['label' => '首页', 'url' => ['/']],
             ['label' => '游戏规则', 'url' => ['/site/rule']],
-            /*['label' => 'Contact', 'url' => ['/site/contact']],*/
             (Yii::$app->user->isGuest ? (
                 ['label' => '登录', 'url' => ['/site/login']]
             ) : (
@@ -60,9 +55,6 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= $content ?>
     </div>
 </div>
