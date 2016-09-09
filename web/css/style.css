@@ -7,6 +7,16 @@ ul,li {
     margin: 0;
     list-style: none;
 }
+
+.navbar-form {
+    padding:0;
+    margin:0;
+}
+
+.navbar-form .btn-link {
+    padding:15px;
+    border:none;
+}
 .wrap {
     min-height: 100%;
     height: auto;
