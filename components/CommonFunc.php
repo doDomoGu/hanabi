@@ -47,4 +47,14 @@ class CommonFunc extends Component {
 
         return $str;
     }
+
+    public static function getGenderCn($gender){
+        if($gender==1){
+            return '男';
+        }elseif($gender==2){
+            return '女';
+        }else{
+            return 'N/A';
+        }
+    }
 }

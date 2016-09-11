@@ -88,10 +88,11 @@ class BaseController extends Controller
             $items[] = ['label' => '注册', 'url' => ['/site/register']];
         }else{
             $items[] = ['label' => '房间列表', 'url'=> ['/room']];
+            $items[] = ['label' => '个人中心(' . $this->user->nickname . ')', 'url'=> ['/user']];
             $items[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
                 . Html::submitButton(
-                    '登出 (' . $this->user->nickname . ')',
+                    '登出',
                     ['class' => 'btn btn-link']
                 )
                 . Html::endForm()
