@@ -87,8 +87,8 @@ class BaseController extends Controller
             $items[] = ['label' => '登录', 'url' => ['/site/login']];
             $items[] = ['label' => '注册', 'url' => ['/site/register']];
         }else{
-            $items[] = ['label' => '房间列表', 'url'=> ['/room']];
-            $items[] = ['label' => '个人中心(' . $this->user->nickname . ')', 'url'=> ['/user']];
+            $items[] = ['label' => '房间列表', 'url' => ['/room'] , 'active'=>($this->id=='room')?true:false];
+            $items[] = ['label' => '个人中心(' . $this->user->nickname . ')', 'url'=> ['/user'], 'active' => ($this->id=='user')?true:false];
             $items[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
                 . Html::submitButton(
@@ -100,6 +100,15 @@ class BaseController extends Controller
         }
         $this->navItems = $items;
     }
+
+    /*public function isNavItemActive($url,$alias){
+        $return = false;
+        switch(true){
+            case ($alias == 'room':
+        }
+
+        return $return;
+    }*/
 
     //获取登录用户的消息通知提醒
     /*public function getMessageInfo(){
