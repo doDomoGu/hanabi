@@ -14,22 +14,15 @@ class BaseController extends Controller
     public $isInRoom = false;
     public $roomId = false;
     public $navItems = [];
-//    public $navbarView = 'navbar2';
-    //public $message = [];
-    //public $messageNum = 0;
-    //public $layout = 'main';
+    public $layout = 'main';
     public function beforeAction($action){
         if (!parent::beforeAction($action)) {
             return false;
         }
 
-        //$this->titleSuffix = '_'.yii::$app->id;
-
         if(!$this->checkLogin()){
             return false;
         }
-
-
 
         $this->isInRoom = $this->checkIsInRoom();
 
@@ -87,7 +80,9 @@ class BaseController extends Controller
             $items[] = ['label' => '登录', 'url' => ['/site/login']];
             $items[] = ['label' => '注册', 'url' => ['/site/register']];
         }else{
-            $items[] = ['label' => '房间列表', 'url' => ['/room'] , 'active'=>($this->id=='room')?true:false];
+            $items[] = ['label' => '房间列表', 'url' => ['/room'] , 'active'=>($this->id=='room' && $this->action->id=='index')?true:false];
+            if($this->roomId!=false && (!in_array($this->id,['room','game'])))
+                $items[] = ['label' => '进入你的房间<span class="label label-warning">!</span>', 'url' => ['/room/'.$this->roomId],'encode'=>false];
             $items[] = ['label' => '个人中心(' . $this->user->nickname . ')', 'url'=> ['/user'], 'active' => ($this->id=='user')?true:false];
             $items[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
