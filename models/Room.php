@@ -8,7 +8,7 @@ class Room extends \yii\db\ActiveRecord
     const STATUS_PREPARING = 1;
     const STATUS_PLAYING = 2;
 
-    const STATUS_DELETED_CN = '已删除';
+    const STATUS_DELETED_CN = '空闲';
     const STATUS_PREPARING_CN = '准备中';
     const STATUS_PLAYING_CN = '游戏中';
 

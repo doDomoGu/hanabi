@@ -26,7 +26,7 @@
                 <td><?=$l->id?></td>
                 <td><?=$l->title?></td>
                 <td>
-                    <?=$l->player_2>0?2:1?> / 2
+                    <?=$l->player_1>0?($l->player_2>0?2:1):0?> / 2
                 </td>
                 <td><?=Room::getStatusCn($l->status)?></td>
                 <td>
