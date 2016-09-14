@@ -15,8 +15,11 @@ class RoomController extends BaseController
     //游戏房间列表
     public function actionIndex(){
         $list = Room::find()
+            ->where(['>','player_1', 0])
+            ->andWhere(['in','status', Room::$status_normal])
             ->all();
         $params['list'] = $list;
+        $this->view->title = '房间列表';
         return $this->render('index',$params);
     }
 

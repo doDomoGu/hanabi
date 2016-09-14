@@ -34,3 +34,7 @@ ul,li {
     border-top: 1px solid #ddd;
     padding-top: 20px;
 }
+
+.panel-heading h3 {
+    margin:0;
+}

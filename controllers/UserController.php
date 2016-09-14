@@ -9,6 +9,7 @@ class UserController extends BaseController
 {
     public function actionIndex()
     {
+        $this->view->title = '个人中心';
         return $this->render('index');
     }
 }
