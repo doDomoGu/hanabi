@@ -41,6 +41,7 @@ class RoomController extends BaseController
         }/*else{
             var_dump($model->errors);exit;
         }*/
+        $this->view->title = '创建房间';
         return $this->render('create', [
             'model' => $model,
         ]);

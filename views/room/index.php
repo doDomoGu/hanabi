@@ -36,7 +36,7 @@
                             <td>
                                 <?php if($l->status==1):?>
                                     <?php if($l->player_2==0):?>
-                                        <a class="btn btn-warning <?=$this->context->isInRoom?'disabled':''?>" href="/room/enter?id=<?=$l->id?>" > 进入 >> </a>
+                                        <a class="btn btn-warning <?=$this->context->isInRoom?'hidden':''?>" href="/room/enter?id=<?=$l->id?>" > 进入 >> </a>
                                     <?php else:?>
                                         房间已满
                                     <?php endif;?>
