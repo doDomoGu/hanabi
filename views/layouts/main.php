@@ -30,7 +30,7 @@ AppAsset::register($this);
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['id'=>'header-nav','class' => 'navbar-nav navbar-right'],
         'items' =>$this->context->navItems,
     ]);
     NavBar::end();
