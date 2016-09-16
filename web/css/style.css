@@ -47,3 +47,7 @@ ul,li {
 .panel-heading h3 {
     margin:0;
 }
+
+.alert {
+    margin-bottom: 10px;
+}
