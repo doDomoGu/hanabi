@@ -14,6 +14,9 @@ class RoomController extends BaseController
 {
     //游戏房间列表
     public function actionIndex(){
+        Yii::$app->session->setFlash('info','this is info ');
+        //Yii::$app->session->setFlash('error','this is error ');
+        //Yii::$app->session->setFlash('success','this is success ');
         $list = Room::find()
             ->where(['>','player_1', 0])
             ->andWhere(['in','status', Room::$status_normal])
