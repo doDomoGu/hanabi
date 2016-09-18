@@ -1,3 +1,6 @@
+<?php
+    $this->title = '游戏规则';
+?>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3><?=$this->title?></h3>
