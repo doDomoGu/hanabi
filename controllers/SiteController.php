@@ -104,7 +104,7 @@ class SiteController extends BaseController {
             }
         }else{
             //TODO 验证失败
-            var_dump($model->errors);//exit;
+            //var_dump($model->errors);//exit;
         }
         return $this->render('register', [
             'model' => $model,

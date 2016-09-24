@@ -14,7 +14,7 @@ class RoomController extends BaseController
 {
     //游戏房间列表
     public function actionIndex(){
-        Yii::$app->session->setFlash('info','this is info ');
+        //Yii::$app->session->setFlash('info','this is info ');
         //Yii::$app->session->setFlash('error','this is error ');
         //Yii::$app->session->setFlash('success','this is success ');
         $list = Room::find()
@@ -22,7 +22,7 @@ class RoomController extends BaseController
             ->andWhere(['in','status', Room::$status_normal])
             ->all();
         $params['list'] = $list;
-        $this->view->title = '房间列表';
+
         return $this->render('index',$params);
     }
 

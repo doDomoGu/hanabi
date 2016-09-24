@@ -1,4 +1,5 @@
 <?php
+    $this->title = '房间列表';
     use app\models\Room;
 ?>
 <div class="panel panel-default">
