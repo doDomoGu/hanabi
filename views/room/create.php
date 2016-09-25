@@ -1,4 +1,5 @@
 <?php
+    $this->title = '创建房间';
 
     use yii\helpers\Html;
     use yii\bootstrap\ActiveForm;
