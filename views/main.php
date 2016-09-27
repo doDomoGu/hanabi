@@ -37,7 +37,7 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?=$this->render('//layouts/alert')?>
+        <?=$this->render('alert')?>
         <?= $content ?>
     </div>
 </div>

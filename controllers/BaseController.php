@@ -19,7 +19,7 @@ class BaseController extends Controller
         if (!parent::beforeAction($action)) {
             return false;
         }
-
+        Yii::$app->setLayoutPath(Yii::$app->viewPath);
         if(!$this->checkLogin()){
             return false;
         }
