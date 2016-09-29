@@ -1,0 +1,53 @@
+html,
+body {
+    height: 100%;
+}
+ul,li {
+    padding:0;
+    margin: 0;
+    list-style: none;
+}
+
+.navbar-form {
+    padding:0;
+    margin:0;
+}
+
+.navbar-form .btn-link {
+    padding:15px;
+    border:none;
+}
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 0 15px 20px;
+}
+
+
+#header-nav .label {
+    vertical-align: middle;
+    height:14px;
+    padding:1px 6px;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.panel-heading h3 {
+    margin:0;
+}
+
+.alert {
+    margin-bottom: 10px;
+}
