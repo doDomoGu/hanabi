@@ -8,21 +8,23 @@ use Yii;
  */
 class Module extends \yii\base\Module
 {
-    /**
-     * @inheritdoc
-     */
+
     public $controllerNamespace = 'app\modules\admin\controllers';
     public $layout = 'main';
     public $defaultRoute = 'site';
-    /**
-     * @inheritdoc
-     */
+
     public function init()
     {
         parent::init();
 
         $this->setLayoutPath($this->viewPath);
+        $this->setComponents([
+            'adminUser' => [
+                'class'=>'yii\web\user',
+                'identityClass' => 'app\modules\admin\models\AdminUserIdentity',
+                'enableAutoLogin' => true,
+            ]
+        ]);
 
-        // custom initialization code goes here
     }
 }

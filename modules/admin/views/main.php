@@ -14,40 +14,45 @@ AppAdminAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title>Hanabi 花火<?=$this->title!=''?' - '.Html::encode($this->title):'' ?></title>
+    <title>后台管理<?=$this->title!=''?' - '.Html::encode($this->title):'' ?></title>
     <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-/*    NavBar::begin([
-        'brandLabel' => 'Hanabi 花火',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['id'=>'header-nav','class' => 'navbar-nav navbar-right'],
-        'items' =>$this->context->navItems,
-    ]);
-    NavBar::end();
-    */?>
-
-    <div class="container">
-        <?= $content ?>
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+        ...left
     </div>
-</div>
+    <!-- left side end-->
 
-<footer class="footer">
-    <div class="container text-center">
-        <p class=""><a href="http://xinmengweb.com" target="_blank">&copy; Xinmeng Web</a> <?= date('Y') ?></p>
+    <!-- main content start-->
+    <div class="main-content" >
+        <!-- header section start-->
+        <div class="header-section">
+            ...header section
+        </div>
+        <!-- header section end-->
+        <!-- page heading start-->
+        <div class="page-heading">
+            ...head
+        </div>
+        <!-- page heading end-->
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <?=$content?>
+        </div>
+        <!--body wrapper end-->
 
-        <!--<p class="pull-right"><?/*= Yii::powered() */?></p>-->
+        <!--footer section start-->
+        <footer>
+            ...footer
+        </footer>
+        <!--footer section end-->
     </div>
-</footer>
+    <!-- main content end-->
+</section>
 
 <?php $this->endBody() ?>
 </body>
