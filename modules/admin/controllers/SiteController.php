@@ -1,20 +1,11 @@
 <?php
-
 namespace app\modules\admin\controllers;
-
 
 use app\modules\admin\models\AdminLoginForm;
 use Yii;
-/**
- * Default controller for the `admin` module
- */
-class SiteController extends BaseController
-{
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
-    public $layout = 'main';
+
+class SiteController extends BaseController{
+
     public function actionIndex()
     {
         return $this->render('index');
@@ -33,5 +24,10 @@ class SiteController extends BaseController
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+
+    public function actionLogout(){
+        $this->module->adminUser->logout();
+        return $this->redirect('/admin');
     }
 }
