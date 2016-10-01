@@ -57,4 +57,14 @@ class CommonFunc extends Component {
             return 'N/A';
         }
     }
+
+    public static function getStatusCn($status){
+        if($status==1){
+            return '正常';
+        }elseif($status==0){
+            return '<span style="color:red;">禁用</span>';
+        }else{
+            return 'N/A';
+        }
+    }
 }
