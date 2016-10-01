@@ -7,6 +7,7 @@ use app\assets\AppAdminAsset;
 use app\modules\admin\components\AdminFunc;
 
 AppAdminAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -43,18 +44,27 @@ AppAdminAsset::register($this);
 
             <!--sidebar nav start-->
             <ul class="nav nav-pills nav-stacked custom-nav">
-                <li><a href="<?=AdminFunc::adminUrl('/')?>"><i class="fa fa-home"></i><span>Dashboard</span></a></li>
-                <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Layouts</span></a>
+                <li <?=$this->context->id=='site'?'class="active"':''?>>
+                    <a href="<?=AdminFunc::adminUrl('/')?>">
+                        <i class="fa fa-home"></i><span>后台首页</span>
+                    </a>
+                </li>
+                <li class="menu-list">
+                    <a href="">
+                        <i class="fa fa-laptop"></i> <span>Layouts</span>
+                    </a>
                     <ul class="sub-menu-list">
                         <li><a href="blank_page.html"> Blank Page</a></li>
                         <li><a href="boxed_view.html"> Boxed Page</a></li>
                         <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
                         <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
-
                     </ul>
                 </li>
-                <li><a href="<?=AdminFunc::adminUrl('user')?>"><i class="fa fa-home"></i><span>User</span></a></li>
-
+                <li <?=$this->context->id=='user'?'class="active"':''?>>
+                    <a href="<?=AdminFunc::adminUrl('user')?>">
+                        <i class="fa fa-users"></i><span>玩家</span>
+                    </a>
+                </li>
             </ul>
             <!--sidebar nav end-->
 
