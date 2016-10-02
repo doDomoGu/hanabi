@@ -13,6 +13,7 @@ class SiteController extends BaseController{
 
     public function actionLogin(){
 
+        $this->layout =false;
         if (!$this->module->adminUser->isGuest) {
             return $this->redirect('/admin');
         }
