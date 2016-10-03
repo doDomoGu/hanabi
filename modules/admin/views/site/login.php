@@ -18,15 +18,24 @@ AppAdminAsset::register($this);
 <body class="login-body">
 <?php $this->beginBody() ?>
 <div class="container">
-
-    <form class="form-signin" action="index.html">
+    <?php $form = ActiveForm::begin([
+        'id' => 'login-form',
+        'options' => ['class' => 'form-signin'],
+        /*'fieldConfig' => [
+            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+        ],*/
+    ]); ?>
+    <!--<form class="form-signin" action="index.html">-->
         <div class="form-signin-heading text-center">
             <h1 class="sign-title">Sign In</h1>
             <img src="images/login-logo.png" alt=""/>
         </div>
         <div class="login-wrap">
-            <input type="text" class="form-control" placeholder="User ID" autofocus>
-            <input type="password" class="form-control" placeholder="Password">
+            <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+            <?= $form->field($model, 'password')->passwordInput() ?>
+            <!--<input type="text" class="form-control" placeholder="User ID" autofocus>-->
+<!--            <input type="password" class="form-control" placeholder="Password">-->
 
             <button class="btn btn-lg btn-login btn-block" type="submit">
                 <i class="fa fa-check"></i>
@@ -70,7 +79,7 @@ AppAdminAsset::register($this);
         </div>
         <!-- modal -->
 
-    </form>
+    <?php ActiveForm::end(); ?>
 
 </div>
 
