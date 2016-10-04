@@ -20,7 +20,7 @@ class SiteController extends BaseController{
 
         $model = new AdminLoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/admin');
         }
         return $this->render('login', [
             'model' => $model,
