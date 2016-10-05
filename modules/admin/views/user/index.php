@@ -1,14 +1,8 @@
 <?php
+    $this->title = '玩家列表';
     use app\components\CommonFunc;
 ?>
 <section class="panel">
-    <header class="panel-heading">
-        玩家列表
-        <!--<span class="tools pull-right">
-                                <a href="javascript:;" class="fa fa-chevron-down"></a>
-                                <a href="javascript:;" class="fa fa-times"></a>
-                             </span>-->
-    </header>
     <div class="panel-body">
         <table class="table">
             <thead>

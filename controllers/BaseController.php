@@ -36,7 +36,7 @@ class BaseController extends Controller
     public function checkLogin(){
         $this->checkStatus();
         //除“首页”和“登陆页面”以外的页面，需要进行登陆判断
-        if(!in_array($this->route,array('site/index','site/login','site/rule','site/register','site/captcha'))){
+        if(!in_array($this->route,array('site/index','site/login','site/rule','site/register','site/captcha','site/error'))){
             if(Yii::$app->user->isGuest){
                 $this->redirect(Yii::$app->urlManager->createUrl(Yii::$app->user->loginUrl));
                 return false;

@@ -1,7 +1,7 @@
 $(function(){
-    if($('.alert').length>0){
+    if($('.top-alert').length>0){
         setTimeout(function(){
-            $('.alert').parent('div').animate({'height':'0','padding':0},2000,function(){
+            $('.top-alert').animate({'height':'0','padding':0},2000,function(){
                 $(this).hide();
             });
         },5000);

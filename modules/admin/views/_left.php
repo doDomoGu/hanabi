@@ -27,7 +27,7 @@
                     <i class="fa fa-home"></i><span>后台首页</span>
                 </a>
             </li>
-            <li class="menu-list">
+            <!--<li class="menu-list">
                 <a href="">
                     <i class="fa fa-laptop"></i> <span>Layouts</span>
                 </a>
@@ -37,10 +37,15 @@
                     <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
                     <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
                 </ul>
-            </li>
+            </li>-->
             <li <?=$this->context->id=='user'?'class="active"':''?>>
                 <a href="<?=AdminFunc::adminUrl('user')?>">
                     <i class="fa fa-users"></i><span>玩家</span>
+                </a>
+            </li>
+            <li <?=$this->context->id=='game'?'class="active"':''?>>
+                <a href="<?=AdminFunc::adminUrl('game')?>">
+                    <i class="fa fa-gamepad"></i><span>游戏</span>
                 </a>
             </li>
         </ul>

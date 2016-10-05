@@ -21,13 +21,13 @@ AppAdminAsset::register($this);
 <section>
     <?=$this->render('_left')?>
     <div class="main-content" >
-        <?=$this->render('_header')?>
-        <?=$this->render('_page_head')?>
-        <div class="wrapper">
+        <?=$this->render('_header')?><!--
+        <?/*=$this->render('_page_head')*/?>
+        --><div class="wrapper">
             <?=$content?>
-        </div>
-        <?=$this->render('_footer')?>
-    </div>
+        </div><!--
+        <?/*=$this->render('_footer')*/?>
+    --></div>
 </section>
 <?php $this->endBody() ?>
 </body>

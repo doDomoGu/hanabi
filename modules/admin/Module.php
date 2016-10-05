@@ -18,13 +18,15 @@ class Module extends \yii\base\Module
         parent::init();
 
         $this->setLayoutPath($this->viewPath);
+        Yii::$app->errorHandler->errorAction = 'admin/site/error';
         $this->setComponents([
             'adminUser' => [
                 'class'=>'yii\web\user',
                 'identityClass' => 'app\modules\admin\models\AdminUserIdentity',
                 'enableAutoLogin' => true,
                 'loginUrl'=>'/admin/site/login'
-            ]
+            ],
+            
         ]);
 
     }

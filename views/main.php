@@ -37,7 +37,13 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
-        <?=$this->render('alert')?>
+        <?php
+        if( Yii::$app->getSession()->hasFlash('success') ||
+            Yii::$app->getSession()->hasFlash('error') ||
+            Yii::$app->getSession()->hasFlash('info') ):
+        ?>
+            <?=$this->render('alert')?>
+        <?php endif;?>
         <?= $content ?>
     </div>
 </div>

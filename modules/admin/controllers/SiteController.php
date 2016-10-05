@@ -31,4 +31,8 @@ class SiteController extends BaseController{
         $this->module->adminUser->logout();
         return $this->redirect('/admin');
     }
+
+    public function actionError(){
+        return $this->render('error');
+    }
 }
