@@ -32,7 +32,13 @@ class RoomController extends BaseController
     public function actionCreate(){
         $model = new RoomForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $room = new Room();
+            $roomRest = Room::find()->where(['status'=>Room::STATUS_DELETED])->all();
+            if(!empty($roomRest)){
+                shuffle($roomRest);
+                $room = array_shift($roomRest);
+            }else{
+                $room = new Room();
+            }
             $room->attributes = $model->attributes;
             $room->password = $room->password!=''?md5($room->password):'';
             $room->player_1 = $this->user->id;
