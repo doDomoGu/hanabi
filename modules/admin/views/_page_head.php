@@ -4,20 +4,20 @@ use yii\widgets\Breadcrumbs;
 <div class="page-heading">
     <h3><?=$this->title?></h3>
 
-    <ul class="breadcrumb">
+    <!--<ul class="breadcrumb">
         <li>
             <a href="#">Dashboard</a>
         </li>
         <li class="active"> Fontawesome </li>
     </ul>
     <?php
-echo Breadcrumbs::widget([
+/*echo Breadcrumbs::widget([
     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
 ]);
-?>
+*/?>
 
-    <?php
-    echo Breadcrumbs::widget([
+    --><?php
+/*    echo Breadcrumbs::widget([
         'itemTemplate' => "<li>{link}</li>", // template for all links
         'links' => [
             [
@@ -28,5 +28,5 @@ echo Breadcrumbs::widget([
             'Edit',
         ],
     ]);
-    ?>
+    */?>
 </div>
