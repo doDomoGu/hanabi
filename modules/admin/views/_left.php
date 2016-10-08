@@ -24,7 +24,7 @@
         <ul class="nav nav-pills nav-stacked custom-nav">
             <li <?=$this->context->id=='site'?'class="active"':''?>>
                 <a href="<?=AdminFunc::adminUrl('/')?>">
-                    <i class="fa fa-home"></i><span>后台首页</span>
+                    <i class="fa fa-home"></i><span>仪表盘</span>
                 </a>
             </li>
             <!--<li class="menu-list">

@@ -4,6 +4,8 @@ namespace app\models;
 
 class User extends \yii\db\ActiveRecord
 {
+    CONST STATUS_ENABLE = 1;
+    CONST STATUS_DISABLE = 0;
     public function validatePassword($password)
     {
         return $this->password === md5($password);
