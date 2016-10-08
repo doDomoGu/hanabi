@@ -43,7 +43,6 @@ class RoomController extends BaseController
             $room->password = $room->password!=''?md5($room->password):'';
             $room->player_1 = $this->user->id;
             $room->status = 1;
-            $room->create_time = date('Y-m-d H:i:s');
             if($room->save()){
                 return $this->redirect('/room/'.$room->id);
             }else{

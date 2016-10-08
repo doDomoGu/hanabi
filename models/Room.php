@@ -2,6 +2,9 @@
 
 namespace app\models;
 
+use phpDocumentor\Reflection\DocBlockTest;
+use yii\db\Expression;
+
 class Room extends \yii\db\ActiveRecord
 {
     const STATUS_DELETED = 0;
@@ -22,7 +25,7 @@ class Room extends \yii\db\ActiveRecord
             'player_2' => '玩家2',
             'player_2_ready' => '玩家2是否已准备',
             'game_id' => '对应游戏id',
-            'create_time' => '创建时间',
+            'modify_time' => '变更时间',
             'status' => '状态'
         ];
     }
@@ -33,23 +36,30 @@ class Room extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             [['player_1', 'player_2','status','player_2_ready','game_id'], 'integer'],
-            [[ 'password','create_time'], 'safe']
+            [[ 'password','modify_time'], 'safe'],
+            //['modify_time','default','value'=>new Expression('NOW()')]
 
         ];
     }
 
-/*CREATE TABLE `room` (
-`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`title` varchar(100) NOT NULL,
-`password` varchar(100) NOT NULL,
-`player_1` int(11) unsigned DEFAULT '0',
-`player_2` int(11) unsigned DEFAULT '0',
-`player_2_ready` tinyint(1) unsigned DEFAULT '0',
-`game_id` int(11) unsigned DEFAULT '0',
-`create_time` datetime DEFAULT NULL,
-`status` tinyint(1) NOT NULL DEFAULT '0',
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
+    public function beforeSave($insert)
+    {
+        $this->modify_time = new Expression('NOW()');
+        return parent::beforeSave($insert);
+    }
+
+    /*CREATE TABLE `room` (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `title` varchar(100) NOT NULL,
+    `password` varchar(100) NOT NULL,
+    `player_1` int(11) unsigned DEFAULT '0',
+    `player_2` int(11) unsigned DEFAULT '0',
+    `player_2_ready` tinyint(1) unsigned DEFAULT '0',
+    `game_id` int(11) unsigned DEFAULT '0',
+    `modify_time` datetime DEFAULT NULL,
+    `status` tinyint(1) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
     public function getPlayer1(){
         return $this->hasOne('app\models\User', array('id' => 'player_1'));

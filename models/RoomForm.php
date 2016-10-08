@@ -10,7 +10,7 @@ class RoomForm extends Model
     public $password;
     public $player_1;
     public $player_2;
-    public $create_time;
+    public $modify_time;
     public $status;
 
     public function attributeLabels(){
@@ -19,7 +19,7 @@ class RoomForm extends Model
             'password' => '密码',
             'player_1' => '玩家1',
             'player_2' => '玩家2',
-            'create_time' => '创建时间',
+            'modify_time' => '变更时间',
             'status' => '状态',
         ];
     }
@@ -29,7 +29,7 @@ class RoomForm extends Model
         return [
             [['title'], 'required'],
             [['player_1', 'player_2','status'], 'integer'],
-            [[ 'password','create_time'], 'safe'],
+            [[ 'password','modify_time'], 'safe'],
         ];
     }
 
