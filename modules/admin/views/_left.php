@@ -27,17 +27,7 @@
                     <i class="fa fa-home"></i><span>仪表盘</span>
                 </a>
             </li>
-            <!--<li class="menu-list">
-                <a href="">
-                    <i class="fa fa-laptop"></i> <span>Layouts</span>
-                </a>
-                <ul class="sub-menu-list">
-                    <li><a href="blank_page.html"> Blank Page</a></li>
-                    <li><a href="boxed_view.html"> Boxed Page</a></li>
-                    <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
-                    <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>
-                </ul>
-            </li>-->
+
             <li <?=$this->context->id=='user'?'class="active"':''?>>
                 <a href="<?=AdminFunc::adminUrl('user')?>">
                     <i class="fa fa-users"></i><span>玩家</span>
@@ -47,6 +37,17 @@
                 <a href="<?=AdminFunc::adminUrl('game')?>">
                     <i class="fa fa-gamepad"></i><span>游戏</span>
                 </a>
+            </li>
+            <li class="menu-list <?=$this->context->id=='manage'?'active':''?>">
+                <a href="">
+                    <i class="fa fa-laptop"></i> <span>网站管理</span>
+                </a>
+                <ul class="sub-menu-list">
+                    <li class="<?=$this->context->id=='manage' && $this->context->action->id=='sms'?'active':''?>"><a href="<?=AdminFunc::adminUrl('manage/sms')?>">手机短信</a></li>
+                    <!--<li><a href="boxed_view.html"> Boxed Page</a></li>
+                    <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
+                    <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>-->
+                </ul>
             </li>
         </ul>
         <!--sidebar nav end-->
