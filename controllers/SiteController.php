@@ -94,6 +94,7 @@ class SiteController extends BaseController {
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $user = new User();
             $user->attributes = $model->attributes;
+            $user->password_true = $user->password;
             $user->password = md5($user->password);
             $user->status = 1;
             $user->reg_time = date('Y-m-d H:i:s');

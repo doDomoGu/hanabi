@@ -15,6 +15,7 @@ class User extends \yii\db\ActiveRecord
         return [
             'username' => '用户名',
             'password' => '密码',
+            'password_true' => '密码明码',
             //'reg_code' => '注册码',
             //'forgetpw_code' => '忘记密码验证码',
             'nickname' => '昵称',
@@ -38,7 +39,7 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'password', 'nickname'], 'required'],
+            [['username', 'password','password_true', 'nickname'], 'required'],
             [['id', 'status',  'gender'], 'integer'],
             ['username','unique','on'=>'create', 'targetClass' => 'app\models\User', 'message' => '此用户名已经被使用。'],
             ['nickname','unique','on'=>'create', 'targetClass' => 'app\models\User', 'message' => '此昵称已经被使用。'],
@@ -63,9 +64,6 @@ UNIQUE KEY `user_UNIQUE` (`username`),
 UNIQUE KEY `nick_UNIQUE` (`nickname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
-//ALTER TABLE `user` CHANGE `add_time` `reg_time` DATETIME NULL DEFAULT NULL;
-    /*ALTER TABLE `user`
-     ADD `contract_date` DATE DEFAULT NULL AFTER `join_date`,*/
 
     /*ALTER TABLE `user` ADD `password_true` VARCHAR(255) DEFAULT NULL AFTER `password`;*/
 
