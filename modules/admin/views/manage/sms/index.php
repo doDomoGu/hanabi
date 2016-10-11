@@ -7,11 +7,11 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>用户名</th>
-                <th>昵称</th>
-                <th>性别</th>
-                <th>注册时间</th>
-                <th>状态</th>
+                <th>玩家ID</th>
+                <th>手机</th>
+                <th>短信内容</th>
+                <th>创建时间</th>
+                <th>发送时间</th>
             </tr>
             </thead>
             <tbody>
@@ -19,7 +19,7 @@
             <tr>
                 <td><?=$l->id?></td>
                 <td><?=$l->user_id?></td>
-                <td><?=$l->phone?></td>
+                <td><?=$l->mobile?></td>
                 <td><?=$l->msg?></td>
                 <td><?=$l->create_time?></td>
                 <td><?=$l->send_time?></td>
