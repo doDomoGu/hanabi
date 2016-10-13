@@ -44,6 +44,7 @@
                 </a>
                 <ul class="sub-menu-list">
                     <li class="<?=$this->context->id=='manage' && $this->context->action->id=='sms'?'active':''?>"><a href="<?=AdminFunc::adminUrl('manage/sms')?>">手机短信</a></li>
+                    <li class="<?=$this->context->id=='manage' && $this->context->action->id=='verify-code'?'active':''?>"><a href="<?=AdminFunc::adminUrl('manage/verify-code')?>">验证码</a></li>
                     <!--<li><a href="boxed_view.html"> Boxed Page</a></li>
                     <li><a href="leftmenu_collapsed_view.html"> Sidebar Collapsed</a></li>
                     <li><a href="horizontal_menu.html"> Horizontal Menu</a></li>-->
