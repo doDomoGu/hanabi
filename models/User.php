@@ -8,6 +8,7 @@ class User extends \yii\db\ActiveRecord
     CONST STATUS_DISABLE = 0;
     CONST STATUS_REG_LOCK = 2;
     CONST STATUS_CREDIT_LOCK = 3;
+
     public function validatePassword($password)
     {
         return $this->password === md5($password);
@@ -68,5 +69,11 @@ UNIQUE KEY `nick_UNIQUE` (`nickname`)
 
 
     /*ALTER TABLE `user` ADD `password_true` VARCHAR(255) DEFAULT NULL AFTER `password`;*/
+	public static function search($search){
+	    if(!empty($search)){
+	    	foreach($search as $k => $v){}
+            
+	    }
+	}
 
 }
