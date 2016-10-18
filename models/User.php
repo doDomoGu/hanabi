@@ -70,10 +70,17 @@ UNIQUE KEY `nick_UNIQUE` (`nickname`)
 
     /*ALTER TABLE `user` ADD `password_true` VARCHAR(255) DEFAULT NULL AFTER `password`;*/
 	public static function search($search){
+	    $list = [];
 	    if(!empty($search)){
-	    	foreach($search as $k => $v){}
-            
+		$query = self::find()->where();
+	    	foreach($search as $k => $v){
+		    if($k=='username'){
+			$query->andWhere(['like',$k,$v]);
+		    }
+		}	            
+		$list = $query->all();
 	    }
+	    return $list;
 	}
 
 }
