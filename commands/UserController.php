@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use yii\console\Controller;
+use app\models\User;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -28,8 +29,17 @@ class UserController extends Controller
         echo $message . "\n";
     }
 
-    public function actionSearch(array $info){
-	var_dump($info);
-echo "\n";
+    public function actionSearch($name=false){
+	$search = [];
+	if($name){
+	$search['username'] = $name;
+	
 	}
+
+	$list = User::search($search);
+//var_dump($list);exit;
+	foreach($list as $l){
+	echo $l->id.':'.$l->username."\n";
+}
+}
 }
