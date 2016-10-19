@@ -9,6 +9,12 @@ class User extends \yii\db\ActiveRecord
     CONST STATUS_REG_LOCK = 2;
     CONST STATUS_CREDIT_LOCK = 3;
 
+    public $status_register = [
+        self::STATUS_DISABLE,
+        self::STATUS_ENABLE,
+        self::STATUS_CREDIT_LOCK
+    ];
+
     public function validatePassword($password)
     {
         return $this->password === md5($password);
@@ -70,17 +76,37 @@ UNIQUE KEY `nick_UNIQUE` (`nickname`)
 
     /*ALTER TABLE `user` ADD `password_true` VARCHAR(255) DEFAULT NULL AFTER `password`;*/
 	public static function search($search){
-		$query = self::find()->where([]);
-	    if(!empty($search)){
-	    	foreach($search as $k => $v){
-		    if($k=='username'){
-			$query->andWhere(['like',$k,$v]);
-		    }
-		}	            
-	    }
+	    $query = self::handleWhere($search);
 		$list = $query->all();
 //var_dump($list);exit;
 	    return $list;
 	}
 
+	public static function handleWhere($query,$search){
+        $query = self::find();
+        if(!empty($search)){
+            foreach($search as $k => $v){
+                if($k=='username'){
+                    $query->andWhere(['like',$k,$v]);
+                }
+            }
+        }
+        return $query;
+    }
+	/*
+	 * function isRegistered 检测是否注册
+	 * @param array info  指明查找条件  mobile username email
+	 */
+
+	public static function isRegisterd($info=[]){
+        if(!empty($info)){
+
+            foreach($info as $k => $v){
+
+            }
+
+        }else{
+            return null;
+        }
+	}
 }
