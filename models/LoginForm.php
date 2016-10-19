@@ -86,7 +86,7 @@ class LoginForm extends Model
     {
         if ($this->_user === false) {
             $this->username = trim($this->username);
-            $this->_user = UserIdentity::findByUsername($this->username);
+            $this->_user = UserIdentity::findByMobile($this->username);
         }
 
         return $this->_user;

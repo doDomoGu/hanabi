@@ -74,6 +74,24 @@ class UserIdentity extends \yii\base\Object implements \yii\web\IdentityInterfac
 
         return null;
     }
+    
+    public static function findByMobile($username)
+    {
+        $user = User::find()->where(['mobile'=>$username])->one();
+        if($user){
+            $userStatic = [
+                'id' => $user->id,
+                'username' => $user->username,
+                'password' => $user->password,
+                'authKey' => 'key-'.$user->id,
+                'accessToken' => 'token-'.$user->id,
+                'status' => $user->status
+            ];
+            return new static($userStatic);
+        }
+
+        return null;
+    }
 
     public function getId()
     {
