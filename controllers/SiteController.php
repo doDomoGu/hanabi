@@ -81,10 +81,16 @@ class SiteController extends BaseController {
         ]);
     }
 
+
+    public function actionRegister(){
+
+
+    }
+
     /*
      * 玩家注册页面
      */
-    public function actionRegister(){
+    public function actionRegisterBak(){
         //如果是登录用户跳转至个人中心
         if (!Yii::$app->user->isGuest) {
             return $this->redirect(['/user']);

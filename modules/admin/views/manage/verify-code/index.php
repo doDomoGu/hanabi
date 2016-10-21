@@ -21,6 +21,7 @@
                 <td><?=$l->id?></td>
                 <td><?=$l->user_id?></td>
                 <td><?=$l->scenario?></td>
+                <td><?=$l->code?></td>
                 <td><?=$l->msg_id?></td>
                 <td><?=$l->flag?></td>
                 <td><?=$l->create_time?></td>
