@@ -8,6 +8,8 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\RegisterForm;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 
 class SiteController extends BaseController {
     public function behaviors(){
@@ -83,9 +85,70 @@ class SiteController extends BaseController {
 
 
     public function actionRegister(){
+        //如果是登录用户跳转至个人中心
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect(['/user']);
+        }
+
+
+        $model = new RegisterForm();
+/*        if(Yii::$app->request->isAjax){
+            $model->load(Yii::$app->request->post());
+            $model->validate();
+            echo json_encode($model->errors);
+            Yii::$app->end();
+        }*/
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
+        //获取步骤状态
+        /*$step = Yii::$app->request->get('step',1);
+
+        if($step==2){
+            $sc = RegisterForm::SC_REG_STEP_2;
+        }else{
+            $sc = RegisterForm::SC_REG_STEP_1;
+        }*/
+
+
+
+        //$model->setScenario($sc);
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            /*if($sc == RegisterForm::SC_REG_STEP_1){
+
+            }else{
+                echo 'step wrong';exit;
+            }*/
+echo 'right';exit;
+        }else{
+
+        }
+
+        $params['model'] = $model;
+        //$params['step'] = $step;
+        return $this->render('register',$params);
+
+    }
+
+    //注册第一步 根据手机创建用户 并发送验证码
+    public function actionAjaxRegMobile(){
+        if(Yii::$app->request->isAjax){
+            $model = new RegisterForm();
+            $model->setScenario(RegisterForm::SC_REG_STEP_1);
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $user = new User();
+                $user->mobile = $model->mobile;
+
+            }
+        }
 
 
     }
+
 
     /*
      * 玩家注册页面

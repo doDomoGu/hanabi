@@ -1,23 +1,19 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
+    use yii\helpers\Html;
+    use yii\bootstrap\ActiveForm;
+    use yii\captcha\Captcha;
 
-use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
-
-$this->title = '注册游戏账号';
-$this->params['breadcrumbs'][] = $this->title;
+    //$this->title = '['.$step.'] 注册游戏账号';
 ?>
 <div class="panel panel-primary">
     <div class="panel-heading">免费注册游戏账号</div>
     <div class="panel-body">
 
     <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
+        'id' => 'register-form',
         'options' => ['class' => 'form-horizontal'],
+        'enableAjaxValidation' => true,
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
