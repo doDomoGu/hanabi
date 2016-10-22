@@ -45,7 +45,8 @@ class SiteController extends BaseController {
                 'class' => 'yii\web\ErrorAction',
             ],
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+                //'class' => 'yii\captcha\CaptchaAction',
+                'class' => 'app\components\RegCaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
                 //'fixedVerifyCode' => 'testme',
                 'backColor'=>0x000000,//背景颜色

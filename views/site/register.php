@@ -3,6 +3,7 @@
     use yii\helpers\Html;
     use yii\bootstrap\ActiveForm;
     use yii\captcha\Captcha;
+    use app\components\RegCaptchaAction;
 
     //$this->title = '['.$step.'] 注册游戏账号';
     app\assets\AppAsset::addJsFile($this,'js/main/site/register.js');
