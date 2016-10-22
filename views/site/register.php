@@ -5,6 +5,7 @@
     use yii\captcha\Captcha;
 
     //$this->title = '['.$step.'] 注册游戏账号';
+    app\assets\AppAsset::addJsFile($this,'js/main/site/register.js');
 ?>
 <style>
     form .has-error .help-block {
@@ -33,7 +34,7 @@
 
         <?= $form->field($model, 'username')->textInput(['autofocus' => true])->hint('用来登录使用的用户名') ?>
 
-        <?= $form->field($model, 'mobile',['template' => "<div class=\"col-lg-2 control-label\">{label}</div><div class=\"col-lg-4\">{input}\n{hint}{error}</div><div class=\"col-lg-6\"><button>获取短信验证码</button></div>"])->textInput()->hint('请填写手机号码') ?>
+        <?= $form->field($model, 'mobile',['template' => "<div class=\"col-lg-2 control-label\">{label}</div><div class=\"col-lg-4\">{input}\n{hint}{error}</div><div class=\"col-lg-6\"><button type=\"button\" class=\"btn btn-primary\" id=\"sendSmsBtn\">获取短信验证码</button></div>"])->textInput()->hint('请填写手机号码') ?>
 
         <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
             'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
@@ -48,11 +49,8 @@
         <?= $form->field($model, 'nickname')->textInput()->hint('游戏中显示的昵称') ?>
 
 
-
-
-
-    <div class="form-group">
-            <div class="col-lg-offset-1 col-lg-11">
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
                 <?= Html::submitButton('提交', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
             </div>
         </div>

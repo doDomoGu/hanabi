@@ -47,6 +47,7 @@ class SiteController extends BaseController {
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                //'fixedVerifyCode' => 'testme',
                 'backColor'=>0x000000,//背景颜色
                 'maxLength' => 6, //最大显示个数
                 'minLength' => 5,//最少显示个数
@@ -92,6 +93,9 @@ class SiteController extends BaseController {
         ]);
     }
 
+    /*public function actionRegisterSendSms(){
+
+    }*/
 
     public function actionRegister(){
         //如果是登录用户跳转至个人中心
@@ -101,9 +105,23 @@ class SiteController extends BaseController {
 
         $model = new RegisterForm();
 
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
+
+        if (Yii::$app->request->isAjax){
+            if(Yii::$app->request->post('act',false)=='send-sms') {
+                $model->setScenario(RegisterForm::SCENARIO_SEND_SMS);
+                $model->load(Yii::$app->request->post());
+                $model->validate();
+                var_dump($model->errors);exit;
+
+
+                Yii::$app->response->format = Response::FORMAT_JSON;
+
+                return ActiveForm::validate($model);
+            }else{
+                $model->load(Yii::$app->request->post());
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
         }
 
         //获取步骤状态
@@ -120,6 +138,7 @@ class SiteController extends BaseController {
         //$model->setScenario($sc);
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
             /*if($sc == RegisterForm::SC_REG_STEP_1){
 
             }else{
