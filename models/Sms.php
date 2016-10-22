@@ -1,22 +1,20 @@
 <?php
 
 namespace app\models;
+use Yii;
+use yii\db\Expression;
 
 class Sms extends \yii\db\ActiveRecord
 {
-    const SCENARIO_REGISTER = 1;
-    const SCENARIO_FORGET_PASSWORD = 2;
-    const SCENARIO_CHANGE_PASSWORD = 3;
-
     //public static $cue_types = ['color','num'];
 
     public function attributeLabels(){
         return [
             'id' => 'ID',
             'user_id' => '用户id',
-            'scenario' => '场景ID',
+            'scenario' => '场景',
             'mobile' => '手机号码',
-            'msg' => '短信内容',
+            'content' => '短信内容',
             'data' => '相关数据',
             'param' => '参数',
             'flag' => '发送标志位,0:未发送;1:发送成功;2:发送失败',
@@ -31,17 +29,18 @@ class Sms extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['room_id'], 'required'],
-            [['id','round_player','round','cue','chance'], 'integer'],
+            [['mobile','content'],'required'],
+            [['id','user_id','flag'], 'integer'],
+            [['scenario','content','create_time','send_time','data','param','status','error'],'safe']
         ];
     }
 
 /*CREATE TABLE `sms` (
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 `user_id` int(11) unsigned NOT NULL,
-`scenario` tinyint(4) unsigned DEFAULT '0',
+`scenario` varchar(40) DEFAULT '',
 `mobile` varchar(11) DEFAULT '',
-`msg` varchar(200) DEFAULT '',
+`content` varchar(200) DEFAULT '',
 `data` varchar(200) DEFAULT '',
 `param` varchar(200) DEFAULT '',
 `create_time` datetime,
@@ -52,9 +51,26 @@ class Sms extends \yii\db\ActiveRecord
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
-    public function getUser(){
+    /*public function getUser(){
         return $this->hasOne('app\models\User', array('user_id' => 'id'));
-    }
+    }*/
 
+    public static function insertWithVerifyCode($mobile,$code,$scenario='default'){
+        $sms = new Sms();
+        $sms->user_id = Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id;
+        $sms->scenario = $scenario;
+        $sms->mobile = $mobile;
+        $sms->content = '<content>'.$code.'</content>';
+        //$sms->data = '';
+        //$sms->param = '';
+        $sms->create_time = new Expression('NOW()');
+        $sms->flag = 0;
+        if($sms->save()){
+            return $sms->id;
+        }else{
+            return false;
+        }
+
+    }
 
 }

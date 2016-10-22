@@ -24,17 +24,7 @@ class CommonFunc extends Component {
         return $code;
     }
 
-    // 6位数字验证码
-    public static function generateVerifyCode($length = 6) {
-        $chars = '0123456789';
 
-	$code = '';
-        for ( $i = 0; $i < $length; $i++ )
-        {
-            $code .= $chars[ mt_rand(0, strlen($chars) - 1) ];
-        }
-	return $code;
-    }
 
     public static function fixZero($num){
         if($num<10){

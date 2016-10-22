@@ -6,12 +6,17 @@ $(function(){
             async : false,
             dataType:'json',
             data: {
-                act:'send-sms',
-                mobile:$('#registerform-mobile').val(),
-                verifyCode:$('#registerform-verifycode').val()
+                act: 'send-sms',
+                RegisterForm: {
+                    mobile: $('#registerform-mobile').val(),
+                    verifyCode: $('#registerform-verifycode').val()
+                }
             },
             success: function (data) {
-                alert(data);
+                if(data.result){
+                    alert(data.msg);
+                    $('#sendSmsBtn').attr('disabled',true);
+                }
             }
         })
     });

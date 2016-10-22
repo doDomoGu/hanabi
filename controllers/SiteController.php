@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\User;
+use app\models\VerifyCode;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -52,11 +53,11 @@ class SiteController extends BaseController {
                 'backColor'=>0x000000,//背景颜色
                 'maxLength' => 6, //最大显示个数
                 'minLength' => 5,//最少显示个数
-                'padding' => 5,//间距
+                'padding' => 4,//间距
                 'height'=>34,//高度
                 'width' => 130,  //宽度
                 'foreColor'=>0xffffff,     //字体颜色
-                'offset'=>4,        //设置字符偏移量 有效果
+                'offset'=>8,        //设置字符偏移量 有效果
                 //'controller'=>'login',        //拥有这个动作的controller
             ],
         ];
@@ -87,6 +88,7 @@ class SiteController extends BaseController {
         //登录表单
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
             return $this->redirect(['/user']);
         }
         return $this->render('login', [
@@ -109,15 +111,28 @@ class SiteController extends BaseController {
 
         if (Yii::$app->request->isAjax){
             if(Yii::$app->request->post('act',false)=='send-sms') {
+                $result = false;
+                $msg = '';
                 $model->setScenario(RegisterForm::SCENARIO_SEND_SMS);
                 $model->load(Yii::$app->request->post());
-                $model->validate();
-                var_dump($model->errors);exit;
+                if($model->validate()){
+                    //检测是否已经存在有效的验证码  存在则不创建
+                    if(!VerifyCode::checkMobileVerifyCodeExist($model->mobile)){
+                        $result = VerifyCode::insertMobileVerifyCode($model->mobile,VerifyCode::SCENARIO_USER_REGISTER);
+                        if($result){
+                            $msg ='验证码发送成功,请注意查收,验证码15分钟内有效';
+                        }
+                    }else{
+                        $result = true;
+                        $msg = '已经发送验证码到您手机,请注意查收,验证码15分钟内有效';
+                    }
 
 
+
+                }
                 Yii::$app->response->format = Response::FORMAT_JSON;
 
-                return ActiveForm::validate($model);
+                return ['result'=>$result,'msg'=>$msg];
             }else{
                 $model->load(Yii::$app->request->post());
                 Yii::$app->response->format = Response::FORMAT_JSON;
