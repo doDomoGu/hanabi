@@ -32,7 +32,7 @@ class RegisterForm extends Model
         return [
             'username' => '用户名',
             'password' => '密码',
-            'password2' => '重复密码',
+            'password2' => '确认密码',
             'nickname' => '昵称',
             //'gender' => '性别',
             //'birthday' => '生日',
@@ -40,7 +40,8 @@ class RegisterForm extends Model
             //'email' => '邮箱',
             'reg_time' => '注册时间',
             'status' => '状态',
-            'verifyCode' => '验证码'
+            'verifyCode' => '图片验证码',
+            'mobileVerifyCode' => '短信验证码'
         ];
     }
 
@@ -50,7 +51,7 @@ class RegisterForm extends Model
             //[['mobile'],'required','on'=>self::SC_REG_STEP_1],
             //['mobile','unique','on'=>self::SC_REG_STEP_1, 'targetClass' => 'app\models\User', 'message' => '此手机已经被使用，可以尝试登录或者重置密码。'],
             ['mobileVerifyCode','checkMobileVerifyCode','message'=>'验证码错误'],
-            [['username', 'password', 'nickname'], 'required'],
+            [['username', 'password', 'nickname','mobile'], 'required'],
             [['status'], 'integer'],
             ['username','unique', 'targetClass' => 'app\models\User', 'message' => '此用户名已经被使用。'],
             ['nickname','unique', 'targetClass' => 'app\models\User', 'message' => '此昵称已经被使用。'],
@@ -67,10 +68,10 @@ class RegisterForm extends Model
         $mobile = $this->mobile;
 
 
-        if ($this->A== 1)
+        /*if ($this->A== 1)
         {
             if ($this->B=== '')
                 $this->addError($attribute, "B的值不可以为空.");
-        }
+        }*/
     }
 }

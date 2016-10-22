@@ -47,6 +47,15 @@ class SiteController extends BaseController {
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'backColor'=>0x000000,//背景颜色
+                'maxLength' => 6, //最大显示个数
+                'minLength' => 5,//最少显示个数
+                'padding' => 5,//间距
+                'height'=>34,//高度
+                'width' => 130,  //宽度
+                'foreColor'=>0xffffff,     //字体颜色
+                'offset'=>4,        //设置字符偏移量 有效果
+                //'controller'=>'login',        //拥有这个动作的controller
             ],
         ];
     }
@@ -90,14 +99,7 @@ class SiteController extends BaseController {
             return $this->redirect(['/user']);
         }
 
-
         $model = new RegisterForm();
-/*        if(Yii::$app->request->isAjax){
-            $model->load(Yii::$app->request->post());
-            $model->validate();
-            echo json_encode($model->errors);
-            Yii::$app->end();
-        }*/
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
