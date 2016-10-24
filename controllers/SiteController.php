@@ -110,29 +110,37 @@ class SiteController extends BaseController {
 
 
         if (Yii::$app->request->isAjax){
-            if(in_array(Yii::$app->request->post('act',false),['send-sms','check-send-sms'])) {
-                $result = false;
+            $act = Yii::$app->request->post('act',false);
+            if(in_array($act,['send-sms','check-send-sms'])) {
+                //result {'send-success','send-fail','valid-success','valid-fail'}
                 $msg = '';
+                $errors = [];
                 $model->setScenario(RegisterForm::SCENARIO_SEND_SMS);
                 $model->load(Yii::$app->request->post());
                 if($model->validate()){
-                    //检测是否已经存在有效的验证码  存在则不创建
-                    if(!VerifyCode::checkMobileVerifyCodeExist($model->mobile)){
-                        $result = VerifyCode::insertMobileVerifyCode($model->mobile,VerifyCode::SCENARIO_USER_REGISTER);
-                        if($result){
-                            $msg ='验证码发送成功,请注意查收,验证码15分钟内有效';
+                    if($act=='send-sms'){
+                        //检测是否已经存在有效的验证码  存在则不创建
+                        if(!VerifyCode::checkMobileVerifyCodeExist($model->mobile)){
+                            if(VerifyCode::insertMobileVerifyCode($model->mobile,VerifyCode::SCENARIO_USER_REGISTER)){
+                                $result = 'send-success';
+                                $msg ='验证码发送成功,请注意查收,验证码15分钟内有效';
+                            }else{
+                                $result = 'send-fail';
+                            }
+                        }else{
+                            $result = 'send-success';
+                            $msg = '已经发送验证码到您手机,请注意查收,验证码15分钟内有效';
                         }
                     }else{
-                        $result = true;
-                        $msg = '已经发送验证码到您手机,请注意查收,验证码15分钟内有效';
+                        $result = 'valid-success';
                     }
-
                 }else{
-                    //TODO  check send sms
+                    $result = 'valid-fail';
+                    $errors = $model->errors;
                 }
                 Yii::$app->response->format = Response::FORMAT_JSON;
 
-                return ['result'=>$result,'msg'=>$msg];
+                return ['result'=>$result,'errors'=>$errors,'msg'=>$msg];
             }else{
                 $model->load(Yii::$app->request->post());
                 Yii::$app->response->format = Response::FORMAT_JSON;

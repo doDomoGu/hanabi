@@ -33,15 +33,15 @@
         ],
     ]); ?>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true])->hint('用来登录使用的用户名') ?>
-
-        <?= $form->field($model, 'mobile',['template' => "<div class=\"col-lg-2 control-label\">{label}</div><div class=\"col-lg-4\">{input}\n{hint}{error}</div><div class=\"col-lg-6\"><button type=\"button\" class=\"btn btn-primary\" id=\"sendSmsBtn\">获取短信验证码</button></div>"])->textInput()->hint('请填写手机号码') ?>
+        <?= $form->field($model, 'mobile',['template' => "<div class=\"col-lg-2 control-label\">{label}</div><div class=\"col-lg-4\">{input}\n{hint}{error}</div><div class=\"col-lg-6\"><button type=\"button\" class=\"btn btn-primary\" id=\"sendSmsBtn\">获取短信验证码</button></div>"])->textInput(['autofocus' => true])->hint('请填写手机号码') ?>
 
         <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
             'template' => '<div class="row"><div class="col-lg-6">{input}</div><div class="col-lg-6">{image}</div></div>',
         ])->hint('正确输入图片验证码后，点击获取短信验证码') ?>
 
         <?= $form->field($model, 'mobileVerifyCode')->textInput()->hint('请查收手机短信，并填写短信中的验证码') ?>
+
+        <?= $form->field($model, 'username')->textInput()->hint('用来登录使用的用户名') ?>
 
         <?= $form->field($model, 'password')->passwordInput()->hint('6~16个字符，区分大小写') ?>
 

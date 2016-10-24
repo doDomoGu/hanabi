@@ -1,12 +1,25 @@
 $(function(){
+    var sendSmsFlag = true;
+
     $('#sendSmsBtn').click(function(){
-        if(checkSendSms()){
-            sendSms();
-        }else
-            return false;
+        if(sendSmsFlag){
+            sendSmsFlag = false;
+            if(checkSendSms()){
+                $('#sendSmsBtn').attr('disabled',true);
+                sendSms();
+            }else{
+                sendSmsFlag = true;
+                return false;
+            }
+
+        }else{
+            alert('已发送');
+        }
+
     });
 
     var checkSendSms = function (){
+        var result = false;
         $.ajax({
             url: '/site/register',
             type: 'post',
@@ -20,13 +33,14 @@ $(function(){
                 }
             },
             success: function (data) {
-                if(data.result){
-                    return true;
+                if(data.result=='valid-success'){
+                    result = true;
                 }else{
-                    return false;
+                    result = false;
                 }
             }
         });
+        return result;
     };
 
     var sendSms = function () {
@@ -44,9 +58,11 @@ $(function(){
             },
             success: function (data) {
 
-                if(data.result){
+                if(data.result=='send-success'){
                     alert(data.msg);
-                    $('#sendSmsBtn').attr('disabled',true);
+                    //$('#sendSmsBtn').attr('disabled',true);
+                }else{
+                    alert('发送失败');
                 }
             }
         })
