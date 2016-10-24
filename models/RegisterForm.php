@@ -87,11 +87,5 @@ class RegisterForm extends Model
             $this->addError($attribute, "短信验证码不正确");
             return false;
         }
-
-        /*if ($this->A== 1)
-        {
-            if ($this->B=== '')
-                $this->addError($attribute, "B的值不可以为空.");
-        }*/
     }
 }
