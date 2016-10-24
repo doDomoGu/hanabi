@@ -110,7 +110,7 @@ class SiteController extends BaseController {
 
 
         if (Yii::$app->request->isAjax){
-            if(Yii::$app->request->post('act',false)=='send-sms') {
+            if(in_array(Yii::$app->request->post('act',false),['send-sms','check-send-sms'])) {
                 $result = false;
                 $msg = '';
                 $model->setScenario(RegisterForm::SCENARIO_SEND_SMS);
@@ -127,8 +127,8 @@ class SiteController extends BaseController {
                         $msg = '已经发送验证码到您手机,请注意查收,验证码15分钟内有效';
                     }
 
-
-
+                }else{
+                    //TODO  check send sms
                 }
                 Yii::$app->response->format = Response::FORMAT_JSON;
 
