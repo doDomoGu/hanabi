@@ -91,6 +91,25 @@ PRIMARY KEY (`id`)
             return true;
         else
             return false;
+    }
+
+    //验证
+    public static function check($mobile,$code,$update){
+        //查找最近的一条记录
+        $lastOne = self::find()->where(['type'=>self::TYPE_MOBILE,'number'=>$mobile])->orderBy('create_time desc')->one();
+
+        //检查验证码状态是否可用 flag == 0 未使用 且 create_time + expire > 当前时间 未过期
+        if($lastOne && $lastOne->flag==0 && strtotime($lastOne->create_time) + self::$expire_time > strtotime(time())) {
+            if ($lastOne->code == $code) {
+                if ($update) {
+                    //将验证码更新成已使用
+                    $lastOne->flag = 1;
+                    $lastOne->save();
+                }
+                return true;
+            }
+        }
+        return false;
 
     }
 
