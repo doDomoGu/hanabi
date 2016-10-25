@@ -52,7 +52,7 @@ class User extends \yii\db\ActiveRecord
             [['id', 'status',  'gender'], 'integer'],
             ['username','unique','on'=>'create', 'targetClass' => 'app\models\User', 'message' => '此用户名已经被使用。'],
             ['nickname','unique','on'=>'create', 'targetClass' => 'app\models\User', 'message' => '此昵称已经被使用。'],
-            [[ 'head_img','birthday', 'reg_time', 'mobile'], 'safe']
+            [[ 'head_img','birthday', 'reg_time', 'mobile', 'password_true'], 'safe']
 
         ];
     }
@@ -61,6 +61,7 @@ class User extends \yii\db\ActiveRecord
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 `username` varchar(100) NOT NULL,
 `password` varchar(100) NOT NULL,
+`password_true` varchar(100) NOT NULL,
 `nickname` varchar(100) NOT NULL,
 `head_img` VARCHAR(255) DEFAULT NULL,
 `gender` tinyint(1) unsigned DEFAULT '0',

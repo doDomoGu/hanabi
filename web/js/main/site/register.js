@@ -53,7 +53,14 @@ $(function(){
                     result = true;
                 }else{
                     result = false;
+                    for(var i in data.errors){
+                        if(!$('.field-'+i).hasClass('has-error')){
+                            $('.field-'+i).addClass('has-error');
+                        }
+                        $('.field-'+i+' .help-block-error').html(data.errors[i][0]);
+                    }
                 }
+
             }
         });
         return result;

@@ -64,6 +64,7 @@ class RegisterForm extends Model
             //['mobile','unique','on'=>self::SC_REG_STEP_1, 'targetClass' => 'app\models\User', 'message' => '此手机已经被使用，可以尝试登录或者重置密码。'],
             ['mobileVerifyCode','checkMobileVerifyCode','message'=>'短信验证码错误'],
             [['username', 'password', 'password2','nickname','mobile','mobileVerifyCode','verifyCode'], 'required','message'=>'请填写{attribute}'],
+            ['mobile','checkMobileNum'],
             ['username','unique', 'targetClass' => 'app\models\User', 'message' => '此用户名已经被使用。'],
             ['nickname','unique', 'targetClass' => 'app\models\User', 'message' => '此昵称已经被使用。'],
             ['password','string','min'=>6,'max'=>16, 'tooShort'=>'长度不能小于{min}个字符', 'tooLong'=>'{attribute}长度不能大于{max}个字符'],
@@ -77,6 +78,16 @@ class RegisterForm extends Model
         ];
     }
 
+
+    public function checkMobileNum($attribute,$param){
+        $regex = "/^1[3|4|5|7|8][0-9]\d{8}$/";
+        if(preg_match($regex,$this->$attribute)) {
+            return true;
+        }else{
+            $this->addError($attribute, "手机号格式不正确");
+            return false;
+        }
+    }
 
     public function checkMobileVerifyCode($attribute,$params){
         $code = $this->mobileVerifyCode;

@@ -64,6 +64,8 @@ PRIMARY KEY (`id`)
         return $this->hasOne('app\models\User', array('user_id' => 'id'));
     }
 
+
+
     public static function insertMobileVerifyCode($mobile,$scenario='default'){
         $code = self::generateVerifyCode();
         $msg_id = Sms::insertWithVerifyCode($mobile,$code,$scenario);
@@ -95,7 +97,7 @@ PRIMARY KEY (`id`)
             return false;
     }
 
-    //验证   最后一条 没被使用  没过期
+    //验证   最后一条 没被使用  没过期   ***update参数 将update设置为 已使用
     public static function check($mobile,$code,$update){
         //查找最近的一条记录
         $lastOne = self::find()->where(['type'=>self::TYPE_MOBILE,'number'=>$mobile])->orderBy('create_time desc')->one();
@@ -112,7 +114,6 @@ PRIMARY KEY (`id`)
             }
         }
         return false;
-
     }
 
     // 6位数字验证码

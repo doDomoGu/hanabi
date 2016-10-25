@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\User;
 use app\models\VerifyCode;
 use Yii;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -114,10 +115,10 @@ class SiteController extends BaseController {
             if(in_array($act,['send-sms','check-send-sms'])) {
                 //result {'send-success','send-fail','valid-success','valid-fail'}
                 $msg = '';
-                $errors = [];
                 $model->setScenario(RegisterForm::SCENARIO_SEND_SMS);
                 $model->load(Yii::$app->request->post());
-                if($model->validate()){
+                $errors = ActiveForm::validate($model);
+                if(empty($erros)){
                     if($act=='send-sms'){
                         //检测是否已经存在有效的验证码  存在则不创建
                         if(!VerifyCode::checkMobileVerifyCodeExist($model->mobile)){
@@ -136,7 +137,6 @@ class SiteController extends BaseController {
                     }
                 }else{
                     $result = 'valid-fail';
-                    $errors = $model->errors;
                 }
                 Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -148,35 +148,28 @@ class SiteController extends BaseController {
             }
         }
 
-        //获取步骤状态
-        /*$step = Yii::$app->request->get('step',1);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $user = new User();
+            $user->attributes = $model->attributes;
+            $user->password_true = $model->password;
+            $user->password = md5($model->password);
+            $user->reg_time = new Expression('now()');
+            $user->status = User::STATUS_ENABLE;
+            if($user->save()){
+                //将验证码 改为已使用  使用最后一个参数  update
+                VerifyCode::check($model->mobile,$model->mobileVerifyCode,true);
 
-        if($step==2){
-            $sc = RegisterForm::SC_REG_STEP_2;
-        }else{
-            $sc = RegisterForm::SC_REG_STEP_1;
+                return $this->redirect('/user');
+            }else{
+                var_dump($user->errors);
+            }
+            Yii::$app->end();
+        }/*else{
+
         }*/
 
-
-
-        //$model->setScenario($sc);
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            /*if($sc == RegisterForm::SC_REG_STEP_1){
-
-            }else{
-                echo 'step wrong';exit;
-            }*/
-echo 'right';exit;
-        }else{
-
-        }
-
         $params['model'] = $model;
-        //$params['step'] = $step;
         return $this->render('register',$params);
-
     }
 
     //注册第一步 根据手机创建用户 并发送验证码
