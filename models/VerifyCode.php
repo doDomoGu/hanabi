@@ -15,9 +15,11 @@ class VerifyCode extends \yii\db\ActiveRecord
     const TYPE_EMAIL    = 2; //邮箱类型
 
     public static $expire_time; //过期时间 单位为秒; 即 当前时间 - 创建时间 > 过期时间 则验证码过期
+    public static $resend_limit_time; //重新发送的限制间隔时间， 即 当前时间 - 创建时间 > 限制间隔时间 就可以再次发送短信 重新生成code
 
     public function __constrct(){
         self::$expire_time = 15 * 60;
+        self::$resend_limit_time = 1 * 60;
     }
     //public static $cue_types = ['color','num'];
 
@@ -81,25 +83,25 @@ PRIMARY KEY (`id`)
         }
     }
 
-    //检测是否已经存在有效的验证码  存在则不创建
+    //检测是否已经存在有效的验证码  存在则不创建  时间修改为重发间隔时间
     public static function checkMobileVerifyCodeExist($mobile){
         //查找最近的一条记录
         $lastOne = self::find()->where(['type'=>self::TYPE_MOBILE,'number'=>$mobile])->orderBy('create_time desc')->one();
 
         //flag == 0 未使用 且 create_time + expire > 当前时间  未过期   不需要重新生成并发送验证码
-        if($lastOne && $lastOne->flag==0 && strtotime($lastOne->create_time) + self::$expire_time > strtotime(time()))
+        if($lastOne && $lastOne->flag==0 && strtotime($lastOne->create_time) + self::$resend_limit_time < time())
             return true;
         else
             return false;
     }
 
-    //验证
+    //验证   最后一条 没被使用  没过期
     public static function check($mobile,$code,$update){
         //查找最近的一条记录
         $lastOne = self::find()->where(['type'=>self::TYPE_MOBILE,'number'=>$mobile])->orderBy('create_time desc')->one();
 
         //检查验证码状态是否可用 flag == 0 未使用 且 create_time + expire > 当前时间 未过期
-        if($lastOne && $lastOne->flag==0 && strtotime($lastOne->create_time) + self::$expire_time > strtotime(time())) {
+        if($lastOne && $lastOne->flag==0 && strtotime($lastOne->create_time) + self::$expire_time > time()) {
             if ($lastOne->code == $code) {
                 if ($update) {
                     //将验证码更新成已使用

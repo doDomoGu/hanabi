@@ -5,7 +5,7 @@ $(function(){
         if(sendSmsFlag){
             sendSmsFlag = false;
             if(checkSendSms()){
-                $('#sendSmsBtn').attr('disabled',true);
+                sendSmsBtnChange();
                 sendSms();
             }else{
                 sendSmsFlag = true;
@@ -15,8 +15,24 @@ $(function(){
         }else{
             alert('已发送');
         }
-
     });
+
+    var sendSmsBtnChange = function (){
+        $('#sendSmsBtn').attr('disabled',true);
+        var _time = 60;
+        $('#sendSmsBtn').html(_time+'秒后可重新获取');
+        _time = parseInt(_time - 1);
+        var btnInterval = setInterval(function(){
+            if(_time>0){
+                $('#sendSmsBtn').html(_time+'秒后可重新获取');
+                _time = parseInt(_time - 1);
+            }else{
+                $('#sendSmsBtn').html('获取短信验证码').attr('disabled',false);
+                clearInterval(btnInterval);
+            }
+        },1000);
+
+    };
 
     var checkSendSms = function (){
         var result = false;
@@ -66,6 +82,6 @@ $(function(){
                 }
             }
         })
-    }
+    };
 
 });
