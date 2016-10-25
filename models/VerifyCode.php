@@ -17,7 +17,7 @@ class VerifyCode extends \yii\db\ActiveRecord
     public static $expire_time; //过期时间 单位为秒; 即 当前时间 - 创建时间 > 过期时间 则验证码过期
     public static $resend_limit_time; //重新发送的限制间隔时间， 即 当前时间 - 创建时间 > 限制间隔时间 就可以再次发送短信 重新生成code
 
-    public function __constrct(){
+    public function __construct(){
         self::$expire_time = 15 * 60;
         self::$resend_limit_time = 1 * 60;
     }

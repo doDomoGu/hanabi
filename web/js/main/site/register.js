@@ -13,7 +13,7 @@ $(function(){
             }
 
         }else{
-            alert('已发送');
+            return false;
         }
     });
 
@@ -28,6 +28,7 @@ $(function(){
             }else{
                 $('#sendSmsBtn').html('获取短信验证码').attr('disabled',false);
                 clearInterval(btnInterval);
+                sendSmsFlag = true;
             }
         },1000);
 
