@@ -21,7 +21,7 @@ class Module extends \yii\base\Module
         Yii::$app->errorHandler->errorAction = 'admin/site/error';
         $this->setComponents([
             'adminUser' => [
-                'class'=>'yii\web\user',
+                'class'=>'yii\web\User',
                 'identityClass' => 'app\modules\admin\models\AdminUserIdentity',
                 'enableAutoLogin' => true,
                 'loginUrl'=>'/admin/site/login'

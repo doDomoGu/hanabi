@@ -20,7 +20,7 @@
                 <td><?=$l->id?></td>
                 <td><?=$l->user_id?></td>
                 <td><?=$l->mobile?></td>
-                <td><?=$l->msg?></td>
+                <td><?=$l->content?></td>
                 <td><?=$l->create_time?></td>
                 <td><?=$l->send_time?></td>
             </tr>

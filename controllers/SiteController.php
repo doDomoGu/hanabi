@@ -109,7 +109,7 @@ class SiteController extends BaseController {
         if (Yii::$app->request->isAjax){
             $act = Yii::$app->request->post('act',false);
             if(in_array($act,['send-sms','check-send-sms'])) {
-                //result {'send-success','send-fail','valid-success','valid-fail'}
+                //result值  {'send-success','send-fail','valid-success','valid-fail'}
                 $msg = '';
                 $model->setScenario(RegisterForm::SCENARIO_SEND_SMS);
                 $model->load(Yii::$app->request->post());
@@ -155,11 +155,12 @@ class SiteController extends BaseController {
                 //将验证码 改为已使用  使用最后一个参数  update
                 VerifyCode::check($model->mobile,$model->mobileVerifyCode,true);
 
-                //自动登录
+                //自动登录 跳转至个人中心
                 $loginForm = new LoginForm();
                 $loginForm->username = $model->username;
                 $loginForm->password = $model->password;
                 $loginForm->login();
+
                 return $this->redirect('/user');
             }else{
                 var_dump($user->errors);
@@ -171,53 +172,6 @@ class SiteController extends BaseController {
 
         $params['model'] = $model;
         return $this->render('register',$params);
-    }
-
-    //注册第一步 根据手机创建用户 并发送验证码
-    /*public function actionAjaxRegMobile(){
-        if(Yii::$app->request->isAjax){
-            $model = new RegisterForm();
-            $model->setScenario(RegisterForm::SC_REG_STEP_1);
-            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-                $user = new User();
-                $user->mobile = $model->mobile;
-
-            }
-        }
-
-
-    }*/
-
-
-    /*
-     * 玩家注册页面
-     */
-    public function actionRegisterBak(){
-        //如果是登录用户跳转至个人中心
-        if (!Yii::$app->user->isGuest) {
-            return $this->redirect(['/user']);
-        }
-        //注册表单
-        $model = new RegisterForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $user = new User();
-            $user->attributes = $model->attributes;
-            $user->password_true = $user->password;
-            $user->password = md5($user->password);
-            $user->status = 1;
-            $user->reg_time = date('Y-m-d H:i:s');
-            if($user->save()){
-                return $this->redirect('/site/login');
-            }else{
-                return $this->redirect('/site/register');
-            }
-        }else{
-            //TODO 验证失败
-            //var_dump($model->errors);//exit;
-        }
-        return $this->render('register', [
-            'model' => $model,
-        ]);
     }
 
     /*
