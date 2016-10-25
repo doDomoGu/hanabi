@@ -114,7 +114,7 @@ class SiteController extends BaseController {
                 $model->setScenario(RegisterForm::SCENARIO_SEND_SMS);
                 $model->load(Yii::$app->request->post());
                 $errors = ActiveForm::validate($model);
-                if(empty($erros)){
+                if(empty($errors)){
                     if($act=='send-sms'){
                         //检测是否已经存在有效的验证码  存在则不创建
                         if(!VerifyCode::checkMobileVerifyCodeExist($model->mobile)){

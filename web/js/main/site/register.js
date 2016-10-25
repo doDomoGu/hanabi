@@ -1,7 +1,7 @@
 $(function(){
     var sendSmsFlag = true;
-
-    $('#sendSmsBtn').click(function(){
+    var sendSmsBtn = $('#sendSmsBtn');
+    sendSmsBtn.on('click',function(){
         if(sendSmsFlag){
             sendSmsFlag = false;
             if(checkSendSms()){
@@ -18,9 +18,8 @@ $(function(){
     });
 
     var sendSmsBtnChange = function (){
-        $('#sendSmsBtn').attr('disabled',true);
         var _time = 60;
-        $('#sendSmsBtn').html(_time+'秒后可重新获取');
+        sendSmsBtn.attr('disabled',true).html(_time+'秒后可重新获取');
         _time = parseInt(_time - 1);
         var btnInterval = setInterval(function(){
             if(_time>0){
@@ -35,7 +34,7 @@ $(function(){
     };
 
     var checkSendSms = function (){
-        var result = false;
+        var re = false;
         $.ajax({
             url: '/site/register',
             type: 'post',
@@ -50,9 +49,9 @@ $(function(){
             },
             success: function (data) {
                 if(data.result=='valid-success'){
-                    result = true;
+                    re = true;
                 }else{
-                    result = false;
+                    re = false;
                     for(var i in data.errors){
                         if(!$('.field-'+i).hasClass('has-error')){
                             $('.field-'+i).addClass('has-error');
@@ -60,10 +59,9 @@ $(function(){
                         $('.field-'+i+' .help-block-error').html(data.errors[i][0]);
                     }
                 }
-
             }
         });
-        return result;
+        return re;
     };
 
     var sendSms = function () {

@@ -87,11 +87,12 @@ PRIMARY KEY (`id`)
 
     //检测是否已经存在有效的验证码  存在则不创建  时间修改为重发间隔时间
     public static function checkMobileVerifyCodeExist($mobile){
+
         //查找最近的一条记录
         $lastOne = self::find()->where(['type'=>self::TYPE_MOBILE,'number'=>$mobile])->orderBy('create_time desc')->one();
 
         //flag == 0 未使用 且 create_time + expire > 当前时间  未过期   不需要重新生成并发送验证码
-        if($lastOne && $lastOne->flag==0 && strtotime($lastOne->create_time) + self::$resend_limit_time < time())
+        if($lastOne && $lastOne->flag==0 && strtotime($lastOne->create_time) + self::$resend_limit_time > time())
             return true;
         else
             return false;
