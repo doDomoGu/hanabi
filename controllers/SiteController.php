@@ -97,10 +97,6 @@ class SiteController extends BaseController {
         ]);
     }
 
-    /*public function actionRegisterSendSms(){
-
-    }*/
-
     public function actionRegister(){
         //如果是登录用户跳转至个人中心
         if (!Yii::$app->user->isGuest) {
@@ -159,6 +155,11 @@ class SiteController extends BaseController {
                 //将验证码 改为已使用  使用最后一个参数  update
                 VerifyCode::check($model->mobile,$model->mobileVerifyCode,true);
 
+                //自动登录
+                $loginForm = new LoginForm();
+                $loginForm->username = $model->username;
+                $loginForm->password = $model->password;
+                $loginForm->login();
                 return $this->redirect('/user');
             }else{
                 var_dump($user->errors);
@@ -173,7 +174,7 @@ class SiteController extends BaseController {
     }
 
     //注册第一步 根据手机创建用户 并发送验证码
-    public function actionAjaxRegMobile(){
+    /*public function actionAjaxRegMobile(){
         if(Yii::$app->request->isAjax){
             $model = new RegisterForm();
             $model->setScenario(RegisterForm::SC_REG_STEP_1);
@@ -185,7 +186,7 @@ class SiteController extends BaseController {
         }
 
 
-    }
+    }*/
 
 
     /*
