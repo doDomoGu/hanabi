@@ -15,14 +15,13 @@ AppAdminAsset::register($this);
     <title>后台管理<?=$this->title!=''?' - '.Html::encode($this->title):'' ?></title>
     <?php $this->head() ?>
 </head>
-    <body class="sticky-header left-side-collapsed11 ">
+<body>
 <?php $this->beginBody() ?>
-
 <section>
-    <?=$this->render('_left')?>
-    <div class="main-content" >
-        <?=$this->render('_header')?>
-        <?=$this->render('_page_head')?>
+    <?=$this->render('side_nav')?>
+    <div class="main-content" ><!--
+        <?/*=$this->render('_header')*/?>
+        --><?/*=$this->render('_page_head')*/?>
         <div class="wrapper">
             <?=$content?>
         </div><!--
