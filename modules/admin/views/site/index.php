@@ -17,56 +17,30 @@
 
 <div class="row">
     <div class="col-md-6">
-        <!--statistics start-->
-        <div class="row state-overview">
-            <div class="col-md-6 col-xs-12 col-sm-6">
-                <div class="panel purple">
-                    <div class="symbol">
-                        <i class="fa fa-users"></i>
-                    </div>
-                    <div class="state-value">
-                        <div class="value"><?=$user_count?></div>
-                        <div class="title">注册玩家</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xs-12 col-sm-6">
-                <div class="panel red">
-                    <div class="symbol">
-                        <i class="fa fa-gamepad"></i>
-                    </div>
-                    <div class="state-value">
-                        <div class="value"><?=$room_count?></div>
-                        <div class="title">正在游玩的房间</div>
-                    </div>
-                </div>
+        <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="well">
+                <div class="value"><?=$user_count?></div>
+                <div class="title">注册玩家</div>
             </div>
         </div>
-        <div class="row state-overview">
-            <div class="col-md-6 col-xs-12 col-sm-6">
-                <div class="panel blue">
-                    <div class="symbol">
-                        <i class="fa fa-bar-chart-o"></i>
-                    </div>
-                    <div class="state-value">
-                        <div class="value"><?=$game_count?></div>
-                        <div class="title">历史游戏总局数</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xs-12 col-sm-6">
-                <div class="panel green">
-                    <div class="symbol">
-                        <i class="fa fa-eye"></i>
-                    </div>
-                    <div class="state-value">
-                        <div class="value"><?=$record_count?></div>
-                        <div class="title">历史游戏操作数</div>
-                    </div>
-                </div>
+        <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="well">
+                <div class="value"><?=$room_count?></div>
+                <div class="title">正在游玩的房间</div>
             </div>
         </div>
-        <!--statistics end-->
+        <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="well">
+                <div class="value"><?=$game_count?></div>
+                <div class="title">历史游戏总局数</div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12 col-sm-6">
+            <div class="well">
+                <div class="value"><?=$record_count?></div>
+                <div class="title">历史游戏操作数</div>
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
         <!--more statistics box start-->
