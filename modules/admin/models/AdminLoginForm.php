@@ -19,6 +19,13 @@ class AdminLoginForm extends Model
 
     private $_user = false;
 
+    public function attributeLabels(){
+        return [
+            'username' => '用户名',
+            'password' => '密码',
+            'rememberMe' => '下次自动登录',
+        ];
+    }
 
     /**
      * @return array the validation rules.
