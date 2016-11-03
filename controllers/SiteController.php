@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\SendSms;
 use app\components\SendSmsFunc;
 use app\models\User;
 use app\models\VerifyCode;
@@ -184,6 +185,7 @@ class SiteController extends BaseController {
     }
 
     public function actionSendTest(){
-        SendSmsFunc::send();
+        $sms = new SendSms();
+        $sms->sendByRegVerifyCode('18017865582','125234');
     }
 }
