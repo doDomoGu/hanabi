@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\SendSmsFunc;
 use app\models\User;
 use app\models\VerifyCode;
 use Yii;
@@ -180,5 +181,9 @@ class SiteController extends BaseController {
     public function actionLogout(){
         Yii::$app->user->logout();
         return $this->goHome();
+    }
+
+    public function actionSendTest(){
+        SendSmsFunc::send();
     }
 }
