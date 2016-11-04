@@ -15,14 +15,18 @@ class BaseController extends Controller
     public $roomId = false;
     public $navItems = [];
     public $layout = 'main';
+
+
     public function beforeAction($action){
         if (!parent::beforeAction($action)) {
             return false;
         }
+
+        $this->checkLogin();
+
+
         Yii::$app->setLayoutPath(Yii::$app->viewPath);
-        if(!$this->checkLogin()){
-            return false;
-        }
+
 
         $this->isInRoom = $this->checkIsInRoom();
 
@@ -46,8 +50,11 @@ class BaseController extends Controller
                     'site/error'
         ])){
             if(Yii::$app->user->isGuest){
+                $session = Yii::$app->session;
+                $session['referrer_url_user'] = Yii::$app->request->getAbsoluteUrl();
+                //跳转
                 $this->redirect(Yii::$app->urlManager->createUrl(Yii::$app->user->loginUrl));
-                return false;
+                Yii::$app->end();
             }
         }
         return true;

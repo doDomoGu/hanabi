@@ -92,8 +92,11 @@ class SiteController extends BaseController {
         //登录表单
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
-            return $this->redirect(['/user']);
+            $session = Yii::$app->session;
+            if(isset($session['referrer_url_user']))
+                return $this->redirect($session['referrer_url_user']);
+            else
+                return $this->redirect('/user');
         }
         return $this->render('login', [
             'model' => $model,

@@ -20,7 +20,11 @@ class SiteController extends BaseController{
 
         $model = new AdminLoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect('/admin');
+            $session = Yii::$app->session;
+            if(isset($session['referrer_url_admin']))
+                return $this->redirect($session['referrer_url_admin']);
+            else
+                return $this->redirect('/admin');
         }
         return $this->render('login', [
             'model' => $model,
