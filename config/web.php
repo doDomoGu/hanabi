@@ -38,12 +38,19 @@ $config = [
             'rules' => $urlRules,
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            //'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                'sms'=>[
+                    'class' => 'yii\log\DbTarget',  //使用数据库记录日志
+                    'levels' => ['error', 'warning'],
+                    'categories' => ['sms'],
+                    'logTable'=> 'log_sms'
+                    //php yii migrate --migrationPath=@yii/log/migrations/
+                ]
             ],
         ],
         'db' => $db ,

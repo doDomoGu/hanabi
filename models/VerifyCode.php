@@ -71,7 +71,8 @@ PRIMARY KEY (`id`)
         $code = self::generateVerifyCode();
 
         //sms表中插入发送数据
-        $msg_id = Sms::insertWithVerifyCode($mobile,$code,$scenario);
+        $param['code'] = $code;
+        $msg_id = Sms::insertWithTemplate($mobile,$scenario,$param);
 
         //如果sms插入成功
         if($msg_id>0){

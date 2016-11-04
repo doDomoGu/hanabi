@@ -69,4 +69,5 @@ class CommonFunc extends Component {
             return 'N/A';
         }
     }
+
 }

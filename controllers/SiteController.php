@@ -12,6 +12,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\RegisterForm;
+use yii\log\Logger;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -185,6 +186,48 @@ class SiteController extends BaseController {
     }
 
     public function actionSendTest(){
+        $model = new \stdClass();
+        $model->Model = '104407581146^1105976032668';
+        $model->RequestId = 'A89D5D6D-7241-4A5D-AE01-EF51B8430FBB';
+
+        var_dump(json_encode($model));
+        var_dump(\GuzzleHttp\json_decode(json_encode($model)));
+        exit;
+        //stdClass Object ( [Model] => 104407581146^1105976032668 [RequestId] => A89D5D6D-7241-4A5D-AE01-EF51B8430FBB )
+
+
+
+
+        $code = '13213';
+        $product = '[大法师放]';
+        $s = "{\"code\":\"$code\",\"product\":\"$product\"}";
+        //var_dump(json_decode($s,true));exit;
+
+
+
+        $param = ['code'=>$code,'product'=>$product];
+       var_dump("{\"code\":\"$code\",\"product\":\"$product\"}");
+        var_dump(json_encode($param, JSON_UNESCAPED_UNICODE));exit;
+
+        $text = '验证码${code}，您正在注册${product}，如非本人操作，请忽略。';
+
+        $reg = [];
+        $n = [];
+        foreach($param as $k => $v){
+            $reg[] = '${'.$k.'}';
+            $n[] = $v;
+        }
+
+        $text2 = str_replace($reg,$n,$text);
+            var_dump($text2);exit;
+
+        "{\"code\":\"$code\",\"product\":\"$product\"}";
+
+
+        Yii::getLogger()->log([1,2,3],Logger::LEVEL_ERROR,'sms');
+        Yii::getLogger()->log('123',Logger::LEVEL_ERROR,'user2');
+        Yii::getLogger()->log('sdaddasd',Logger::LEVEL_WARNING,'sms');
+Yii::$app->end();
         $p = Yii::$app->params['aliyun_sms_config'];
         $s = $p['template']['passs']['222'];
         var_dump(isset($s));exit;

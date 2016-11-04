@@ -18,6 +18,14 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                'sms'=>[
+                    'class' => 'yii\log\DbTarget',  //使用数据库记录日志
+                    'levels' => ['error', 'warning'],
+                    'categories' => ['sms'],
+                    'logTable'=> 'log_sms'
+
+
+                ]
             ],
         ],
         'db' => $db,

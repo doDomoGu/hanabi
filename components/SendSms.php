@@ -3,30 +3,34 @@ namespace app\components;
 include_once '../extensions/aliyun-sdk-sms/aliyun-php-sdk-core/Config.php';
 
 use app\models\GlobalConfig;
+use yii\log\Logger;
 use Sms\Request\V20160927 as SendSmsRequest;
 use DefaultProfile;
 use DefaultAcsClient;
 use ClientException;
 use ServerException;
 use yii\base\Component;
-use yii;
+use Yii;
 use app\models\Sms;
 
 class SendSms extends Component {
     public $client;
     public $sign;
     public $product;
+
     public $templateCode;
     public $mobile;
     public $param;
+
+    public $sms_id;
 
     public function __construct(array $config=[])
     {
         parent::__construct($config);
 
         $config = Yii::$app->params['aliyun_sms_config'];
-        $this->sign = $config['sign'];
-        $this->product = $config['product'];
+        $this->sign = isset($config['sign'])?$config['sign']:'';
+        $this->product = isset($config['product'])?$config['product']:'';
         $iClientProfile = DefaultProfile::getProfile($config['regionId'],$config['accessKey'], $config['accessSecret']);
         $this->client = new DefaultAcsClient($iClientProfile);
     }
@@ -34,19 +38,33 @@ class SendSms extends Component {
     public function sendByDatabase($sms_id){
         $sms = Sms::find()->where(['id'=>$sms_id,'flag'=>Sms::FLAG_NOT_SEND])->one();
         if($sms){
+            $this->sms_id = $sms->id;
+
             $this->templateCode = $sms->template_code;
             $this->mobile = $sms->mobile;
-            $this->param = "{\"code\":\"$sms->code\",\"product\":\"$this->product\"}";
+            //$this->param = "{\"code\":\"$sms->code\",\"product\":\"$this->product\"}";
+            $this->param = $sms->param;
+
+            $sms->flag = Sms::FLAG_SENDING;
+            $sms->save();
+
+            $return = $this->send();
+            if($return['result']){
+                $sms->response = $return['response'];
+                $sms->flag = Sms::FLAG_SEND_SUCCESS;
+            }else{
+                $sms->error = $return['error'];
+                $sms->flag = Sms::FLAG_SEND_FAIL;
+            }
+            $sms->save();
+
+        }else{
+            Yii::logger('sms id not found',Logger::LEVEL_ERROR,'sms');
         }
-
-
-
-
-        $this->send();
-
     }
 
     public function send(){
+        $return = [];
         $flag = GlobalConfig::getConfig('send_sms_flag');
         if($flag!==false && $flag==1){
             $request = new SendSmsRequest\SingleSendSmsRequest();
@@ -57,17 +75,29 @@ class SendSms extends Component {
             $request->setParamString($this->param);/*模板变量，数字一定要转换为字符串*/
             try {
                 $response = $this->client->getAcsResponse($request);
-                print_r($response);
+                $return['result'] = true;
+                $return['response'] = json_encode($response,JSON_UNESCAPED_UNICODE);
+                //print_r($response);
             }
             catch (ClientException  $e) {
-                echo 'client:<br/>';
-                print_r($e->getErrorCode());echo '<br/>';
-                print_r($e->getErrorMessage());
+                $error = [
+                    'code'=>$e->getErrorCode(),
+                    'message'=>$e->getErrorMessage()
+                ];
+                $return['result'] = false;
+                $return['error'] = json_encode($error,JSON_UNESCAPED_UNICODE);
+
+                Yii::logger('send fail: client error, mobile:'.$this->mobile.'templateCode:'.$this->templateCode.' sign:'.$this->sign,Logger::LEVEL_ERROR,'sms');
             }
             catch (ServerException  $e) {
-                echo 'Server:<br/>';
-                print_r($e->getErrorCode());echo '<br/>';
-                print_r($e->getErrorMessage());
+                $error = [
+                    'code'=>$e->getErrorCode(),
+                    'message'=>$e->getErrorMessage()
+                ];
+                $return['result'] = false;
+                $return['error'] = json_encode($error,JSON_UNESCAPED_UNICODE);
+
+                Yii::logger('send fail: server error, mobile:'.$this->mobile.'templateCode:'.$this->templateCode.' sign:'.$this->sign,Logger::LEVEL_ERROR,'sms');
             }
         }else{
 
@@ -76,7 +106,10 @@ class SendSms extends Component {
 
             /*InvalidTemplateCode.Malformed
 The specified templateCode is wrongly formed.*/
-            echo 'not real send';
+            $return['result'] = true;
+            $return['response'] = 'not real send';
         }
+
+        return $return;
     }
 }
