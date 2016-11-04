@@ -185,6 +185,11 @@ class SiteController extends BaseController {
     }
 
     public function actionSendTest(){
+        $p = Yii::$app->params['aliyun_sms_config'];
+        $s = $p['template']['passs']['222'];
+        var_dump(isset($s));exit;
+
+
         $sms = new SendSms();
         $sms->sendByRegVerifyCode('18017865582','125234');
     }

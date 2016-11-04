@@ -67,9 +67,15 @@ PRIMARY KEY (`id`)
 
 
     public static function insertMobileVerifyCode($mobile,$scenario='default'){
+        //生成验证码
         $code = self::generateVerifyCode();
+
+        //sms表中插入发送数据
         $msg_id = Sms::insertWithVerifyCode($mobile,$code,$scenario);
+
+        //如果sms插入成功
         if($msg_id>0){
+
             $vc = new VerifyCode();
             $vc->user_id = Yii::$app->user->isGuest ? 0 : Yii::$app->user->identity->id;
             $vc->scenario = $scenario;

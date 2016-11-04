@@ -60,6 +60,16 @@ class GlobalConfig extends \yii\db\ActiveRecord
 
     }
 
+    public static function getConfig($name){
+        if($name){
+            $gc = self::find()->where(['name'=>$name])->one();
+            if($gc){
+                return $gc->value;
+            }
+        }
+        return false;
+    }
+
 
 }
 

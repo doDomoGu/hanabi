@@ -83,7 +83,7 @@ UNIQUE KEY `nick_UNIQUE` (`nickname`)
 	    return $list;
 	}
 
-	public static function handleWhere($query,$search){
+	public static function handleWhere($search){
         $query = self::find();
         if(!empty($search)){
             foreach($search as $k => $v){

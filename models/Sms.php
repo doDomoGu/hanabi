@@ -1,12 +1,17 @@
 <?php
 
 namespace app\models;
+use app\components\SendSms;
 use Yii;
 use yii\db\Expression;
 
 class Sms extends \yii\db\ActiveRecord
 {
     //public static $cue_types = ['color','num'];
+    const FLAG_NOT_SEND = 0;
+    const FLAG_SEND_SUCCESS = 1;
+    const FLAG_SEND_FAIL = 2;
+    const FLAG_SENDING = 3;
 
     public function attributeLabels(){
         return [
@@ -51,9 +56,36 @@ class Sms extends \yii\db\ActiveRecord
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
+/*ALTER TABLE `sms` CHANGE `data` `template_code` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;*/
+
+/*ALTER TABLE `sms` CHANGE `status` `response` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;*/
+
+
     /*public function getUser(){
         return $this->hasOne('app\models\User', array('user_id' => 'id'));
     }*/
+
+    /*
+     * 根据场景获取对应 短信模板 插入记录
+     */
+    public static function insertWithTemplate($mobile,$scenario,$param){
+        $config = Yii::$app->params['aliyun_sms_config'];
+        $templateConfig = isset($config['template'])?$config['template']:[];
+        if(!empty($templateConfig)){
+            if(isset($template['scenario'][$scenario])){
+                $scenarioConfig = $template['scenario'][$scenario];
+            }
+
+            if($scenario==VerifyCode::SCENARIO_USER_REGISTER){
+
+                    $sms->template_code = '';
+            }
+        }else{
+            return false;
+        }
+
+    }
+
 
     public static function insertWithVerifyCode($mobile,$code,$scenario='default'){
         $sms = new Sms();
@@ -61,11 +93,16 @@ PRIMARY KEY (`id`)
         $sms->scenario = $scenario;
         $sms->mobile = $mobile;
         $sms->content = '<content>'.$code.'</content>';
-        //$sms->data = '';
-        //$sms->param = '';
+        if($scenario==VerifyCode::SCENARIO_USER_REGISTER){
+            $sms->template_code = '';
+        }
+
+        $sms->param = '';
         $sms->create_time = new Expression('NOW()');
         $sms->flag = 0;
         if($sms->save()){
+            $sendSms = new SendSms();
+            $sendSms->sendByDatabase($sms->id);
             return $sms->id;
         }else{
             return false;
