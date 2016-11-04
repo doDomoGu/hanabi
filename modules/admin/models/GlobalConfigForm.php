@@ -27,7 +27,7 @@ class GlobalConfigForm extends Model
     public function rules()
     {
         return [
-            [['name','value'], 'required','on'=>[Globalconfig::SCENARIO_ADD,Globalconfig::SCENARIO_EDIT]],
+            [['name','value'], 'required','on'=>[GlobalConfig::SCENARIO_ADD,GlobalConfig::SCENARIO_EDIT]],
             ['name','unique','targetClass'=>'app\models\GlobalConfig','message'=>'这个名称已被占用','on'=>GlobalConfig::SCENARIO_ADD],
             [['title'], 'safe'],
         ];

@@ -20,10 +20,10 @@ class GlobalConfig extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    /*public static function tableName()
     {
         return 'globalconfig';
-    }
+    }*/
 
     /**
      * @inheritdoc
@@ -31,7 +31,7 @@ class GlobalConfig extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name','value'], 'required','on'=>[Globalconfig::SCENARIO_ADD,Globalconfig::SCENARIO_EDIT]],
+            [['name','value'], 'required','on'=>[GlobalConfig::SCENARIO_ADD,GlobalConfig::SCENARIO_EDIT]],
             ['name','unique','targetClass'=>'app\models\GlobalConfig'],
             [['title'], 'safe'],
         ];
@@ -74,7 +74,7 @@ class GlobalConfig extends \yii\db\ActiveRecord
 }
 
 
-/*CREATE TABLE `globalconfig` (
+/*CREATE TABLE `global_config` (
 `id` int(8) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `value` text NOT NULL,
