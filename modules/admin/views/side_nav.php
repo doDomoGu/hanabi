@@ -68,6 +68,11 @@
                         验证码
                     </a>
                 </li>
+                <li class="<?=$this->context->id=='manage' && $this->context->action->id=='global-config'?'active':''?>">
+                    <a href="<?=AdminFunc::adminUrl('manage/global-config')?>">
+                        参数设置
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-single">
