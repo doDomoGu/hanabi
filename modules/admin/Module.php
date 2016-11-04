@@ -23,6 +23,7 @@ class Module extends \yii\base\Module
             'adminUser' => [
                 'class'=>'yii\web\User',
                 'identityClass' => 'app\modules\admin\models\AdminUserIdentity',
+                'idParam' => '__admin',
                 'enableAutoLogin' => true,
                 'loginUrl'=>'/admin/site/login'
             ],
