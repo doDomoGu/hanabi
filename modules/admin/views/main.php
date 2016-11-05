@@ -21,9 +21,9 @@ AppAdminAsset::register($this);
     <?=$this->render('side_nav')?>
     <div class="main-content" ><!--
         <?/*=$this->render('_header')*/?>
-        --><!--
-        <?/*=$this->render('_page_head')*/?>
-        --><div class="wrapper">
+        -->
+        <?=$this->render('page_head')?>
+        <div class="wrapper">
             <?=$content?>
         </div><!--
         <?/*=$this->render('_footer')*/?>

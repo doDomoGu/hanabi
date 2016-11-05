@@ -136,6 +136,13 @@ a {outline:none;}
     padding:10px;
 }
 
+.main-content .page-heading h3 {
+    color: #49586e;
+    font-size: 25px;
+    font-weight: normal;
+    margin: 10px 0;
+}
+
 .main-content .panel table{
     width:100%;
 }
