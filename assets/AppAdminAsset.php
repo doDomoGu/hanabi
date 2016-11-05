@@ -15,6 +15,10 @@ use yii\web\AssetBundle;
  */
 class AppAdminAsset extends AssetBundle
 {
+    //public $sourcePath = '@webroot/adminAssets';
+    /*public $jsOptions = [
+        'basePath'=>'@webroot/adminAssets',
+    ];*/
     public $basePath = '@webroot/adminAssets';
     public $baseUrl = '@web/adminAssets';
     public $css = [
@@ -30,7 +34,7 @@ class AppAdminAsset extends AssetBundle
 
     //导入当前页的功能js文件，注意加载顺序，这个应该最后调用  文件路径相对@web即可
     public static function addJsFile($view, $jsfile) {
-        $view->registerJsFile($jsfile, ['depends' => 'app\assets\AppAdminAsset']);
+        $view->registerJsFile('@web/adminAssets/'.$jsfile, ['depends' => 'app\assets\AppAdminAsset']);
     }
 
     //导入当前页的功能js代码，注意加载顺序，这个应该最后调用  文件路径相对@web即可
@@ -40,6 +44,6 @@ class AppAdminAsset extends AssetBundle
 
     //导入当前页的样式css文件，注意加载顺序，这个应该最后调用  文件路径相对@web即可
     public static function addCssFile($view, $cssfile) {
-        $view->registerCssFile($cssfile, ['depends' => 'app\assets\AppAdminAsset']);
+        $view->registerCssFile('@web/adminAssets/'.$cssfile, ['depends' => 'app\assets\AppAdminAsset']);
     }
 }
