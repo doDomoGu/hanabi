@@ -22,7 +22,11 @@
                     <input id="s_gender" name="search[gender]" value="<?=$search['gender']?>" size="14" />
                 </td>
                 <td>--</td>
-                <td><input id="s_status" name="search[status]" value="<?=$search['status']?>" size="14" /></td>
+                <td><select id="s_status" name="search[status]">
+                        <option value="" >--</option>
+                        <option value="1" <?=$search['status']==1?'selected="selected"':''?>>正常</option>
+                        <option value="0" <?=$search['status']==0 && $search['status']!==''?'selected="selected"':''?>>禁用</option>
+                </select></td>
                 <th><button type="button" id="searchBtn" >检索</button></th>
                 <input name="_csrf" type="hidden" id="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
                 </form>
