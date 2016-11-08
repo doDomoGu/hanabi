@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\components\CommonFunc;
 use app\models\Game;
 use app\models\Room;
 use app\models\User;
@@ -15,6 +16,7 @@ class BaseController extends Controller
     public $roomId = false;
     public $navItems = [];
     public $layout = 'main';
+    public $isMobile;
 
 
     public function beforeAction($action){
@@ -24,9 +26,11 @@ class BaseController extends Controller
 
         $this->checkLogin();
 
+        $this->isMobile = CommonFunc::isMobile();
 
         Yii::$app->setLayoutPath(Yii::$app->viewPath);
-
+        if($this->isMobile)
+            $this->layout = 'main_web';
 
         $this->isInRoom = $this->checkIsInRoom();
 
