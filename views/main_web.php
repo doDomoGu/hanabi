@@ -24,11 +24,15 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Hanabi 花火'.($this->context->isMobile?'2222222':33333),
+        'brandLabel' => 'Hanabi 花火m',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
+            'id' => 'head-nav'
         ],
+        'containerOptions'=>[
+            //'id'=>'head-nav'
+        ]
     ]);
     echo Nav::widget([
         'options' => ['id'=>'header-nav','class' => 'navbar-nav navbar-right'],

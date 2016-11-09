@@ -27,6 +27,7 @@ AppAsset::register($this);
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
+            'id' => 'head-nav'
         ],
     ]);
     echo Nav::widget([
