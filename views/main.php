@@ -26,7 +26,7 @@ AppAsset::register($this);
         'brandLabel' => 'Hanabi 花火',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-default navbar-fixed-top',
             'id' => 'head-nav'
         ],
     ]);

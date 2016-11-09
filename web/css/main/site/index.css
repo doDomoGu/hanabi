@@ -2,19 +2,19 @@
     overflow: hidden;
 }
 
-.page-head .head-left {
+/*.page-head .head-left {
     width:620px;
     float:left;
-}
+}*/
 
 .page-head .head-left h2 {
     margin:0 0 50px 0;
 }
 
 .page-head .head-left .btn-area {
-    margin-top:10px;
+    /*margin-top:10px;
     line-height:30px;
-    height:30px;
+    height:30px;*/
 }
 
 .page-head .head-left .btn-area span{
@@ -28,8 +28,8 @@
     padding: 4px 10px;
 }
 
-.page-head .head-right {
+/*.page-head .head-right {
     width:480px;
     float:right;
-}
+}*/
 
