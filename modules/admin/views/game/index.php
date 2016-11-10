@@ -20,8 +20,20 @@
             <tr>
                 <td><?=$l->id?></td>
                 <td><?=$l->title?></td>
-                <td><?=$l->player_1?></td>
-                <td><?=$l->player_2?></td>
+                <td>
+                    <?php if(isset($l->player1)):?>
+                        <?=$l->player_1.' : '.$l->player1->nickname?>
+                    <?php else:?>
+                        --
+                    <?php endif;?>
+                </td>
+                <td>
+                    <?php if(isset($l->player2)):?>
+                        <?=$l->player_2.' : '.$l->player2->nickname?>
+                    <?php else:?>
+                        --
+                    <?php endif;?>
+                </td>
                 <td><?=Room::getStatusCn($l->status)?></td>
             </tr>
             <?php endforeach;?>
