@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\MyLog;
 use app\components\SendSms;
 use app\components\SendSmsFunc;
 use app\models\User;
@@ -189,6 +190,9 @@ class SiteController extends BaseController {
     }
 
     public function actionSendTest(){
+        MyLog::error('201611111 1111 1 1 1 1 1 ',MyLog::CATE_SMS);
+
+        echo 'log';exit;
         $model = new \stdClass();
         $model->Model = '104407581146^1105976032668';
         $model->RequestId = 'A89D5D6D-7241-4A5D-AE01-EF51B8430FBB';
@@ -227,9 +231,7 @@ class SiteController extends BaseController {
         "{\"code\":\"$code\",\"product\":\"$product\"}";
 
 
-        Yii::getLogger()->log([1,2,3],Logger::LEVEL_ERROR,'sms');
-        Yii::getLogger()->log('123',Logger::LEVEL_ERROR,'user2');
-        Yii::getLogger()->log('sdaddasd',Logger::LEVEL_WARNING,'sms');
+
 Yii::$app->end();
         $p = Yii::$app->params['aliyun_sms_config'];
         $s = $p['template']['passs']['222'];

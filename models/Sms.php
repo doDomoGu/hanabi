@@ -2,6 +2,7 @@
 
 namespace app\models;
 use app\components\CommonFunc;
+use app\components\MyLog;
 use app\components\SendSms;
 use Yii;
 use yii\db\Expression;
@@ -100,16 +101,16 @@ PRIMARY KEY (`id`)
                         $sendSms->sendByDatabase($sms->id);
                         return $sms->id;
                     }else{
-                        Yii::getLogger()->log('sms save fail :'.serialize($sms->errors),Logger::LEVEL_ERROR,'sms');
+                        MyLog::error('sms save fail :'.serialize($sms->errors),MyLog::CATE_SMS);
                     }
                 }else{
-                    Yii::getLogger()->log('template scenario ['.$scenario.'] config not exist',Logger::LEVEL_ERROR,'sms');
+                    MyLog::error('template scenario ['.$scenario.'] config not exist',MyLog::CATE_SMS);
                 }
             }else{
-                Yii::getLogger()->log('template scenario config not exist',Logger::LEVEL_ERROR,'sms');
+                MyLog::error('template scenario config not exist',MyLog::CATE_SMS);
             }
         }else{
-            Yii::getLogger()->log('template config not exist',Logger::LEVEL_ERROR,'sms');
+            MyLog::error('template config not exist',MyLog::CATE_SMS);
         }
         return false;
 
