@@ -29,9 +29,9 @@ class UserHistory extends \yii\db\ActiveRecord
         ];
     }
 
-/*CREATE TABLE `game` (
+/*CREATE TABLE `user_history` (
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`round` tinyint(4) unsigned DEFAULT '0',
+`title` tinyint(4) unsigned DEFAULT '0',
 `round_player` int(11) unsigned DEFAULT '0',
 `cue` tinyint(1) unsigned DEFAULT '0',
 `chance` tinyint(1) unsigned DEFAULT '0',

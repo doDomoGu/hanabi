@@ -45,6 +45,12 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['htest'],
+                    'logFile' => '@app/runtime/logs/htest.log'
+                ],
                 'sms'=>[
                     'class' => 'yii\log\DbTarget',  //使用数据库记录日志
                     'levels' => ['error', 'warning'],

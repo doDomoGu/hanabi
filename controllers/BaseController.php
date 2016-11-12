@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 use app\components\CommonFunc;
+use app\components\MyLog;
 use app\models\Game;
 use app\models\Room;
 use app\models\User;
@@ -20,6 +21,8 @@ class BaseController extends Controller
 
 
     public function beforeAction($action){
+        $this->addUserHistory();
+
         if (!parent::beforeAction($action)) {
             return false;
         }
@@ -133,4 +136,8 @@ class BaseController extends Controller
             }
         }
     }*/
+
+    public function addUserHistory(){
+        MyLog::info('controller:'.$this->id.';action:'.$this->action->id,'htest');
+    }
 }
