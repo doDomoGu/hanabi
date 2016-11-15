@@ -8,15 +8,16 @@ class UserHistory extends \yii\db\ActiveRecord
     {
         return [
             'id'=>'操作记录ID',
-            'title'=>'操作记录描述',
-            'addtime'=>'记录时间',
-            'admin_name'=>'操作人姓名',
-            'admin_ip'=>'操作人IP地址',
-            'admin_agent'=>'操作人浏览器代理商',
-            'controller'=>'操作控制器名称',
-            'action'=>'操作类型',
-            'objId'=>'操作数据编号',
-            'result'=>'操作结果',
+            'user_id'=>'用户ID',
+            'url'=>'完整url',
+            'controller'=>'控制器',
+            'action'=>'动作',
+            'request'=>'请求参数',
+            'response'=>'响应',
+            'ip'=>'操作人IP地址',
+            'user_agent'=>'操作人浏览器代理商',
+            'referer'=>'上一个页面，引用页',
+            'add_time'=>'记录时间',
         ];
     }
 
@@ -31,10 +32,16 @@ class UserHistory extends \yii\db\ActiveRecord
 
 /*CREATE TABLE `user_history` (
 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-`title` tinyint(4) unsigned DEFAULT '0',
-`round_player` int(11) unsigned DEFAULT '0',
-`cue` tinyint(1) unsigned DEFAULT '0',
-`chance` tinyint(1) unsigned DEFAULT '0',
+`user_id` int(11) unsigned DEFAULT '0',
+`url` varchar(255) not null,
+`controller` varchar(50) null,
+`action` varchar(50) null,
+`request` varchar(255) null,
+`response` varchar(255) null,
+`ip` varchar(50) null,
+`user_agent` varchar(200) null,
+`referer` varchar(255) null,
+`add_time` timestamp,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
