@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\components\MyLog;
 use app\components\SendSms;
-use app\components\SendSmsFunc;
 use app\models\User;
 use app\models\VerifyCode;
 use Yii;
@@ -14,6 +13,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\RegisterForm;
 use yii\log\Logger;
+use yii\web\HttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
@@ -47,8 +47,9 @@ class SiteController extends BaseController {
 
     public function actions(){
         return [
-            'error' => [
+            'error23' => [
                 'class' => 'yii\web\ErrorAction',
+
             ],
             'captcha' => [
                 //'class' => 'yii\captcha\CaptchaAction',
@@ -66,6 +67,18 @@ class SiteController extends BaseController {
                 //'controller'=>'login',        //拥有这个动作的controller
             ],
         ];
+    }
+
+    public function actionError()
+    {
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            $exception = new HttpException(404, Yii::t('yii', 'Page not found.'));
+            $params['message'] = $exception->getMessage();
+            $params['name'] = 'Not Found (#404)';
+            //$exception = new HttpException(404, Yii::t('yii', 'Page not found.'));
+            return $this->render('error', $params);
+        }
     }
 
     /*
@@ -252,4 +265,6 @@ Yii::$app->end();
         $sms = new SendSms();
         $sms->sendByRegVerifyCode('18017865582','125234');
     }
+
+
 }
