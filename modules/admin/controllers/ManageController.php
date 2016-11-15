@@ -6,6 +6,7 @@ namespace app\modules\admin\controllers;
 use app\models\GlobalConfig;
 use app\models\Sms;
 use app\models\User;
+use app\models\UserHistory;
 use app\models\VerifyCode;
 use app\modules\admin\components\AdminFunc;
 use app\modules\admin\models\GlobalConfigForm;
@@ -119,6 +120,23 @@ class ManageController extends BaseController
         }
 
         return $this->redirect(AdminFunc::adminUrl('manage/global-config'));
+    }
+
+    public function actionUserHistory()
+    {
+        $query = UserHistory::find();
+        $countQuery = clone $query;
+        $pages = new Pagination();
+        $pages->totalCount = $countQuery->count();
+        $pages->pageSize = $this->pageSize;
+        $list = $query
+            ->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        $params['pages']= $pages;
+        $params['list'] = $list;
+
+        return $this->render('user-history/list',$params);
     }
 
 

@@ -73,6 +73,11 @@
                         参数设置
                     </a>
                 </li>
+                <li class="<?=$this->context->id=='manage' && $this->context->action->id=='user-history'?'active':''?>">
+                    <a href="<?=AdminFunc::adminUrl('manage/user-history')?>">
+                        用户操作记录
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-single">
