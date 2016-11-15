@@ -25,8 +25,9 @@ class UserHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['room_id'], 'required'],
-            [['id','round_player','round','cue','chance'], 'integer'],
+            [['url'], 'required'],
+            [['id','user_id'], 'integer'],
+            [['controller','action','request','response','ip','user_agent','referer','add_time'],'safe']
         ];
     }
 

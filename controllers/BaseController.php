@@ -6,6 +6,7 @@ use app\components\MyLog;
 use app\models\Game;
 use app\models\Room;
 use app\models\User;
+use app\models\UserHistory;
 use yii\bootstrap\Html;
 use Yii;
 use yii\web\Controller;
@@ -155,6 +156,17 @@ class BaseController extends Controller
     }*/
 
     public function addUserHistory(){
-        MyLog::info('controller:'.$this->id.';action:'.$this->action->id,'htest');
+        $new = new UserHistory();
+        $new->user_id = Yii::$app->user->isGuest?0:Yii::$app->user->id;
+        $new->url = Yii::$app->request->getAbsoluteUrl();
+        $new->controller = $this->id;
+        $new->action = $this->action->id;
+        $new->request = Yii::$app->request->queryString;
+        $new->response = Yii::$app->response->statusCode;
+        $new->ip = Yii::$app->request->getUserIP();
+        $new->user_agent = Yii::$app->request->getUserAgent();
+        $new->referer = Yii::$app->request->getReferrer();
+        $new->add_time = date('Y-m-d H:i:s');
+        $new->save();
     }
 }
