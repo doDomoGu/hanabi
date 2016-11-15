@@ -52,19 +52,16 @@ class Sms extends \yii\db\ActiveRecord
 `scenario` varchar(40) DEFAULT '',
 `mobile` varchar(11) DEFAULT '',
 `content` varchar(200) DEFAULT '',
-`data` varchar(200) DEFAULT '',
+`template_code` varchar( 200 ) NULL DEFAULT NULL,
 `param` varchar(200) DEFAULT '',
 `create_time` datetime,
 `send_time` datetime,
 `flag` tinyint(1) unsigned DEFAULT '0' COMMENT '发送标志位,0:未发送;1:发送成功;2:发送失败',
-`status` varchar(200) DEFAULT '',
+`response` varchar(200) NULL DEFAULT NULL,
 `error` varchar(200) DEFAULT '',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8*/
 
-/*ALTER TABLE `sms` CHANGE `data` `template_code` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;*/
-
-/*ALTER TABLE `sms` CHANGE `status` `response` VARCHAR( 200 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;*/
 
 
     /*public function getUser(){
