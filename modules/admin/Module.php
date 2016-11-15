@@ -23,7 +23,7 @@ class Module extends \yii\base\Module
             'adminUser' => [
                 'class'=>'yii\web\User',
                 'identityClass' => 'app\modules\admin\models\AdminUserIdentity',
-                'idParam' => '__admin',
+                'idParam' => '__admin',  //需要配置前缀，与前台用户session区分
                 'enableAutoLogin' => true,
                 'loginUrl'=>'/admin/site/login'
             ],

@@ -190,6 +190,17 @@ class SiteController extends BaseController {
     }
 
     public function actionSendTest(){
+        echo '<pre>';
+        foreach(Yii::$app->modules as $k=>$m){
+            echo $k,'<br/>';
+            //var_dump($m);
+        }
+
+        //var_dump();
+        exit;
+
+
+
         MyLog::error('201611111 1111 1 1 1 1 1 ',MyLog::CATE_SMS);
 
         echo 'log';exit;

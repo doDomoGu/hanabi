@@ -1,6 +1,11 @@
 <?php
+
+/*
+ * 主配置文件
+ * 可以被 Yii::$app->{key} 调用
+ */
 $config = [
-    'id' => 'hanabi',
+    'id' => 'Hanabi 花火',  // page-title 前缀
     'language' => 'zh-CN',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -20,7 +25,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\UserIdentity',
             'enableAutoLogin' => true,
-            'idParam' => '__user',
+            'idParam' => '__user',  //需要配置前缀 与后台用户的session区分
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

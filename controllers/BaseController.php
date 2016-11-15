@@ -12,59 +12,76 @@ use yii\web\Controller;
 
 class BaseController extends Controller
 {
-    public $user = false;
-    public $isInRoom = false;
-    public $roomId = false;
-    public $navItems = [];
-    public $layout = 'main';
-    public $isMobile;
+    public $user = false;       //用户对象
+    public $isInRoom = false;   //是否在游戏房间中 true||false
+    public $roomId = 0;         //如果isInRoom=true 则保存对应房间ID 否则为0
+    public $navItems = [];      //导航栏
+    public $layout = 'main';    //表示使用哪个布局
+    public $isMobile = false;           //是否为移动用户
 
 
     public function beforeAction($action){
-        $this->addUserHistory();
+        $this->addUserHistory();  //用户访问记录
 
         if (!parent::beforeAction($action)) {
             return false;
-        }
+        }else{
+            $this->checkLogin();  //检测用户登录 和 状态是否正常
 
-        $this->checkLogin();
+            $this->isMobile = CommonFunc::isMobile(); //根据设备属性判断是否为移动用户
 
-        $this->isMobile = CommonFunc::isMobile();
+            Yii::$app->setLayoutPath(Yii::$app->viewPath);  //修改读取布局文件的默认文件夹  原本为 views/layouts => views
 
-        Yii::$app->setLayoutPath(Yii::$app->viewPath);
-        if($this->isMobile)
-            $this->layout = 'main_web';
+            if($this->isMobile)  //如果是移动设备 调用另一个布局文件
+                $this->layout = 'main_web';
 
-        $this->isInRoom = $this->checkIsInRoom();
+            $this->isInRoom = $this->checkIsInRoom();
 
-        $this->setNavItems();
+            $this->setNavItems(); //设置导航栏
 //        $this->getMessageInfo();
 
-        return true;
+            return true;
+        }
     }
 
     //检测是否登陆
     public function checkLogin(){
-        $this->checkStatus();
-        //除“首页”和“登陆页面”以外的页面，需要进行登陆判断
-        if(!in_array($this->route,[
-                    'site/index',
-                    'site/login',
-                    'site/rule',
-                    'site/register',
-                    'site/captcha',
-                    'site/register-send-sms',
-                    'site/error'
-        ])){
-            if(Yii::$app->user->isGuest){
-                $session = Yii::$app->session;
-                $session['referrer_url_user'] = Yii::$app->request->getAbsoluteUrl();
-                //跳转
-                $this->redirect(Yii::$app->urlManager->createUrl(Yii::$app->user->loginUrl));
-                Yii::$app->end();
+        if(!Yii::$app->user->isGuest){
+            //用户登录
+            $this->user = User::find()->where(['id'=>Yii::$app->user->id])->one();
+            //检测用户的状态是否正常 ，否则强制退出，跳转至登录页面
+            if(!$this->user->status==User::STATUS_ENABLE){
+                Yii::$app->user->logout();
+                $this->toLogin();
+            }
+        }else{
+            //用户未登录
+            $except = [
+                'site/index',
+                'site/login',
+                'site/rule',
+                'site/register',
+                'site/captcha',
+                'site/register-send-sms',
+                'site/error',
+                'site/send-test'
+            ];
+            //除了上述访问路径外，需要用户登录，跳转至登录页面
+            if(!in_array($this->route,$except)) {
+                $this->toLogin();
             }
         }
         return true;
+    }
+
+    //跳转至登录页面
+    private function toLogin(){
+        //session记录当前页面的url  登录后返回
+        $session = Yii::$app->session;
+        $session['referrer_url_user'] = Yii::$app->request->getAbsoluteUrl();
+
+        $this->redirect(Yii::$app->urlManager->createUrl(Yii::$app->user->loginUrl));
+        Yii::$app->end();
     }
 
     //检测用户状态
@@ -103,7 +120,7 @@ class BaseController extends Controller
             $items[] = ['label' => '注册', 'url' => ['/site/register']];
         }else{
             $items[] = ['label' => '房间列表', 'url' => ['/room'] , 'active'=>($this->id=='room' && $this->action->id=='index')?true:false];
-            if($this->roomId!=false && (!in_array($this->id,['room','game'])))
+            if($this->isInRoom && $this->roomId>0 && (!in_array($this->id,['room','game'])))
                 $items[] = ['label' => '进入你的房间<span class="label label-warning">!</span>', 'url' => ['/room/'.$this->roomId],'encode'=>false];
             $items[] = ['label' => '个人中心(' . $this->user->nickname . ')', 'url'=> ['/user'], 'active' => ($this->id=='user')?true:false];
             $items[] = '<li>'
