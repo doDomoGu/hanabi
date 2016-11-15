@@ -65,6 +65,7 @@ class RegisterForm extends Model
             ['mobileVerifyCode','checkMobileVerifyCode','message'=>'短信验证码错误'],
             [['username', 'password', 'password2','nickname','mobile','mobileVerifyCode','verifyCode'], 'required','message'=>'请填写{attribute}'],
             ['mobile','checkMobileNum'],
+            ['mobile','unique', 'targetClass' => 'app\models\User', 'message' => '此手机号已被使用，可尝试直接登录或者找回密码'],
             ['username','unique', 'targetClass' => 'app\models\User', 'message' => '此用户名已经被使用。'],
             ['nickname','unique', 'targetClass' => 'app\models\User', 'message' => '此昵称已经被使用。'],
             ['password','string','min'=>6,'max'=>16, 'tooShort'=>'长度不能小于{min}个字符', 'tooLong'=>'{attribute}长度不能大于{max}个字符'],
