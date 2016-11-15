@@ -12,6 +12,7 @@ class UserHistory extends \yii\db\ActiveRecord
             'url'=>'完整url',
             'controller'=>'控制器',
             'action'=>'动作',
+            'request_type'=>'请求方式',
             'request'=>'请求参数',
             'response'=>'响应',
             'ip'=>'操作人IP地址',
@@ -27,7 +28,7 @@ class UserHistory extends \yii\db\ActiveRecord
         return [
             [['url'], 'required'],
             [['id','user_id'], 'integer'],
-            [['controller','action','request','response','ip','user_agent','referer','add_time'],'safe']
+            [['controller','action','request','request_type','response','ip','user_agent','referer','add_time'],'safe']
         ];
     }
 
@@ -38,6 +39,7 @@ class UserHistory extends \yii\db\ActiveRecord
 `controller` varchar(50) null,
 `action` varchar(50) null,
 `request` varchar(255) null,
+`request_type` varchar(10) null,
 `response` varchar(255) null,
 `ip` varchar(50) null,
 `user_agent` varchar(200) null,

@@ -162,6 +162,7 @@ class BaseController extends Controller
         $new->controller = $this->id;
         $new->action = $this->action->id;
         $new->request = Yii::$app->request->queryString;
+        $new->request_method = Yii::$app->request->method;
         $new->response = Yii::$app->response->statusCode;
         $new->ip = Yii::$app->request->getUserIP();
         $new->user_agent = Yii::$app->request->getUserAgent();
