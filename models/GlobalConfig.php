@@ -54,8 +54,8 @@ class GlobalConfig extends \yii\db\ActiveRecord
     public static function keyList(){
         return [
             'send_sms_flag'=> [0,'是否发送短信的开关,0:关闭,1:开启'],
-            'test1' => ['sddds','测试配置1111'],
-            'test2' => ['vxcvvxc','测试配置222'],
+            /*'test1' => ['sddds','测试配置1111'],
+            'test2' => ['vxcvvxc','测试配置222'],*/
         ];
 
     }

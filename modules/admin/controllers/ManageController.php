@@ -100,17 +100,23 @@ class ManageController extends BaseController
     }*/
 
 
-    //检测globalConfig 增加配置 初始化添加
+    //检测globalConfig配置项 保持数量一致
     public function actionGlobalConfigCheckUpdate(){
-        $keyList = GlobalConfig::keyList(); //配置列表
-        $list = GlobalConfig::find()->all(); //存在的配置列表
-        $exists = [];
+        $keyListTrue = GlobalConfig::keyList(); //模型中配置列表
+        $keyListExist = [];//数据库中配置列表
+        $list = GlobalConfig::find()->all();
         foreach($list as $l){
-            $exists[] = $l->name;
+            $key = $l->name;
+            //删除多余的配置项
+            if(!in_array($key,array_keys($keyListTrue)))
+                $l->delete();
+
+            $keyListExist[] = $key;
         }
-        foreach($keyList as $k=>$v){
-            //配置不存在 新增
-            if(!in_array($k,$exists)){
+        //遍历keyListTrue
+        foreach ($keyListTrue as $k=>$v){
+            //如果数据库中配置不存在 就添加
+            if(!in_array($k,$keyListExist)){
                 $gc = new GlobalConfig();
                 $gc->name = $k;
                 $gc->value = $v[0];
