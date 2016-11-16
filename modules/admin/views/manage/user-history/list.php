@@ -17,16 +17,16 @@ $this->title = '用户操作记录';
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th style="width:50px;">#</th>
-                <th style="width:50px;">用户ID</th>
-                <th style="width:300px;">url</th>
-                <th >控制器</th>
-                <th >动作</th>
-                <th >请求方式</th>
-                <th >请求参数</th>
-                <th >响应代码</th>
-                <th >IP地址</th>
-                <th >浏览器</th>
+                <th style="width:40px;">#</th>
+                <th style="width:60px;">用户ID</th>
+                <th style="width:200px;">url</th>
+                <th style="width:60px;">控制器</th>
+                <th style="width:60px;">动作</th>
+                <th style="width:80px;">请求方式</th>
+                <th style="width:80px;">请求参数</th>
+                <th style="width:80px;">响应代码</th>
+                <th style="width:60px;">IP地址</th>
+                <th>浏览器</th>
                 <th style="width:160px;">操作时间</th>
             </tr>
             </thead>
