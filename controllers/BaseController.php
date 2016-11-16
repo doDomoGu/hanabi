@@ -18,11 +18,11 @@ class BaseController extends Controller
     public $roomId = 0;         //如果isInRoom=true 则保存对应房间ID 否则为0
     public $navItems = [];      //导航栏
     public $layout = 'main';    //表示使用哪个布局
-    public $isMobile = false;           //是否为移动用户
+    public $isMobile = false;   //表示是否为移动用户
 
 
     public function beforeAction($action){
-        $this->addUserHistory();  //用户访问记录
+        $this->addUserHistory();  //记录用户访问日志
 
         if (!parent::beforeAction($action)) {
             return false;
@@ -45,10 +45,11 @@ class BaseController extends Controller
         }
     }
 
-    //检测是否登陆
+    //检测是否登陆  1.
     public function checkLogin(){
+        //判断是否用户登录
         if(!Yii::$app->user->isGuest){
-            //用户登录
+
             $this->user = User::find()->where(['id'=>Yii::$app->user->id])->one();
             //检测用户的状态是否正常 ，否则强制退出，跳转至登录页面
             if(!$this->user->status==User::STATUS_ENABLE){
@@ -83,18 +84,6 @@ class BaseController extends Controller
 
         $this->redirect(Yii::$app->urlManager->createUrl(Yii::$app->user->loginUrl));
         Yii::$app->end();
-    }
-
-    //检测用户状态
-    public function checkStatus(){
-        if(!Yii::$app->user->isGuest){
-            $this->user = User::find()->where(['id'=>Yii::$app->user->id])->one();
-            if(!$this->user->status==1){
-                Yii::$app->user->logout();
-                return $this->goHome();
-            }
-        }
-        return true;
     }
 
     //检测是否在房间
