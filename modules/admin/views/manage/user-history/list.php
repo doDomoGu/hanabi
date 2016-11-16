@@ -25,7 +25,7 @@ $this->title = '用户操作记录';
                 <th style="width:80px;">请求方式</th>
                 <th style="width:80px;">请求参数</th>
                 <th style="width:80px;">响应代码</th>
-                <th style="width:60px;">IP地址</th>
+                <th style="width:125px;">IP地址</th>
                 <th>浏览器</th>
                 <th style="width:160px;">操作时间</th>
             </tr>
