@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 use app\assets\AppAsset;
 use app\modules\admin\components\AdminFunc;
 //AppAsset::addCssFile($this,'css/main/push-setting/index.css');
-AppAsset::addJsFile($this,'js/main/system/global-config.js');
+//AppAsset::addJsFile($this,'js/main/system/global-config.js');
 
 
 $this->title = '参数设置';
