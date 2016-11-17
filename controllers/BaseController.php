@@ -29,9 +29,9 @@ class BaseController extends Controller
         }else{
             $this->checkLogin();  //检测用户登录 和 状态是否正常
 
-            $this->isMobile = CommonFunc::isMobile(); //根据设备属性判断是否为移动用户
-
             Yii::$app->setLayoutPath(Yii::$app->viewPath);  //修改读取布局文件的默认文件夹  原本为 views/layouts => views
+
+            $this->isMobile = CommonFunc::isMobile(); //根据设备属性判断是否为移动用户
 
             if($this->isMobile)  //如果是移动设备 调用另一个布局文件
                 $this->layout = 'main_web';

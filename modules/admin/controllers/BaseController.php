@@ -7,6 +7,7 @@ use app\models\User;
 use yii\bootstrap\Html;*/
 use Yii;
 use yii\web\Controller;
+use app\components\CommonFunc;
 
 class BaseController extends Controller
 {
@@ -14,6 +15,8 @@ class BaseController extends Controller
     public $isInRoom = false;
     public $roomId = false;
     public $navItems = [];*/
+
+    public $isMobile = false;   //表示是否为移动用户
 
     public function beforeAction($action){
         if (!parent::beforeAction($action)) {
@@ -28,6 +31,11 @@ class BaseController extends Controller
 
         $this->setNavItems();*/
 //        $this->getMessageInfo();
+
+        $this->isMobile = CommonFunc::isMobile(); //根据设备属性判断是否为移动用户
+
+        if($this->isMobile)  //如果是移动设备 调用另一个布局文件
+            Yii::$app->getModule('admin')->setLayoutPath(Yii::$app->getModule('admin')->viewPath.'/layouts_mobile');
 
         return true;
     }
