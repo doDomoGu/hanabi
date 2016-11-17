@@ -142,7 +142,9 @@ class ManageController extends BaseController
         $params['pages']= $pages;
         $params['list'] = $list;
 
-        return $this->render('user-history/list',$params);
+        $viewName = $this->isMobile?'user-history/mobile/list':'user-history/list';
+
+        return $this->render($viewName,$params);
     }
 
 

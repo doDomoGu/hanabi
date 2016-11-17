@@ -20,9 +20,9 @@ AppAdminAsset::addCssFile($this,'css/mobile.css');
 <?php $this->beginBody() ?>
 <section><!--
     <?/*=$this->render('side_nav')*/?>
-    --><div class="main-content" ><!--
-        <?/*=$this->render('page_head')*/?>
-        --><div class="wrapper">
+    --><div class="main-content" >
+        <?=$this->render('../page_head')?>
+        <div class="wrapper">
             <?=$content?>
         </div><!--
     </div>
