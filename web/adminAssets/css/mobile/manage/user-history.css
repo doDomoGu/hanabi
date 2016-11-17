@@ -2,4 +2,15 @@ ul#user-history-list > li {
     margin:4px;
     padding:4px;
     border:1px solid #333;
+    word-break: break-all;
+    width:100%;
+    float:left;
+}
+
+ul#user-history-list > li > div {
+    border-bottom:1px solid #999;
+}
+
+ul#user-history-list > li > div.no-border {
+    border-bottom:none;
 }

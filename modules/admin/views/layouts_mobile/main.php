@@ -20,7 +20,7 @@ AppAdminAsset::addCssFile($this,'css/mobile.css');
 </head>
 <body>
 <?php $this->beginBody() ?>
-<section>
+<section class="wrap">
     <?php
     NavBar::begin([
         'brandLabel' => '控制台',

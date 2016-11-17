@@ -14,17 +14,14 @@ $this->title = '用户操作记录';
         <?php if(!empty($list)):?>
         <?php foreach($list as $l):?>
         <li>
-            <div><?=$l->id?></div>
-            <div><?=$l->user_id?></div>
-            <!--<div><?/*=$l->url*/?></div>
-            <div><?/*=$l->controller*/?></div>
-            <div><?/*=$l->action*/?></div>
-            <div><?/*=$l->request_method*/?></div>
-            <div><?/*=$l->request*/?></div>
-            <div><?/*=$l->response*/?></div>-->
-            <div><?=$l->ip?></div><!--
-            <div><?/*=$l->user_agent*/?></div>-->
-            <div><?=$l->add_time?></div>
+            <div><h3>#<?=$l->id?> - 用户:<?=$l->user_id?></h3> </div>
+            <div>地址：<?=$l->url?></div>
+            <div>控制器：<?=$l->controller?> - <?=$l->action?></div>
+            <div>请求：<?=$l->request_method?>  参数： <?=$l->request?></div>
+            <div>响应：<?=$l->response?></div>
+            <div>IP：<?=$l->ip?></div>
+            <div>浏览器：<?=$l->user_agent?></div>
+            <div class="no-border"><?=$l->add_time?></div>
         </li>
         <?php endforeach;?>
         <?php endif;?>
