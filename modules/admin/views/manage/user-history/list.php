@@ -54,6 +54,11 @@ $this->title = '用户操作记录';
         <?php
         echo LinkPager::widget([
             'pagination' => $pages,
+            'maxButtonCount' => 6,
+            'prevPageLabel' => '‹',
+            'nextPageLabel' => '›',
+            'firstPageLabel' => '«',
+            'lastPageLabel' => '»',
         ]);
         ?>
     </div>

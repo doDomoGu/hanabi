@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use app\assets\AppAdminAsset;
+use yii\bootstrap\NavBar;
+use yii\bootstrap\Nav;
 
 AppAdminAsset::register($this);
 AppAdminAsset::addCssFile($this,'css/mobile.css');
@@ -18,13 +20,27 @@ AppAdminAsset::addCssFile($this,'css/mobile.css');
 </head>
 <body>
 <?php $this->beginBody() ?>
-<section><!--
-    <?/*=$this->render('side_nav')*/?>
-    --><div class="main-content" >
+<section>
+    <?php
+    NavBar::begin([
+        'brandLabel' => '控制台',
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-default navbar-fixed-top',
+            'id' => 'head-nav'
+        ],
+    ]);
+    echo Nav::widget([
+        'options' => ['id'=>'header-nav','class' => 'navbar-nav navbar-right'],
+        'items' =>$this->context->mobileNavItems,
+    ]);
+    NavBar::end();
+    ?>
+    <div class="main-content" >
         <?=$this->render('../page_head')?>
         <div class="wrapper">
             <?=$content?>
-        </div><!--
+        </div>
     </div>
 </section>
 <?php $this->endBody() ?>

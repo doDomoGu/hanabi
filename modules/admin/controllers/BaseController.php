@@ -5,6 +5,7 @@ namespace app\modules\admin\controllers;
 use app\models\Room;
 use app\models\User;
 use yii\bootstrap\Html;*/
+use app\modules\admin\components\AdminFunc;
 use Yii;
 use yii\web\Controller;
 use app\components\CommonFunc;
@@ -17,6 +18,7 @@ class BaseController extends Controller
     public $navItems = [];*/
 
     public $isMobile = false;   //表示是否为移动用户
+    public $mobileNavItems = [];  //手机端导航栏 选项
 
     public function beforeAction($action){
         if (!parent::beforeAction($action)) {
@@ -34,9 +36,10 @@ class BaseController extends Controller
 
         $this->isMobile = CommonFunc::isMobile(); //根据设备属性判断是否为移动用户
 
-        if($this->isMobile)  //如果是移动设备 调用另一个布局文件
-            Yii::$app->getModule('admin')->setLayoutPath(Yii::$app->getModule('admin')->viewPath.'/layouts_mobile');
-
+        if($this->isMobile) {  //如果是移动设备 调用另一个布局文件 启用导航栏
+            Yii::$app->getModule('admin')->setLayoutPath(Yii::$app->getModule('admin')->viewPath . '/layouts_mobile');
+            $this->setNavItems();
+        }
         return true;
     }
 
@@ -51,6 +54,23 @@ class BaseController extends Controller
             }
         }
         return true;
+    }
+
+
+    public function setNavItems(){
+        $items[] = ['label' => '仪表盘', 'url' => [AdminFunc::adminUrl('/')]];
+        $items[] = ['label' => '玩家', 'url' => [AdminFunc::adminUrl('/user')]];
+        $items[] = ['label' => '游戏', 'url' => [AdminFunc::adminUrl('/game')]];
+        $items[] = ['label' => '网站管理', 'items'=>[
+            ['label'=>'手机短信','url'=>[AdminFunc::adminUrl('manage/sms')]],
+            ['label'=>'验证码','url'=>[AdminFunc::adminUrl('manage/verify-code')]],
+            ['label'=>'参数设置','url'=>[AdminFunc::adminUrl('manage/global-config')]],
+            ['label'=>'用户操作记录','url'=>[AdminFunc::adminUrl('manage/user-history')]]
+            ]
+        ];
+
+        $items[] = ['label' => '退出', 'url' => [AdminFunc::adminUrl('/site/logout')]];
+        $this->mobileNavItems = $items;
     }
 
 
