@@ -45,8 +45,8 @@ $this->title = '用户操作记录';
         'maxButtonCount' => 4,
         'prevPageLabel' => '‹',
         'nextPageLabel' => '›',
-        'firstPageLabel' => '«',
-        'lastPageLabel' => '»',
+        'firstPageLabel' => 1,
+        'lastPageLabel' => $pages->getPageCount()
     ]);
     ?>
 
