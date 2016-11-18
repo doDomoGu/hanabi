@@ -26,7 +26,12 @@ class SiteController extends BaseController{
             else
                 return $this->redirect('/admin');
         }
-        return $this->render('login', [
+
+        if($this->isMobile)
+            $viewName = 'mobile/login';
+        else
+            $viewName = 'login';
+        return $this->render($viewName, [
             'model' => $model,
         ]);
     }

@@ -69,7 +69,7 @@ class BaseController extends Controller
             ]
         ];
 
-        $items[] = ['label' => '退出', 'url' => [AdminFunc::adminUrl('/site/logout')]];
+        $items[] = ['label' => '退出', 'url' => [AdminFunc::adminUrl('site/logout')]];
         $this->mobileNavItems = $items;
     }
 
