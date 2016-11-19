@@ -58,7 +58,7 @@ class BaseController extends Controller
 
 
     public function setNavItems(){
-        $items[] = ['label' => '仪表盘', 'url' => [AdminFunc::adminUrl('/')]];
+        $items[] = ['label' => '仪表盘', 'url' => [AdminFunc::adminUrl('')]];
         $items[] = ['label' => '玩家', 'url' => [AdminFunc::adminUrl('user')]];
         $items[] = ['label' => '游戏', 'url' => [AdminFunc::adminUrl('game')]];
         $items[] = ['label' => '网站管理', 'items'=>[
