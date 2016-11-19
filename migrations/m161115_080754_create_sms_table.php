@@ -2,14 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `sms`.
- */
+//创建sms 短信发送表
 class m161115_080754_create_sms_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('sms', [

@@ -2,14 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `verify_code`.
- */
+//创建verify_code 验证码表
 class m161115_074913_create_verify_code_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('verify_code', [

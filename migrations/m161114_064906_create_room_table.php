@@ -2,14 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `room`.
- */
+//创建room表
 class m161114_064906_create_room_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('room', [

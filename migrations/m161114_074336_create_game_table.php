@@ -2,14 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `game`.
- */
+//创建game表
 class m161114_074336_create_game_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('game', [

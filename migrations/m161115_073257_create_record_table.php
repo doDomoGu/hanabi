@@ -2,14 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `record`.
- */
+//创建record 游戏记录表
 class m161115_073257_create_record_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('record', [

@@ -3,7 +3,6 @@ namespace app\components;
 include_once '../extensions/aliyun-sdk-sms/aliyun-php-sdk-core/Config.php';
 
 use app\models\GlobalConfig;
-use yii\log\Logger;
 use Sms\Request\V20160927 as SendSmsRequest;
 use DefaultProfile;
 use DefaultAcsClient;
@@ -12,6 +11,7 @@ use ServerException;
 use yii\base\Component;
 use Yii;
 use app\models\Sms;
+use app\components\MyLog;
 
 class SendSms extends Component {
     public $client;
@@ -56,10 +56,11 @@ class SendSms extends Component {
                 $sms->error = $return['error'];
                 $sms->flag = Sms::FLAG_SEND_FAIL;
             }
+            $sms->send_time = date('Y-m-d H:i:s');
             $sms->save();
 
         }else{
-            Yii::logger('sms id not found',Logger::LEVEL_ERROR,'sms');
+            MyLog::error('sms id not found',MyLog::CATE_SMS);
         }
     }
 
@@ -87,7 +88,7 @@ class SendSms extends Component {
                 $return['result'] = false;
                 $return['error'] = json_encode($error,JSON_UNESCAPED_UNICODE);
 
-                Yii::logger('send fail: client error, mobile:'.$this->mobile.'templateCode:'.$this->templateCode.' sign:'.$this->sign,Logger::LEVEL_ERROR,'sms');
+                MyLog::error('send fail: client error, mobile:'.$this->mobile.'templateCode:'.$this->templateCode.' sign:'.$this->sign,MyLog::CATE_SMS);
             }
             catch (ServerException  $e) {
                 $error = [
@@ -97,7 +98,7 @@ class SendSms extends Component {
                 $return['result'] = false;
                 $return['error'] = json_encode($error,JSON_UNESCAPED_UNICODE);
 
-                Yii::logger('send fail: server error, mobile:'.$this->mobile.'templateCode:'.$this->templateCode.' sign:'.$this->sign,Logger::LEVEL_ERROR,'sms');
+                MyLog::error('send fail: server error, mobile:'.$this->mobile.'templateCode:'.$this->templateCode.' sign:'.$this->sign,MyLog::CATE_SMS);
             }
         }else{
 

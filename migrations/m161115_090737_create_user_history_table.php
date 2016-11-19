@@ -2,14 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `user_history`.
- */
+//创建user_history 用户操作日志表
 class m161115_090737_create_user_history_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('user_history', [

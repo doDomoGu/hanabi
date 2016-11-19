@@ -2,14 +2,10 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation of table `user`.
- */
+//创建user表
+
 class m161113_144827_create_user_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('user', [

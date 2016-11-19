@@ -2,14 +2,9 @@
 
 use yii\db\Migration;
 
-/**
- * Handles the creation for table `global_config`.
- */
+//创建global_config 全局参数设置表
 class m161115_074935_create_global_config_table extends Migration
 {
-    /**
-     * @inheritdoc
-     */
     public function up()
     {
         $this->createTable('global_config', [
