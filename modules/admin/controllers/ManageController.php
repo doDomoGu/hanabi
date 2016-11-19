@@ -12,6 +12,7 @@ use app\modules\admin\components\AdminFunc;
 use app\modules\admin\models\GlobalConfigForm;
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 
 class ManageController extends BaseController
 {
@@ -130,7 +131,52 @@ class ManageController extends BaseController
 
     public function actionUserHistory()
     {
+        $searchItems = [
+            'controller'=>UserHistory::getValues('controller'),
+            'action'=>UserHistory::getValues('action'),
+            'request_method'=>UserHistory::getValues('request_method'),
+            'response'=>UserHistory::getValues('response'),
+        ];
+
+
+        $search = [
+            'controller' => false,
+            'action' => false,
+            'request_method' => false,
+            'response' => false
+        ];
+        $searchPost = Yii::$app->request->post('search',false);
+
         $query = UserHistory::find();
+        if($searchPost){
+            $search = ArrayHelper::merge($search,$searchPost);
+        }
+        foreach($search as $k=>$s){
+            if(in_array($k,['23232'])){
+                if($s!='')
+                    $query->andWhere(['like',$k,$s]);
+            }else if(in_array($k,['controller','action','request_method','response'])){
+                if($s!='' && $s!==false)
+                    $query->andWhere([$k=>$s]);
+            }/*else if(in_array($k,['position_id'])){
+                if($s!==''){
+                    $arr = ArrayHelper::merge([$s],PositionFunc::getAllChildrenIds($s));
+                    $list->andWhere(['in',$k,$arr]);
+                }
+
+            }*/
+        }
+
+
+        /*$count = $list->count();*/
+        /*$pageSize = 20;
+        $pages = new Pagination(['totalCount' =>$count, 'pageSize' => $pageSize,'pageSizeParam'=>false]);*/
+
+
+        //$query = UserHistory::find();
+
+
+
         $countQuery = clone $query;
         $pages = new Pagination();
         $pages->totalCount = $countQuery->count();
@@ -141,6 +187,8 @@ class ManageController extends BaseController
             ->all();
         $params['pages']= $pages;
         $params['list'] = $list;
+        $params['search'] = $search;
+        $params['searchItems'] = $searchItems;
 
         $viewName = $this->isMobile?'user-history/mobile/list':'user-history/list';
 

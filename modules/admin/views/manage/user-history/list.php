@@ -7,18 +7,46 @@ use app\modules\admin\components\AdminFunc;
 /*AppAsset::addJsFile($this,'js/main/system/global-config.js');*/
 
 
+    app\assets\AppAdminAsset::addJsFile($this,'js/main/manage/user-history.js');
+
 $this->title = '用户操作记录';
 ?>
 <section class="panel panel-primary">
     <header class="panel-heading">
         <?=$this->title?>
+        共 <?=$pages->totalCount?> 条
     </header>
     <div class="panel-body">
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th style="width:40px;">#</th>
-                <th style="width:60px;">用户ID</th>
+                <form id="searchForm" method="post">
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>
+                        <?=Html::dropDownList(
+                            "search[controller]",
+                            $search['controller'],
+                            $searchItems['controller'],
+                            ['prompt'=>'--']
+                        )?>
+                    </td>
+                    <td><?=Html::dropDownList("search[action]",$search['action'],$searchItems['action'],['prompt'=>'--'])?></td>
+                    <td><?=Html::dropDownList("search[request_method]",$search['request_method'],$searchItems['request_method'],['prompt'=>'--'])?></td>
+                    <td>--</td>
+                    <td><?=Html::dropDownList("search[response]",$search['response'],$searchItems['response'],['prompt'=>'--'])?></td>
+                    <td>--</td>
+                    <td>--</td>
+
+                    <th><button type="button" id="searchBtn" >检索</button></th>
+                    <input name="_csrf" type="hidden" id="_csrf" value="<?= Yii::$app->request->csrfToken ?>">
+                </form>
+            </tr>
+            </thead>
+            <tr>
+                <th style="width:60px;" class="text-right">#</th>
+                <th style="width:60px;" class="text-right">用户ID</th>
                 <th style="width:200px;">url</th>
                 <th style="width:60px;">控制器</th>
                 <th style="width:60px;">动作</th>
@@ -29,13 +57,12 @@ $this->title = '用户操作记录';
                 <th>浏览器</th>
                 <th style="width:160px;">操作时间</th>
             </tr>
-            </thead>
             <tbody>
             <?php if(!empty($list)):?>
                 <?php foreach($list as $l):?>
                     <tr>
-                        <td><?=$l->id?></td>
-                        <td><?=$l->user_id?></td>
+                        <td class="text-right"><?=$l->id?></td>
+                        <td class="text-right"><?=$l->user_id?></td>
                         <td><?=$l->url?></td>
                         <td><?=$l->controller?></td>
                         <td><?=$l->action?></td>

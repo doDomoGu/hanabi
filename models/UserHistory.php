@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class UserHistory extends \yii\db\ActiveRecord
+class  UserHistory extends \yii\db\ActiveRecord
 {
     public function attributeLabels()
     {
@@ -52,5 +52,15 @@ PRIMARY KEY (`id`)
         return $this->hasOne('app\models\Room', array('game_id' => 'id'));
     }
 
+
+    public static function getValues($name){
+        $arr = [];
+        $list = self::find()->select($name)->groupBy($name)->all();
+        foreach($list as $l){
+            if($l->$name!='')
+                $arr[$l->$name] = $l->$name;
+        }
+        return $arr;
+    }
 
 }

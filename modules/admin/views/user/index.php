@@ -23,7 +23,6 @@
                         <option value="" >--</option>
                         <option value="1" <?=$search['gender']==1?'selected="selected"':''?>>男</option>
                         <option value="2" <?=$search['gender']==2?'selected="selected"':''?>>女</option>
-                        <option value="3" <?=$search['gender']==2?'selected="selected"':''?>>女</option>
                     </select>
                 </td>
                 <td>--</td>
