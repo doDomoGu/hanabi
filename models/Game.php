@@ -4,8 +4,8 @@ namespace app\models;
 
 class Game extends \yii\db\ActiveRecord
 {
-    const DEFAULT_CUE = 8;
-    const DEFAULT_CHANCE = 3;
+    const DEFAULT_CUE = 8;   //默认提供线索(CUE)次数
+    const DEFAULT_CHANCE = 3;  //默认可燃放机会(chance)次数
 
     public static $cue_types = ['color','num'];
 

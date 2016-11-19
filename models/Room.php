@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use phpDocumentor\Reflection\DocBlockTest;
 use yii\db\Expression;
 
 class Room extends \yii\db\ActiveRecord
