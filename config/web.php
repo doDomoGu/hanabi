@@ -37,6 +37,16 @@ $config = [
             // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
+        'view' => [
+            'theme' => [
+                'basePath' => 'app\views\themes\mobile',
+                'baseUrl' => 'web\themes\mobile',
+                'pathMap' => [
+                    '@app\views' => '@app\views\themes\mobile',
+                ],
+            ],
+        ],
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             //'enableStrictParsing' => true,
