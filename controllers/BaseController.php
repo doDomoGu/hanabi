@@ -17,33 +17,86 @@ class BaseController extends Controller
     public $isInRoom = false;   //是否在游戏房间中 true||false
     public $roomId = 0;         //如果isInRoom=true 则保存对应房间ID 否则为0
     public $navItems = [];      //导航栏
-    public $layout = 'main';    //表示使用哪个布局
+    public $layout = 'main';    //布局文件
+    public $viewName = '';      //视图文件
     public $isMobile = false;   //表示是否为移动用户
 
 
-    public function beforeAction($action){
-        $this->addUserHistory();  //记录用户访问日志
+        public function beforeAction($action){
+            $this->addUserHistory();  //记录用户访问日志
 
-        if (!parent::beforeAction($action)) {
-            return false;
-        }else{
-            $this->checkLogin();  //检测用户登录 和 状态是否正常
+            if (!parent::beforeAction($action)) {
+                return false;
+            }else{
+                $this->checkLogin();  //检测用户登录 和 状态是否正常
 
-            Yii::$app->setLayoutPath(Yii::$app->viewPath);  //修改读取布局文件的默认文件夹  原本为 views/layouts => views
+                Yii::$app->setLayoutPath(Yii::$app->viewPath);  //修改读取布局文件的默认文件夹  原本为 views/layouts => views
 
-            $this->isMobile = CommonFunc::isMobile(); //根据设备属性判断是否为移动用户
+                $this->viewName = $this->action->id;  //一般视图名就等于动作名  site/login => login.php
 
-            if($this->isMobile)  //如果是移动设备 调用另一个布局文件
-                $this->layout = 'main_web';
+                $this->isInRoom = $this->checkIsInRoom();
 
-            $this->isInRoom = $this->checkIsInRoom();
+                $this->setNavItems(); //设置导航栏
 
-            $this->setNavItems(); //设置导航栏
+                $this->isMobile = CommonFunc::isMobile(); //根据设备属性判断是否为移动用户
+
+                //如果是移动设备
+                if($this->isMobile){
+                    $this->layout = 'main_web';
+                    /*'view' => [
+                        'theme' => [
+                            //'basePath' => 'app\views\themes\mobile',
+                            'baseUrl' => '@web/themes/mobile',
+                            'pathMap' => [
+                                '@app/views' => ['@app/views2','@app/views/themes/mobile'],
+                            ],
+                        ],
+                    ],*/
+
+                   /* $currentTheme = 'mobile';
+                    $theme = '@app/views/themes/' . $currentTheme;
+
+                    $config = [
+                        'pathMap' => [
+                            '@app/views' => [
+                                $theme,
+                                '@app/views/'
+                            ],
+                            '@app/modules' => $theme . '/modules',
+                            '@app/widgets' => $theme . '/widgets'
+                        ],
+                        'baseUrl' => '@web/themes/'.$theme
+                    ];
+
+                    $this->view->theme = new Theme($config);*/
+
+
+/*
+                Yii::$app->view->theme->baseUrl = '@web/themes/mobile';
+                    //'basePath' => 'app\views\themes\mobile',
+                    //'baseUrl' => '@web/themes/mobile',
+                Yii::$app->view->theme->pathMap= [
+                        '@app/views' => ['@app/views','@app/views/themes/mobile'],
+                    ];*/
+
+
+                //$this->layout = 'main_web'; //调用手机专用布局
+                //$this->viewName = 'mobile/'.$this->viewName;
+            }
+
+            //Yii::$app->view->theme = 'mobile';
+
+
+
+
+
 //        $this->getMessageInfo();
 
             return true;
         }
     }
+
+
 
     //检测是否登陆  1.
     public function checkLogin(){

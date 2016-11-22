@@ -77,7 +77,7 @@ class SiteController extends BaseController {
             $params['message'] = $exception->getMessage();
             $params['name'] = 'Not Found (#404)';
             //$exception = new HttpException(404, Yii::t('yii', 'Page not found.'));
-            return $this->render('error', $params);
+            return $this->render($this->viewName, $params);
         }
     }
 
@@ -85,14 +85,14 @@ class SiteController extends BaseController {
      * 首页
      */
     public function actionIndex(){
-        return $this->render('index');
+        return $this->render($this->viewName);
     }
 
     /*
      * 游戏规则页面
      */
     public function actionRule(){
-        return $this->render('rule');
+        return $this->render($this->viewName);
     }
 
     /*
@@ -112,7 +112,7 @@ class SiteController extends BaseController {
             else
                 return $this->redirect('/user');
         }
-        return $this->render('login', [
+        return $this->render($this->viewName, [
             'model' => $model,
         ]);
     }
@@ -191,7 +191,7 @@ class SiteController extends BaseController {
         }*/
 
         $params['model'] = $model;
-        return $this->render('register',$params);
+        return $this->render($this->viewName,$params);
     }
 
     /*
